@@ -4,6 +4,7 @@ import HowItWorks from '../../Components/HowItWorks/HowItWorks';
 import OurServices from '../../Components/OurServices/OurServices';
 import PartnerMarquee from '../../Components/PartnerMarquee/PartnerMarquee';
 import ServicesFeatureList from '../../Components/ServicesFeatureList/ServicesFeatureList';
+import SatisfactionBanner from '../../Components/SatisfactionBanner/SatisfactionBanner';
 
 const HomePage = () => {
     return (
@@ -13,6 +14,7 @@ const HomePage = () => {
             <OurServices></OurServices>
             <PartnerMarquee></PartnerMarquee>
             <ServicesFeatureList></ServicesFeatureList>
+            <SatisfactionBanner></SatisfactionBanner>
         </div>
     );
 };
