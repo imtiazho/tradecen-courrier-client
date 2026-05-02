@@ -30,8 +30,8 @@ const PartnerSwiper = () => {
   ];
 
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
+    <section className="pt-20 pb-28">
+      <div className="w-[86%] mx-auto px-4">
         <h2 className="text-[#03373D] text-center text-xl md:text-2xl font-bold mb-10">
           We've helped thousands of sales teams
         </h2>

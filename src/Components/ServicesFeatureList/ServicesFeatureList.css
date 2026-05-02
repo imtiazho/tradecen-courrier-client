@@ -1,0 +1,11 @@
+.border-dashed-custom {
+  /* 
+     - 10px is the length of the dash 
+     - 10px is the length of the gap 
+     - #aeaeae is your color
+  */
+  background-image: linear-gradient(to right, #aeaeae 50%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom; /* or top */
+  background-size: 20px 1.6px; /* 20px = dash + gap total width | 1.6px = border thickness */
+  background-repeat: repeat-x;
+}
