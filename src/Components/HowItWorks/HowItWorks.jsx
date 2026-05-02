@@ -54,7 +54,7 @@ const HowItWorks = () => {
             className="bg-white px-8 pt-6 pb-4 rounded-2xl flex flex-col items-start"
           >
             {/* Icon Container */}
-            <div className="mb-5 p-3 bg-teal-50 rounded-2xl">{step.icon}</div>
+            <div className="mb-4 p-3 bg-teal-50 rounded-2xl">{step.icon}</div>
 
             {/* Text Content */}
             <h3 className="text-[20px] font-bold text-teal-950 mb-3">
