@@ -9,6 +9,27 @@ const RootLayout = () => {
         <NavBar></NavBar>
         <Outlet></Outlet>
       </div>
+
+
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </div>
   );
 };

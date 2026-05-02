@@ -1,26 +1,69 @@
 import React from "react";
 import { FaTruckFast } from "react-icons/fa6";
+import { NavLink } from "react-router";
 
 const NavBar = () => {
   const list = (
     <>
       <li>
-        <a>Services</a>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Home
+        </NavLink>
       </li>
       <li>
-        <a>Coverage</a>
+        <NavLink
+          to="/coverage-area"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Coverage
+        </NavLink>
       </li>
       <li>
-        <a>About Us</a>
+        <NavLink
+          to="/coverage-area"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          About
+        </NavLink>
       </li>
       <li>
-        <a>Pricing</a>
+        <NavLink
+          to="/coverage-area"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Pricing
+        </NavLink>
       </li>
       <li>
-        <a>Blog</a>
+        <NavLink
+          to="/coverage-area"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Blogs
+        </NavLink>
       </li>
       <li>
-        <a>Contact</a>
+        <NavLink
+          to="/coverage-area"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Contact
+        </NavLink>
       </li>
     </>
   );
