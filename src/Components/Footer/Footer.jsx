@@ -9,10 +9,9 @@ import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#F2F4F7] py-10 px-4 md:px-10 lg:px-20 font-sans">
-      <div className="max-w-7xl mx-auto">
+    <footer className="pt-10 pb-6 font-sans">
         {/* Main Footer Card */}
-        <div className="bg-[#0A0A0A] rounded-[48px] py-16 px-6 md:px-20 flex flex-col items-center text-center">
+        <div className="bg-[#0A0A0A] rounded-[40px] py-16 px-6 md:px-20 flex flex-col items-center text-center">
           {/* 1. Logo Section */}
           <div className="flex items-center gap-2 mb-6">
             <div className="bg-[#CAEB66] px-2 py-1 rounded-lg">
@@ -84,7 +83,6 @@ const Footer = () => {
               <FaYoutube />
             </a>
           </div>
-        </div>
       </div>
     </footer>
   );

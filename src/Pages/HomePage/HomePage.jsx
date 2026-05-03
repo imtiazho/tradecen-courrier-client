@@ -7,7 +7,6 @@ import ServicesFeatureList from "../../Components/ServicesFeatureList/ServicesFe
 import SatisfactionBanner from "../../Components/SatisfactionBanner/SatisfactionBanner";
 import ClientReviews from "../../Components/ClientReviews/ClientReviews";
 import FAQSection from "../../Components/FAQSection/FAQSection";
-import Footer from "../../Components/Footer/Footer";
 
 const HomePage = () => {
   return (
@@ -20,7 +19,6 @@ const HomePage = () => {
       <SatisfactionBanner></SatisfactionBanner>
       <ClientReviews></ClientReviews>
       <FAQSection></FAQSection>
-      <Footer></Footer>
     </div>
   );
 };

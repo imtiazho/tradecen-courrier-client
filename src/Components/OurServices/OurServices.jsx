@@ -42,7 +42,7 @@ const OurServices = () => {
         
         {/* Here's the title and text at the top! */}
         <div className="text-center mb-16 max-w-2xl mx-auto">
-          <h1 className="text-white text-[38px] font-extrabold mb-4 tracking-tight">
+          <h1 className="text-white text-[38px] font-extrabold mb-4">
             Our Services
           </h1>
           <p className="text-[#DADADA] text-[15px] leading-relaxed">
@@ -51,7 +51,7 @@ const OurServices = () => {
         </div>
 
         {/* This is the grid where all the cards go! */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {servicesData.map((service, index) => (
             // This is each card. Look at that hover color!
             <div 

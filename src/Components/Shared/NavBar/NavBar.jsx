@@ -27,7 +27,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/coverage-area"
+          to="/"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -37,7 +37,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/coverage-area"
+          to="/"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -47,7 +47,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/coverage-area"
+          to="/"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -57,7 +57,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/coverage-area"
+          to="/"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -67,6 +67,7 @@ const NavBar = () => {
       </li>
     </>
   );
+  
   return (
     <div className="navbar bg-base-100 py-3.75 px-6.25 rounded-[15px]">
       <div className="navbar-start">

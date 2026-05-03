@@ -40,12 +40,11 @@ const FAQSection = () => {
   return (
     <section className="bg-[#F2F4F7] py-20 px-4 md:px-10 font-sans">
       <div className="max-w-4xl mx-auto">
-        {/* Header Section */}
         <div className="text-center mb-12">
           <h2 className="text-[#02312A] text-3xl md:text-4xl font-extrabold mb-4">
             Frequently Asked Question (FAQ)
           </h2>
-          <p className="text-[#5F7180] text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+          <p className="text-[#5F7180] text-sm md:text-base leading-relaxed w-[90%] mx-auto">
             Enhance posture, mobility, and well-being effortlessly with Posture
             Pro. Achieve proper alignment, reduce pain, and strengthen your body
             with ease!
@@ -57,9 +56,9 @@ const FAQSection = () => {
           {faqData.map((item) => (
             <div
               key={item.id}
-              className={`collapse collapse-arrow bg-white rounded-2xl transition-all duration-300 border-2 ${
+              className={`collapse collapse-arrow bg-white rounded-2xl transition-all duration-300 border-1 ${
                 activeId === item.id
-                  ? "border-[#02312A]/40 bg-[#E8F0F0]"
+                  ? "border-[#ddd] bg-[#E8F0F0]"
                   : "border-transparent shadow-sm"
               }`}
             >
@@ -70,15 +69,11 @@ const FAQSection = () => {
                 onChange={() => setActiveId(item.id)}
               />
 
-              {/* Question Title */}
               <div className="collapse-title text-base md:text-lg font-bold text-[#02312A] flex justify-between items-center pr-6">
                 {item.question}
-                {/* Custom Icon override if needed, otherwise DaisyUI handle it via collapse-arrow */}
               </div>
 
-              {/* Answer Content */}
               <div className="collapse-content">
-                {/* Visual line to separate title from content when open */}
                 <div className="h-px w-full bg-[#02312A]/10 mb-4" />
                 <p className="text-[#5F7180] leading-relaxed text-sm md:text-base">
                   {item.answer}
