@@ -47,17 +47,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to=""
-          className={({ isActive }) =>
-            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
-          }
-        >
-          Blogs
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to=""
+          to="/contact"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }

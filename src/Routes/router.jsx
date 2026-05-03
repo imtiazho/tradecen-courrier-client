@@ -4,6 +4,7 @@ import HomePage from "../Pages/HomePage/HomePage";
 import Coverage from "../Pages/Coverage/Coverage";
 import About from "../Pages/About/About";
 import PricingCalculator from "../Pages/PricingCalculator/PricingCalculator";
+import ContactPage from "../Pages/ContactPage/ContactPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "pricing",
         Component: PricingCalculator,
+      },
+      {
+        path: "contact",
+        Component: ContactPage,
       },
     ],
   },
