@@ -8,6 +8,7 @@ import ContactPage from "../Pages/ContactPage/ContactPage";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
 import LoginPage from "../Pages/LoginPage/LoginPage";
+import SignUp from "../Pages/SignUp/SignUp";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +41,10 @@ export const router = createBrowserRouter([
   {
     path: "/auth",
     Component: AuthLayout,
-    children: [{ path: "/auth/login", Component: LoginPage }],
+    children: [
+      { path: "/auth/login", Component: LoginPage },
+      { path: "/auth/sign-up", Component: SignUp },
+    ],
   },
   {
     path: "*",

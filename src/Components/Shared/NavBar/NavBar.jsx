@@ -57,7 +57,7 @@ const NavBar = () => {
       </li>
     </>
   );
-  
+
   return (
     <div className="navbar bg-base-100 py-3.75 px-6.25 rounded-[15px]">
       <div className="navbar-start">
@@ -98,10 +98,16 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="navbar-end gap-2">
-        <Link to='/auth/login' className="btn btn-ghost capitalize text-[#0D2E2E] border border-gray-200">
+        <Link
+          to="/auth/login"
+          className="btn btn-ghost capitalize text-[#0D2E2E] border border-gray-200"
+        >
           Sign In
         </Link>
-        <button className="btn bg-[#CAEB66] hover:bg-[#c4e685] border-none text-black capitalize flex items-center gap-2">
+        <Link
+          to="/auth/sign-up"
+          className="btn bg-[#CAEB66] hover:bg-[#c4e685] border-none text-black capitalize flex items-center gap-2"
+        >
           Sign Up
           <div className="bg-[#1A2E2E] rounded-full p-1">
             <svg
@@ -119,7 +125,7 @@ const NavBar = () => {
               />
             </svg>
           </div>
-        </button>
+        </Link>
       </div>
     </div>
   );
