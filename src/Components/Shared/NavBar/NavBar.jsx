@@ -1,6 +1,6 @@
 import React from "react";
 import { FaTruckFast } from "react-icons/fa6";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const NavBar = () => {
   const list = (
@@ -98,9 +98,9 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="navbar-end gap-2">
-        <button className="btn btn-ghost capitalize text-[#0D2E2E] border border-gray-200">
+        <Link to='/auth/login' className="btn btn-ghost capitalize text-[#0D2E2E] border border-gray-200">
           Sign In
-        </button>
+        </Link>
         <button className="btn bg-[#CAEB66] hover:bg-[#c4e685] border-none text-black capitalize flex items-center gap-2">
           Sign Up
           <div className="bg-[#1A2E2E] rounded-full p-1">
