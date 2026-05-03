@@ -1,9 +1,7 @@
 import React from "react";
 
-// === README: PLACE YOUR PNG/SVG IMPORTS HERE ===
 import WaveHeaderImg from "../../assets/be-a-merchant-bg.png"; // Recommend SVG for sharp lines
 import LogisticsIllustrationImg from "../../assets/location-merchant.png";
-// ===============================================
 
 const SatisfactionBanner = () => {
   return (
