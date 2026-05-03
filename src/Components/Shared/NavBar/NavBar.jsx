@@ -27,7 +27,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/"
+          to="/about-us"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -37,7 +37,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/"
+          to=""
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -47,7 +47,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/"
+          to=""
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
@@ -57,7 +57,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to="/"
+          to=""
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }

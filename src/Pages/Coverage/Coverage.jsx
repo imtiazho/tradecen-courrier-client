@@ -32,7 +32,7 @@ const Coverage = () => {
   };
 
   return (
-    <section className="bg-[#F2F4F7] mt-8 font-sans">
+    <section className="bg-[#F2F4F7] mt-8 mb-12 font-sans">
       <div className="bg-white rounded-[25px] p-8 md:p-16">
         {/* Header Section */}
         <div className="space-y-8 mb-10">
