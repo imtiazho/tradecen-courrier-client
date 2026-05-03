@@ -3,6 +3,7 @@ import RootLayout from "../Layouts/RootLayout/RootLayout";
 import HomePage from "../Pages/HomePage/HomePage";
 import Coverage from "../Pages/Coverage/Coverage";
 import About from "../Pages/About/About";
+import PricingCalculator from "../Pages/PricingCalculator/PricingCalculator";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "about-us",
         Component: About,
+      },
+      {
+        path: "pricing",
+        Component: PricingCalculator,
       },
     ],
   },

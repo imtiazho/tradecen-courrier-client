@@ -37,7 +37,7 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
-          to=""
+          to="/pricing"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
           }
