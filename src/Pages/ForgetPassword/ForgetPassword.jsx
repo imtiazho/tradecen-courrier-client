@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link, useNavigate } from "react-router";
-import { sendOTP } from "../../../firebase.init";
+import Swal from "sweetalert2"; // SweetAlert2 ইমপোর্ট করুন
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSendMail = async (e) => {
     e.preventDefault();
+
+    if (!email) {
+      Swal.fire({
+        icon: "warning",
+        title: "Email Required",
+        text: "Please enter your email address to proceed.",
+        confirmButtonColor: "#CAEB66",
+        confirmButtonText: '<span style="color: #02312A">Got it!</span>', // Dark text on lime button
+        background: "#fff",
+        backdrop: `rgba(202, 235, 102, 0.1)`, // Subtle lime tint on the background
+      });
+    }
+
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:5000/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -18,30 +33,56 @@ const ForgetPassword = () => {
       const data = await response.json();
 
       if (data.success) {
+        Swal.fire({
+          icon: "success",
+          title: "OTP Sent!",
+          text: "We've sent a 6-digit code to your inbox.",
+          iconColor: "#A5C141", // A slightly darker shade for the checkmark
+          confirmButtonColor: "#CAEB66",
+          confirmButtonText:
+            '<span style="color: #02312A; font-weight: bold">Check Mail</span>',
+          buttonsStyling: true,
+          customClass: {
+            popup: "rounded-3xl", // Matches your UI's rounded corners
+            confirmButton:
+              "px-8 py-3 rounded-xl transition-transform active:scale-95",
+          },
+        });
+
         navigate("/auth/verify-OTP", { state: { email } });
       } else {
-        alert(data.error || "Failed to send OTP");
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: data.error || "Something went wrong!",
+          confirmButtonColor: "#02312A",
+        });
       }
     } catch (error) {
-      alert("Server error. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "We cant contact with server right now. Please try again later!",
+        confirmButtonColor: "#d33",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="w-full max-w-md mx-auto md:mx-0">
-      {/* Form Header */}
       <div className="mb-10 mt-16 md:mt-0">
         <h1 className="text-4xl md:text-5xl font-black text-black mb-3 tracking-[-0.08rem]">
           Forgot Password
         </h1>
         <p className="text-gray-600 text-sm font-medium">
-          Enter your email address and we'll send you a reset link to get back
-          into your account.
+          Enter your email address and we'll send you a 6-digit OTP to reset
+          your password.
         </p>
       </div>
 
-      {/* Form */}
-      <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-6" onSubmit={handleSendMail}>
         <div className="space-y-2">
           <label className="text-sm font-bold text-black ml-1">Email</label>
           <input
@@ -54,15 +95,14 @@ const ForgetPassword = () => {
         </div>
 
         <button
-          onClick={handleSendMail}
+          disabled={loading}
           type="submit"
-          className="w-full bg-[#CAEB66] hover:bg-[#b8d65a] text-[#02312A] font-black py-4 rounded-xl text-base transition-all duration-300 active:scale-[0.98] shadow-md cursor-pointer"
+          className="w-full bg-[#CAEB66] hover:bg-[#b8d65a] text-[#02312A] font-black py-4 rounded-xl text-base transition-all duration-300 active:scale-[0.98] shadow-md cursor-pointer disabled:opacity-50"
         >
-          Send Reset Link
+          {loading ? "Sending..." : "Send OTP Code"}
         </button>
       </form>
 
-      {/* Footer Navigation */}
       <div className="mt-10 text-center md:text-left">
         <p className="text-gray-500 text-sm font-medium">
           Remember your password?{" "}

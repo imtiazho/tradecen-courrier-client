@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const ResetPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // OTP ভেরিফিকেশন পেজ থেকে আসা ইমেইলটি রিসিভ করা
   const email = location.state?.email;
 
   const [passwords, setPasswords] = useState({
@@ -15,7 +15,17 @@ const ResetPassword = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // handle input change
+  // Common SweetAlert2 Styling
+  const swalConfig = {
+    confirmButtonColor: "#CAEB66",
+    customClass: {
+      popup: "rounded-3xl",
+      confirmButton:
+        "px-8 py-3 rounded-xl font-bold transition-transform active:scale-95",
+    },
+    buttonsStyling: true,
+  };
+
   const handleChange = (e) => {
     setPasswords({
       ...passwords,
@@ -23,26 +33,32 @@ const ResetPassword = () => {
     });
   };
 
-  // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!email) {
-      return alert("Session expired. Please restart the process.");
-    }
-
-    if (!passwords.newPassword || !passwords.confirmPassword) {
-      return alert("Please fill all fields");
+      return Swal.fire({
+        ...swalConfig,
+        icon: "warning",
+        title: "Session Expired",
+        text: "Your reset session has expired. Please restart the process.",
+        confirmButtonText: '<span style="color: #02312A">Restart</span>',
+      });
     }
 
     if (passwords.newPassword !== passwords.confirmPassword) {
-      return alert("Passwords do not match!");
+      return Swal.fire({
+        ...swalConfig,
+        icon: "error",
+        title: "Mismatch!",
+        text: "Passwords do not match. Please check again.",
+        confirmButtonText: '<span style="color: #02312A">Try Again</span>',
+      });
     }
 
     try {
       setLoading(true);
 
-      // আপনার এক্সপ্রেস ব্যাকঅ্যান্ডে রিকোয়েস্ট পাঠানো হচ্ছে
       const response = await fetch("http://localhost:5000/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -55,14 +71,31 @@ const ResetPassword = () => {
       const data = await response.json();
 
       if (data.success) {
-        alert("Password reset successful!");
+        await Swal.fire({
+          ...swalConfig,
+          icon: "success",
+          title: "Success!",
+          text: "Your password has been reset successfully.",
+          confirmButtonText: '<span style="color: #02312A">Login Now</span>',
+        });
         navigate("/auth/login");
       } else {
-        alert(data.error || "Failed to reset password. Please try again.");
+        Swal.fire({
+          ...swalConfig,
+          icon: "error",
+          title: "Update Failed",
+          text: data.error || "Unable to reset password. Please try again.",
+          confirmButtonColor: "#02312A",
+        });
       }
     } catch (error) {
-      console.error("Reset Password Error:", error);
-      alert("Server error. Please try again later.");
+      Swal.fire({
+        ...swalConfig,
+        icon: "error",
+        title: "Server Error",
+        text: "A connection error occurred. Please try again later.",
+        confirmButtonColor: "#02312A",
+      });
     } finally {
       setLoading(false);
     }
@@ -75,11 +108,9 @@ const ResetPassword = () => {
         <h1 className="text-4xl md:text-5xl font-black text-black mb-3 tracking-[-0.08rem]">
           Reset Password
         </h1>
-
         <p className="text-gray-500 text-sm font-medium">
           Create a new password for your account
         </p>
-
         {email && (
           <p className="text-sm font-bold text-[#A5C141] mt-2">{email}</p>
         )}
@@ -87,45 +118,40 @@ const ResetPassword = () => {
 
       {/* FORM */}
       <form className="space-y-6" onSubmit={handleSubmit}>
-        {/* NEW PASSWORD */}
         <div>
           <label className="text-sm font-bold text-black ml-1">
             New Password
           </label>
-
           <input
             type="password"
             name="newPassword"
             value={passwords.newPassword}
             onChange={handleChange}
             placeholder="Enter new password"
-            className="w-full border border-gray-200 rounded-lg py-3 px-4 mt-1 focus:ring-2 focus:ring-[#CAEB66] focus:border-[#CAEB66] outline-none"
+            className="w-full border border-gray-200 rounded-lg py-3 px-4 mt-1 focus:ring-2 focus:ring-[#CAEB66] focus:border-[#CAEB66] outline-none transition-all"
             required
           />
         </div>
 
-        {/* CONFIRM PASSWORD */}
         <div>
           <label className="text-sm font-bold text-black ml-1">
             Confirm Password
           </label>
-
           <input
             type="password"
             name="confirmPassword"
             value={passwords.confirmPassword}
             onChange={handleChange}
             placeholder="Confirm password"
-            className="w-full border border-gray-200 rounded-lg py-3 px-4 mt-1 focus:ring-2 focus:ring-[#CAEB66] focus:border-[#CAEB66] outline-none"
+            className="w-full border border-gray-200 rounded-lg py-3 px-4 mt-1 focus:ring-2 focus:ring-[#CAEB66] focus:border-[#CAEB66] outline-none transition-all"
             required
           />
         </div>
 
-        {/* BUTTON */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#D1EE67] hover:bg-[#c2e25a] text-[#02312A] font-bold py-3.5 rounded-lg transition-all active:scale-[0.98] disabled:opacity-50"
+          className="w-full bg-[#D1EE67] hover:bg-[#c2e25a] text-[#02312A] font-bold py-3.5 rounded-lg transition-all shadow-md active:scale-[0.98] disabled:opacity-50 cursor-pointer"
         >
           {loading ? "Updating..." : "Reset Password"}
         </button>

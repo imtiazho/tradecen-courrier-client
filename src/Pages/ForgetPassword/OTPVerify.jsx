@@ -1,27 +1,33 @@
 import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
+import Swal from "sweetalert2";
 
 const OTPVerify = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // ForgetPassword পেজ থেকে আসা ইমেইলটি রিসিভ করা
   const email = location.state?.email;
-
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [loading, setLoading] = useState(false);
-
   const inputRefs = useRef([]);
 
-  // ইনপুট হ্যান্ডলিং লজিক
+  // Common SweetAlert2 Configuration for #CAEB66
+  const swalConfig = {
+    confirmButtonColor: "#CAEB66",
+    customClass: {
+      popup: "rounded-3xl",
+      confirmButton:
+        "px-8 py-3 rounded-xl font-bold transition-transform active:scale-95",
+    },
+    buttonsStyling: true,
+  };
+
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return;
-
     const newOtp = [...otp];
     newOtp[index] = element.value;
     setOtp(newOtp);
 
-    // অটো ফোকাস পরবর্তী বক্সে
     if (element.value && index < 5) {
       inputRefs.current[index + 1].focus();
     }
@@ -33,24 +39,32 @@ const OTPVerify = () => {
     }
   };
 
-  // OTP ভেরিফাই করার ফাংশন
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const finalOtp = otp.join("");
 
     if (!email) {
-      return alert("Email missing. Please restart process.");
+      return Swal.fire({
+        ...swalConfig,
+        icon: "warning",
+        title: "Session Expired",
+        text: "We couldn't find your email. Please go back and try again.",
+        confirmButtonText: '<span style="color: #02312A">Go Back</span>',
+      });
     }
 
     if (finalOtp.length !== 6) {
-      return alert("Please enter full 6 digit OTP");
+      return Swal.fire({
+        ...swalConfig,
+        icon: "info",
+        title: "Incomplete Code",
+        text: "Please enter the full 6-digit OTP sent to your email.",
+        confirmButtonText: '<span style="color: #02312A">Okay</span>',
+      });
     }
 
     try {
       setLoading(true);
-
-      // আপনার এক্সপ্রেস সার্ভারে রিকোয়েস্ট পাঠানো হচ্ছে
       const response = await fetch("http://localhost:5000/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -60,25 +74,41 @@ const OTPVerify = () => {
       const data = await response.json();
 
       if (data.success) {
-        // ভেরিফিকেশন সফল হলে রিসেট পাসওয়ার্ড পেজে পাঠানো
-        navigate("/auth/reset-password", {
-          state: { email },
+        Swal.fire({
+          ...swalConfig,
+          icon: "success",
+          title: "Code Verified!",
+          text: "Identity confirmed. You can now reset your password.",
+          confirmButtonText: '<span style="color: #02312A">Proceed</span>',
+          timer: 2000,
         });
+
+        navigate("/auth/reset-password", { state: { email } });
       } else {
-        alert(data.error || "Invalid or expired OTP");
+        Swal.fire({
+          ...swalConfig,
+          icon: "error",
+          title: "Verification Failed",
+          text: data.error || "The code you entered is invalid or has expired.",
+          confirmButtonColor: "#02312A", // Contrast button for error
+        });
       }
     } catch (error) {
-      console.error("Verification Error:", error);
-      alert("Something went wrong. Please try again.");
+      Swal.fire({
+        ...swalConfig,
+        icon: "error",
+        title: "Connection Error",
+        text: "Something went wrong on our end. Please try again.",
+        confirmButtonColor: "#02312A",
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  // OTP পুনরায় পাঠানোর ফাংশন
   const handleResend = async () => {
     try {
-      if (!email) return alert("Email not found!");
+      if (!email) return;
 
       const response = await fetch("http://localhost:5000/send-otp", {
         method: "POST",
@@ -89,19 +119,37 @@ const OTPVerify = () => {
       const data = await response.json();
 
       if (data.success) {
-        alert("A new OTP has been sent to your email.");
+        Swal.fire({
+          ...swalConfig,
+          icon: "success",
+          title: "New Code Sent",
+          text: "A fresh OTP has been sent to your email inbox.",
+          confirmButtonText: '<span style="color: #02312A">Got it</span>',
+          timer: 3000,
+          toast: true, // Making this one a toast for a modern feel
+          position: "top-end",
+          showConfirmButton: false,
+        });
       } else {
-        alert("Failed to resend OTP.");
+        Swal.fire({
+          ...swalConfig,
+          icon: "error",
+          title: "Resend Failed",
+          text: "Could not resend code. Try again in a minute.",
+        });
       }
     } catch (error) {
-      console.error("Resend Error:", error);
-      alert("Error connecting to server.");
+      Swal.fire({
+        ...swalConfig,
+        icon: "error",
+        title: "Server Error",
+        text: "Unable to reach the server.",
+      });
     }
   };
 
   return (
     <div className="w-full max-w-md mx-auto">
-      {/* HEADER */}
       <div className="mb-8">
         <h1 className="text-4xl font-black text-black mb-2">Enter Code</h1>
         <p className="text-gray-500 text-sm">
@@ -110,9 +158,7 @@ const OTPVerify = () => {
         <p className="text-sm font-bold text-[#A5C141] mt-1">{email}</p>
       </div>
 
-      {/* FORM */}
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* OTP INPUTS */}
         <div className="flex gap-2 justify-center">
           {otp.map((digit, index) => (
             <input
@@ -128,23 +174,21 @@ const OTPVerify = () => {
           ))}
         </div>
 
-        {/* VERIFY BUTTON */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#CAEB66] hover:bg-[#b8d65a] text-[#02312A] font-black py-4 rounded-xl transition-all disabled:opacity-50"
+          className="w-full bg-[#CAEB66] hover:bg-[#b8d65a] text-[#02312A] font-black py-4 rounded-xl transition-all shadow-lg active:scale-[0.98] disabled:opacity-50"
         >
           {loading ? "Verifying..." : "Verify Code"}
         </button>
       </form>
 
-      {/* RESEND SECTION */}
       <p className="mt-6 text-center text-sm text-gray-500">
         Didn’t receive code?{" "}
         <button
           type="button"
           onClick={handleResend}
-          className="font-bold text-[#A5C141] hover:text-[#8ba335]"
+          className="font-bold text-[#A5C141] hover:text-[#8ba335] transition-colors cursor-pointer"
         >
           Resend OTP
         </button>
