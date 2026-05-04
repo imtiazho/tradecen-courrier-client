@@ -2,10 +2,11 @@ import React from "react";
 import { FaTruckFast } from "react-icons/fa6";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 const NavBar = () => {
   const { user, handleLogOut } = useAuth();
-  console.log(user);
+
   const list = (
     <>
       <li>
@@ -61,6 +62,26 @@ const NavBar = () => {
     </>
   );
 
+  const handleSignOut = async () => {
+    try {
+      await handleLogOut();
+
+      Swal.fire({
+        icon: "success",
+        title: "Signed Out!",
+        text: "You have been logged out successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Opss...",
+        text: "Something went wrong during sign out!",
+      });
+    }
+  };
+
   return (
     <div className="navbar bg-base-100 py-3.75 px-6.25 rounded-[15px]">
       <div className="navbar-start">
@@ -105,55 +126,125 @@ const NavBar = () => {
           <div className="dropdown dropdown-end">
             <label
               tabIndex={0}
-              className="btn btn-ghost btn-circle avatar border-2 border-[#CAEB66]"
+              className="btn btn-ghost btn-circle avatar border-2 border-[#CAEB66] w-14 h-14"
             >
-              <div className="w-10 rounded-full">
+              <div className="w-14 rounded-full shadow-inner">
                 <img
                   src={user?.photoURL || "https://i.ibb.co/mR79Y6B/user.png"}
+                  className="object-cover w-full h-full"
                   alt="User Profile"
                 />
               </div>
             </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[10] p-3 shadow-xl bg-base-100 rounded-xl w-52 space-y-2"
+              className="menu menu-sm dropdown-content mt-4 z-[20] p-2 shadow-[0_20px_50px_rgba(0,0,0,0.15)] bg-white border border-gray-100 rounded-2xl w-64 backdrop-blur-lg"
             >
-              <div className="px-2 py-1 border-b border-gray-100 mb-1">
-                <p className="text-xs text-gray-500 font-medium italic">
-                  Welcome,
+              {/* User Info Section with Gradient Background */}
+              <div className="flex flex-col items-center p-4 mb-2 rounded-xl bg-gradient-to-br from-[#CAEB66]/20 to-transparent border border-[#CAEB66]/30">
+                <div className="avatar mb-2">
+                  <div className="w-16  ring ring-[#CAEB66] ring-offset-base-100 ring-offset-2">
+                    <img
+                      src={
+                        user?.photoURL || "https://i.ibb.co/mR79Y6B/user.png"
+                      }
+                      alt="User"
+                    />
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider">
+                  Welcome back,
                 </p>
-                <p className="text-sm font-bold text-[#0D2E2E] truncate">
-                  {user?.displayName || "User"}
+                <p className="text-base font-black text-[#0D2E2E] truncate w-full text-center">
+                  {user?.displayName || "User Name"}
+                </p>
+                <p className="text-[10px] text-gray-400 truncate w-full text-center">
+                  {user?.email}
                 </p>
               </div>
-              <li>
-                <Link
-                  to="/dashboard"
-                  className="hover:bg-[#CAEB66] font-medium transition-colors"
-                >
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/profile"
-                  className="hover:bg-[#CAEB66] font-medium transition-colors"
-                >
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogOut}
-                  className="bg-red-50 text-red-600 hover:bg-red-100 font-bold mt-2"
-                >
-                  Logout
-                </button>
-              </li>
+
+              {/* Menu Items */}
+              <div className="space-y-1">
+                <li>
+                  <Link
+                    to="/dashboard"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#CAEB66] hover:text-black transition-all duration-300 group"
+                  >
+                    <span className="p-2 bg-gray-50 rounded-md group-hover:bg-white/50">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                        />
+                      </svg>
+                    </span>
+                    <span className="font-bold">Dashboard</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/profile"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#CAEB66] hover:text-black transition-all duration-300 group"
+                  >
+                    <span className="p-2 bg-gray-50 rounded-md group-hover:bg-white/50">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                    </span>
+                    <span className="font-bold">My Profile</span>
+                  </Link>
+                </li>
+
+                <div className="divider my-1 opacity-50"></div>
+
+                <li>
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center gap-3 p-3 rounded-lg text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 group w-full"
+                  >
+                    <span className="p-2 bg-red-50 rounded-md group-hover:bg-white/20">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                    </span>
+                    <span className="font-black italic">Logout</span>
+                  </button>
+                </li>
+              </div>
             </ul>
           </div>
         ) : (
-          
           <div className="flex items-center gap-2">
             <Link
               to="/auth/login"
