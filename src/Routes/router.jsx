@@ -10,6 +10,8 @@ import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import SignUp from "../Pages/SignUp/SignUp";
 import ForgetPassword from "../Pages/ForgetPassword/ForgetPassword";
+import OTPVerify from "../Pages/ForgetPassword/OTPVerify";
+import ResetPassword from "../Pages/ForgetPassword/ResetPassword";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,8 @@ export const router = createBrowserRouter([
       { path: "/auth/login", Component: LoginPage },
       { path: "/auth/sign-up", Component: SignUp },
       { path: "/auth/forget-password", Component: ForgetPassword },
+      { path: "/auth/verify-OTP", Component: OTPVerify },
+      { path: "/auth/reset-password", Component: ResetPassword },
     ],
   },
   {

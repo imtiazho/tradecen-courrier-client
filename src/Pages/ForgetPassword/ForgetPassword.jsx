@@ -1,13 +1,17 @@
 import React from "react";
 import { FiArrowLeft } from "react-icons/fi";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const ForgetPassword = () => {
+  const navigate = useNavigate();
+  const handleSendMail = () => {
+    navigate("/auth/verify-OTP");
+  };
   return (
     <div className="w-full max-w-md mx-auto md:mx-0">
       {/* Form Header */}
       <div className="mb-10 mt-16 md:mt-0">
-        <h1 className="text-4xl md:text-5xl font-black text-black mb-3  tracking-[-0.08rem]">
+        <h1 className="text-4xl md:text-5xl font-black text-black mb-3 tracking-[-0.08rem]">
           Forgot Password
         </h1>
         <p className="text-gray-600 text-sm font-medium">
@@ -29,6 +33,7 @@ const ForgetPassword = () => {
         </div>
 
         <button
+          onClick={handleSendMail}
           type="submit"
           className="w-full bg-[#CAEB66] hover:bg-[#b8d65a] text-[#02312A] font-black py-4 rounded-xl text-base transition-all duration-300 active:scale-[0.98] shadow-md cursor-pointer"
         >
