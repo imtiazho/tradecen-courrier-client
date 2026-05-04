@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FiUser, FiUpload, FiX } from "react-icons/fi";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
@@ -16,6 +16,8 @@ const SignUp = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -68,7 +70,7 @@ const SignUp = () => {
           timer: 1500,
           showConfirmButton: false,
         });
-        navigate("/");
+        navigate(from, { replace: true });
       }
     } catch (error) {
       console.error("Signup Error:", error);

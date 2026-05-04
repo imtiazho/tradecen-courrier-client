@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link, useNavigate } from "react-router";
+import { sendOTP } from "../../../firebase.init";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
-  const handleSendMail = () => {
-    navigate("/auth/verify-OTP");
+  const [email, setEmail] = useState("");
+
+  const handleSendMail = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:5000/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        navigate("/auth/verify-OTP", { state: { email } });
+      } else {
+        alert(data.error || "Failed to send OTP");
+      }
+    } catch (error) {
+      alert("Server error. Please try again.");
+    }
   };
+
   return (
     <div className="w-full max-w-md mx-auto md:mx-0">
       {/* Form Header */}
@@ -25,6 +45,7 @@ const ForgetPassword = () => {
         <div className="space-y-2">
           <label className="text-sm font-bold text-black ml-1">Email</label>
           <input
+            onChange={(e) => setEmail(e.target.value)}
             type="email"
             placeholder="Enter your email"
             className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
