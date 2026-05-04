@@ -1,8 +1,11 @@
 import React from "react";
 import { FaTruckFast } from "react-icons/fa6";
 import { Link, NavLink } from "react-router";
+import useAuth from "../../../Hooks/useAuth";
 
 const NavBar = () => {
+  const { user, handleLogOut } = useAuth();
+  console.log(user);
   const list = (
     <>
       <li>
@@ -98,34 +101,90 @@ const NavBar = () => {
         </ul>
       </div>
       <div className="navbar-end gap-2">
-        <Link
-          to="/auth/login"
-          className="btn btn-ghost capitalize text-[#0D2E2E] border border-gray-200"
-        >
-          Sign In
-        </Link>
-        <Link
-          to="/auth/sign-up"
-          className="btn bg-[#CAEB66] hover:bg-[#c4e685] border-none text-black capitalize flex items-center gap-2"
-        >
-          Sign Up
-          <div className="bg-[#1A2E2E] rounded-full p-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="white"
-              className="w-3 h-3"
+        {user ? (
+          <div className="dropdown dropdown-end">
+            <label
+              tabIndex={0}
+              className="btn btn-ghost btn-circle avatar border-2 border-[#CAEB66]"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-              />
-            </svg>
+              <div className="w-10 rounded-full">
+                <img
+                  src={user?.photoURL || "https://i.ibb.co/mR79Y6B/user.png"}
+                  alt="User Profile"
+                />
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[10] p-3 shadow-xl bg-base-100 rounded-xl w-52 space-y-2"
+            >
+              <div className="px-2 py-1 border-b border-gray-100 mb-1">
+                <p className="text-xs text-gray-500 font-medium italic">
+                  Welcome,
+                </p>
+                <p className="text-sm font-bold text-[#0D2E2E] truncate">
+                  {user?.displayName || "User"}
+                </p>
+              </div>
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="hover:bg-[#CAEB66] font-medium transition-colors"
+                >
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/profile"
+                  className="hover:bg-[#CAEB66] font-medium transition-colors"
+                >
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogOut}
+                  className="bg-red-50 text-red-600 hover:bg-red-100 font-bold mt-2"
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
           </div>
-        </Link>
+        ) : (
+          
+          <div className="flex items-center gap-2">
+            <Link
+              to="/auth/login"
+              className="btn btn-ghost capitalize text-[#0D2E2E] border border-gray-200"
+            >
+              Sign In
+            </Link>
+            <Link
+              to="/auth/sign-up"
+              className="btn bg-[#CAEB66] hover:bg-[#c4e685] border-none text-black capitalize flex items-center gap-2"
+            >
+              Sign Up
+              <div className="bg-[#1A2E2E] rounded-full p-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="white"
+                  className="w-3 h-3"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                  />
+                </svg>
+              </div>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
