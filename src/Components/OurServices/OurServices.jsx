@@ -56,7 +56,7 @@ const OurServices = () => {
             // This is each card. Look at that hover color!
             <div 
               key={index}
-              className="bg-white rounded-[20px] pt-8 pb-6 px-6 flex flex-col items-center text-center shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl group
+              className="bg-white rounded-[15px] pt-8 pb-6 px-6 flex flex-col items-center text-center shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl group
               hover:bg-[#CAEB66]" // This is the hover color magic trick!
             >
               {/* This makes the picture in a circle */}
