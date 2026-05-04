@@ -9,6 +9,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import AuthLayout from "../Layouts/AuthLayout/AuthLayout";
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import SignUp from "../Pages/SignUp/SignUp";
+import ForgetPassword from "../Pages/ForgetPassword/ForgetPassword";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/auth/login", Component: LoginPage },
       { path: "/auth/sign-up", Component: SignUp },
+      { path: "/auth/forget-password", Component: ForgetPassword },
     ],
   },
   {

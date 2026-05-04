@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { FiUser, FiUpload, FiX } from "react-icons/fi";
-import { Link } from "react-router";
-import useAuth from "../../Hooks/useAuth";
+import logo from "./logo.png"; // Make sure to have your logo image in your project
+import authImage from "./auth_image.png"; // Make sure to have your right-side image
 
-const SignUp = () => {
-  const { googleSignIn } = useAuth();
+const SignUpPage = () => {
   // State to handle image preview
   const [selectedImage, setSelectedImage] = useState(null);
   // Reference to the hidden file input
@@ -16,8 +15,7 @@ const SignUp = () => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        // FIXED: Access e.target.result directly
-        setSelectedImage(e.target.result);
+        setSelectedImage(e.target.reader.result);
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -37,18 +35,11 @@ const SignUp = () => {
     }
   };
 
-  // Handle Social Login
-  const handleSocialLogin = () => {
-    googleSignIn().then((res) => {
-      console.log(res);
-    });
-  };
-
   return (
     <div className="w-full max-w-md mx-auto md:mx-0">
       {/* Form Header */}
       <div className="mb-10">
-        <h1 className="text-4xl md:text-5xl font-black text-black mb-1.5 tracking-[-0.08rem]">
+        <h1 className="text-4xl md:text-5xl font-black text-black mb-1.5 tracking-tighter">
           Create an Account
         </h1>
         <p className="text-gray-600 text-sm font-medium">
@@ -67,63 +58,49 @@ const SignUp = () => {
           className="hidden"
         />
 
-        {/* Image Upload/Preview Component */}
-        <div className="mb-8 relative w-20 h-20">
-          {/* Hidden File Input */}
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            onChange={handleImageChange}
-            className="hidden"
-          />
+        {/* Interactive Area */}
+        <div
+          onClick={selectedImage ? null : handleUploadClick} // Click to upload only when no image
+          className={`
+                                w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 relative overflow-hidden border
+                                ${
+                                  selectedImage
+                                    ? "bg-gray-100 border-gray-200"
+                                    : "bg-[#F2F4F7] border-gray-200 hover:border-[#CAEB66] cursor-pointer group"
+                                }
+                            `}
+        >
+          {selectedImage ? (
+            <>
+              {/* --- Logic: If photo exists, show image and cancel button --- */}
+              <img
+                src={selectedImage}
+                alt="Profile Preview"
+                className="w-full h-full object-cover"
+              />
 
-          {/* Main Container: We keep this visible so the cross doesn't cut off */}
-          <div
-            onClick={selectedImage ? null : handleUploadClick}
-            className={`
-      w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 relative border
-      ${
-        selectedImage
-          ? "bg-gray-100 border-gray-200"
-          : "bg-[#F2F4F7] border-gray-200 hover:border-[#CAEB66] cursor-pointer group"
-      }
-    `}
-          >
-            {selectedImage ? (
-              <>
-                {/* IMAGE WRAPPER: This handles the circular clipping for the photo */}
-                <div className="w-full h-full rounded-full overflow-hidden">
-                  <img
-                    src={selectedImage}
-                    alt="Profile Preview"
-                    className="w-full h-full object-cover"
-                  />
+              {/* The small cancel/remove button */}
+              <button
+                onClick={handleRemoveImage}
+                className="absolute top-1 right-1 bg-white p-1 rounded-full text-gray-500 hover:text-white hover:bg-gray-800 transition-colors shadow-sm"
+                title="Remove photo"
+              >
+                <FiX size={14} strokeWidth={3} />
+              </button>
+            </>
+          ) : (
+            <>
+              {/* --- Logic: Default placeholder and upload hint --- */}
+              <div className="flex items-center justify-center relative">
+                <div className="bg-gray-200 p-3 rounded-full text-gray-500 group-hover:bg-[#CAEB66]/20 transition-colors">
+                  <FiUser size={30} />
                 </div>
-
-                {/* CANCEL BUTTON: Positioned absolute to the parent, now fully visible */}
-                <button
-                  onClick={handleRemoveImage}
-                  className="absolute -top-1 -right-1 bg-white p-1 rounded-full text-gray-500 hover:text-red-500 transition-colors shadow-md border border-gray-100 z-10 cursor-pointer"
-                  title="Remove photo"
-                >
-                  <FiX size={16} strokeWidth={3} />
-                </button>
-              </>
-            ) : (
-              <>
-                {/* Default placeholder logic remains the same */}
-                <div className="flex items-center justify-center relative">
-                  <div className="bg-gray-200 p-3 rounded-full text-gray-500 group-hover:bg-[#CAEB66]/20 transition-colors">
-                    <FiUser size={30} />
-                  </div>
-                  <div className="absolute -right-3 bottom-0 bg-[#CAEB66] p-1.5 rounded-full text-gray-900 group-hover:bg-[#b5d35c] transition-colors border-4 border-white">
-                    <FiUpload size={14} />
-                  </div>
+                <div className="absolute -right-3 bottom-0 bg-[#CAEB66] p-1.5 rounded-full text-gray-900 group-hover:bg-[#b5d35c] transition-colors border-4 border-white">
+                  <FiUpload size={14} />
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -172,12 +149,9 @@ const SignUp = () => {
       <div className="mt-8 text-center space-y-6">
         <p className="text-sm font-medium text-gray-500">
           Already have an account?{" "}
-          <Link
-            to="/auth/login"
-            className="font-bold text-[#A5C141] hover:underline"
-          >
+          <a href="#" className="font-bold text-[#A5C141] hover:underline">
             Login
-          </Link>
+          </a>
         </p>
 
         <div className="relative flex items-center justify-center">
@@ -188,7 +162,7 @@ const SignUp = () => {
         </div>
 
         {/* Google Button */}
-        <button onClick={handleSocialLogin} className="w-full flex items-center justify-center gap-3 bg-[#E9EDF2] hover:bg-[#dfe4ea] text-[#02312A] font-bold py-3.5 rounded-lg transition-colors cursor-pointer">
+        <button className="w-full flex items-center justify-center gap-3 bg-[#E9EDF2] hover:bg-[#dfe4ea] text-[#02312A] font-bold py-3.5 rounded-lg transition-colors">
           <FcGoogle size={24} />
           Register with google
         </button>
@@ -197,4 +171,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpPage;

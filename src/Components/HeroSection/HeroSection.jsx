@@ -17,7 +17,7 @@ const HeroSection = () => {
 
   return (
     <div className="mt-6">
-      <div className="rounded-[25px] relative">
+      <div className="rounded-[18px] relative">
         <Swiper
           modules={[Pagination, Autoplay, EffectFade]}
           effect={"fade"} // smooth fading effect
