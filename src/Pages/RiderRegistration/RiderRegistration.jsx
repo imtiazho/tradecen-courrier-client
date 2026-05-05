@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import riderImage from "../../assets/agent-pending.png";
 import { useForm, useWatch } from "react-hook-form";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import { useGeolocation } from "../../Hooks/useGeolocation";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
@@ -20,6 +20,7 @@ const ErrorMsg = ({ errors, name }) => {
 
 const RiderRegistration = () => {
   const { user, setLoading, loading: mainLoading } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     control,
@@ -30,6 +31,7 @@ const RiderRegistration = () => {
     defaultValues: {
       name: "",
       email: "",
+      photoURL: "",
       region: "",
       district: "",
       area: "",
@@ -46,6 +48,7 @@ const RiderRegistration = () => {
     if (user) {
       setValue(setValue("name", user?.displayName || ""));
       setValue(setValue("email", user?.email || ""));
+      setValue("photoURL", user?.photoURL || "");
     }
   }, [user, setValue]);
   const areaAndLocation = useLoaderData() || [];
@@ -126,10 +129,11 @@ const RiderRegistration = () => {
             showConfirmButton: false,
             timer: 2000,
           });
+          navigate("/");
         } else if (res.data.message) {
           const isEmailError = res.data.message.toLowerCase().includes("email");
           Swal.fire({
-            icon: "warning", 
+            icon: "warning",
             title: isEmailError
               ? "Email Already Registered"
               : "Registration Issue",
@@ -273,6 +277,7 @@ const RiderRegistration = () => {
                     <input
                       {...register("nid", { required: "NID is required" })}
                       type="text"
+                      placeholder="e.g. 8091-8621-1212-2323-1"
                       className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.nid ? "border-red-500" : "border-gray-200"}`}
                     />
                     <ErrorMsg errors={errors} name="nid" />
@@ -403,6 +408,9 @@ const RiderRegistration = () => {
                     <ErrorMsg errors={errors} name="latitude" />
                   </div>
                 </div>
+
+                {/* Hidden Field for Photo URL */}
+                <input type="hidden" {...register("photoURL")} />
 
                 <button
                   type="submit"

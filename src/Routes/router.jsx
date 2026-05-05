@@ -14,6 +14,7 @@ import OTPVerify from "../Pages/ForgetPassword/OTPVerify";
 import ResetPassword from "../Pages/ForgetPassword/ResetPassword";
 import RoleSelection from "../Pages/RoleSelection/RoleSelection";
 import RiderRegistration from "../Pages/RiderRegistration/RiderRegistration";
+import MerchantRegistration from "../Pages/MerchantRegistration/MerchantRegistration";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,11 @@ export const router = createBrowserRouter([
         path: "be-rider",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
         Component: RiderRegistration,
+      },
+      {
+        path: "be-merchant",
+        loader: () => fetch("warehouses.json").then((res) => res.json()),
+        Component: MerchantRegistration,
       },
     ],
   },
