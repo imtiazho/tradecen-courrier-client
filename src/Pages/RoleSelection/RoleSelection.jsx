@@ -88,17 +88,6 @@ const RoleSelection = () => {
             </Link>
           ))}
         </div>
-
-        {/* FOOTER */}
-        <p className="text-center mt-12 text-gray-400 text-sm">
-          Already have an account?{" "}
-          <button
-            onClick={() => navigate("/auth/login")}
-            className="text-[#A5C141] font-bold hover:underline"
-          >
-            Login here
-          </button>
-        </p>
       </div>
     </div>
   );

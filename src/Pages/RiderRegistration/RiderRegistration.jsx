@@ -1,188 +1,359 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import riderImage from "../../assets/agent-pending.png";
+import { useForm, useWatch } from "react-hook-form";
+import { useLoaderData } from "react-router";
+import { useGeolocation } from "../../Hooks/useGeolocation";
+
+// Error Message Component (Defined outside to prevent re-renders)
+const ErrorMsg = ({ errors, name }) => {
+  if (!errors[name]) return null;
+  return (
+    <span className="text-red-500 text-xs mt-1 block">
+      {errors[name].message}
+    </span>
+  );
+};
 
 const RiderRegistration = () => {
+  const {
+    register,
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      region: "",
+      district: "",
+      area: "",
+      nid: "",
+      phone: "",
+      vehicle: "",
+      license: "",
+      bikeModel: "",
+      bikeRegistration: "",
+    },
+  });
+
+  const areaAndLocation = useLoaderData() || [];
+  const clearRegions = [...new Set(areaAndLocation.map((rg) => rg.region))];
+
+  const riderSelectedRegion = useWatch({ control, name: "region" });
+  const riderSelectedDistrict = useWatch({ control, name: "district" });
+  const { getCoordinates, loading } = useGeolocation();
+  const [locationStatus, setLocationStatus] = useState(
+    "📍 Detect My Current Location",
+  );
+
+  useEffect(() => {
+    setValue("district", "");
+    setValue("area", "");
+  }, [riderSelectedRegion, setValue]);
+
+  useEffect(() => {
+    setValue("area", "");
+  }, [riderSelectedDistrict, setValue]);
+
+  // To get current location
+  const handleLocationCapture = async () => {
+    try {
+      const coords = await getCoordinates();
+
+      // React Hook Form এ ভ্যালু সেট করা
+      setValue("latitude", coords.lat);
+      setValue("longitude", coords.lng);
+
+      setLocationStatus(
+        `Captured: ${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}`,
+      );
+    } catch (err) {
+      setLocationStatus("Failed to get location. Try again.");
+    }
+  };
+
+  const getDistricts = (region) => {
+    if (!region) return [];
+    return areaAndLocation
+      .filter((item) => item.region === region)
+      .map((d) => d.district);
+  };
+
+  const getAreas = (district) => {
+    if (!district) return [];
+    const findDistrict = areaAndLocation.find(
+      (item) => item.district === district,
+    );
+    return findDistrict?.covered_area || [];
+  };
+
+  const handleBeARiderReg = (data) => {
+    const newRider = {
+      ...data,
+    };
+    console.log(newRider);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center pt-8 pb-12">
-      <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl w-full">
+    <div className="min-h-screen flex items-center justify-center pt-8 pb-12 bg-gray-50">
+      <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl w-full max-w-7xl mx-4">
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Left Side - Form Section */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-[#002B36] mb-4">
               Be a Rider
             </h1>
             <p className="text-gray-600 mb-10 text-[15px] max-w-xl">
-              Enjoy fast, reliable parcel delivery with real-time tracking and
-              zero hassle. From personal packages to business shipments — we
-              deliver on time, every time.
+              Enjoy fast, reliable parcel delivery with real-time tracking. Join
+              our fleet and start earning on your own schedule.
             </p>
 
-            <form className="space-y-6">
-              <h2 className="text-xl font-semibold text-[#002B36] border-b border-[#ddd] pb-4">
+            <form
+              onSubmit={handleSubmit(handleBeARiderReg)}
+              className="space-y-6"
+            >
+              <h2 className="text-xl font-semibold text-[#002B36] border-b border-gray-100 pb-4">
                 Tell us about yourself
               </h2>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                {/* Full Name */}
+                {/* 1. Name */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Your Name
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Your Name
                   </label>
                   <input
+                    {...register("name", { required: "Name is required" })}
                     type="text"
-                    placeholder="Your Name"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="Imtiaz Hossain"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.name ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="name" />
                 </div>
 
-                {/* Email */}
+                {/* 2. Email */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Your Email
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Your Email
                   </label>
                   <input
+                    {...register("email", { required: "Email is required" })}
                     type="email"
-                    placeholder="Your Email"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="example@mail.com"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.email ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="email" />
                 </div>
 
-                {/* Region */}
+                {/* 3. Region */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Your Region
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Your Region
                   </label>
-                  <select className="select select-bordered w-full rounded-md border-gray-300 focus:outline-[#CAEB66] focus:outline-2 focus:outline-offset-1 transition-all">
-                    <option disabled selected>
-                      Select your Region
-                    </option>
-                    <option>Dhaka</option>
-                    <option>Chittagong</option>
+                  <select
+                    {...register("region", { required: "Select a region" })}
+                    className={`select select-bordered w-full rounded-lg focus:outline-[#CAEB66] ${errors.region ? "border-red-500" : "border-gray-200"}`}
+                  >
+                    <option value="">Select your Region</option>
+                    {clearRegions.map((region, i) => (
+                      <option value={region} key={i}>
+                        {region}
+                      </option>
+                    ))}
                   </select>
+                  <ErrorMsg errors={errors} name="region" />
                 </div>
 
-                {/* District */}
+                {/* 4. District */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Your District
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Your District
                   </label>
-                  <select className="select select-bordered w-full rounded-md border-gray-300 focus:outline-[#CAEB66] focus:outline-2 focus:outline-offset-1 transition-all">
-                    <option disabled selected>
-                      Select your District
-                    </option>
-                    <option>Dhaka North</option>
-                    <option>Dhaka South</option>
+                  <select
+                    {...register("district", { required: "Select a district" })}
+                    className={`select select-bordered w-full rounded-lg focus:outline-[#CAEB66] ${errors.district ? "border-red-500" : "border-gray-200"}`}
+                    disabled={!riderSelectedRegion}
+                  >
+                    <option value="">Select your District</option>
+                    {getDistricts(riderSelectedRegion).map((district, i) => (
+                      <option value={district} key={i}>
+                        {district}
+                      </option>
+                    ))}
                   </select>
+                  <ErrorMsg errors={errors} name="district" />
                 </div>
 
-                {/* NID */}
+                {/* 5. Area */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      NID No
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Your Area
+                  </label>
+                  <select
+                    {...register("area", { required: "Select an area" })}
+                    className={`select select-bordered w-full rounded-lg focus:outline-[#CAEB66] ${errors.area ? "border-red-500" : "border-gray-200"}`}
+                    disabled={!riderSelectedDistrict}
+                  >
+                    <option value="">Select your Area</option>
+                    {getAreas(riderSelectedDistrict).map((area, i) => (
+                      <option value={area} key={i}>
+                        {area}
+                      </option>
+                    ))}
+                  </select>
+                  <ErrorMsg errors={errors} name="area" />
+                </div>
+
+                {/* 6. NID */}
+                <div className="form-control">
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    NID No
                   </label>
                   <input
+                    {...register("nid", { required: "NID is required" })}
                     type="text"
-                    placeholder="NID"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="123456789"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.nid ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="nid" />
                 </div>
 
-                {/* Phone */}
+                {/* 7. Phone */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Phone Number
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Phone Number
                   </label>
                   <input
+                    {...register("phone", { required: "Phone is required" })}
                     type="tel"
-                    placeholder="Phone Number"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="017XXXXXXXX"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.phone ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="phone" />
                 </div>
 
-                {/* Vehicles Type */}
+                {/* 8. Vehicle Type */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px]">
-                      Vehicles Type
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Vehicle Type
                   </label>
-                  <select className="select select-bordered w-full rounded-md border-gray-300 focus:outline-[#CAEB66] focus:outline-2 focus:outline-offset-1 transition-all">
-                    <option disabled selected>
-                      Select your Vehicle
-                    </option>
-                    <option>Bike</option>
-                    <option>Cycle</option>
+                  <select
+                    {...register("vehicle", {
+                      required: "Select vehicle type",
+                    })}
+                    className={`select select-bordered w-full rounded-lg focus:outline-[#CAEB66] ${errors.vehicle ? "border-red-500" : "border-gray-200"}`}
+                  >
+                    <option value="">Select your Vehicle</option>
+                    <option value="Bike">Bike</option>
+                    <option value="Cycle">Cycle</option>
                   </select>
+                  <ErrorMsg errors={errors} name="vehicle" />
                 </div>
 
-                {/* Driving License */}
+                {/* 9. License Number */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Driving License Number
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Driving License Number
                   </label>
                   <input
+                    {...register("license", {
+                      required: "License number is required",
+                    })}
                     type="text"
-                    placeholder="Driving License Number"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="License Number"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.license ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="license" />
                 </div>
 
-                {/* Bike Model */}
+                {/* 10. Bike Model */}
                 <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Bike Brand Model and Year
-                    </span>
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Bike Brand Model and Year
                   </label>
                   <input
+                    {...register("bikeModel", {
+                      required: "Model information is required",
+                    })}
                     type="text"
-                    placeholder="Bike Brand Model and Year"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="e.g., Yamaha FZ 2023"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.bikeModel ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="bikeModel" />
                 </div>
 
-                {/* Bike Registration */}
-                <div className="form-control">
-                  <label className="label mb-1">
-                    <span className="label-text font-semibold text-[#002B36] text-[15px] mb-1]">
-                      Bike Registration Number
-                    </span>
+                {/* 11. Bike Registration Number */}
+                <div className="form-control sm:col-span-2">
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Bike Registration Number
                   </label>
                   <input
+                    {...register("bikeRegistration", {
+                      required: "Registration number is required",
+                    })}
                     type="text"
-                    placeholder="Bike Registration Number"
-                    className="w-full bg-white border border-gray-200 rounded-lg py-3 px-4 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 focus:border-[#CAEB66] transition-all"
+                    placeholder="DHAKA METRO-LA-11-2222"
+                    className={`w-full bg-white border rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all ${errors.bikeRegistration ? "border-red-500" : "border-gray-200"}`}
                   />
+                  <ErrorMsg errors={errors} name="bikeRegistration" />
+                </div>
+
+                <div className="form-control sm:col-span-2">
+                  <label className="label font-semibold text-[#002B36] text-[15px] mb-1">
+                    Your Current Location
+                  </label>
+                  <button
+                    type="button"
+                    onClick={handleLocationCapture}
+                    disabled={loading}
+                    className={`w-full flex items-center justify-center gap-2 border-2 rounded-lg py-3 px-4 font-bold transition-all cursor-pointer
+            ${
+              locationStatus.includes("Captured")
+                ? "bg-[#CAEB66]/20 border-[#CAEB66] text-[#002B36]"
+                : "border-[#002B36] text-[#002B36] hover:bg-[#002B36] hover:text-white"
+            }`}
+                  >
+                    {loading ? (
+                      <>
+                        <span className="loading loading-spinner loading-sm"></span>
+                        Capturing...
+                      </>
+                    ) : (
+                      locationStatus
+                    )}
+                  </button>
+
+                  {/* Hidden inputs to store the data for form submission */}
+                  <input
+                    type="hidden"
+                    {...register("latitude", {
+                      required: "Location is required",
+                    })}
+                  />
+                  <input
+                    type="hidden"
+                    {...register("longitude", {
+                      required: "Location is required",
+                    })}
+                  />
+                  <ErrorMsg errors={errors} name="latitude" />
                 </div>
               </div>
 
-              {/* Submit Button */}
-              <button className="btn btn-block bg-[#D1E066] hover:bg-[#C1D056] text-[#002B36] font-bold border-none rounded-md">
-                Submit
+              <button
+                type="submit"
+                className="btn btn-block bg-[#D1E066] hover:bg-[#C1D056] text-[#002B36] font-bold border-none rounded-lg h-14 mt-4 cursor-pointer"
+              >
+                Submit Registration
               </button>
             </form>
           </div>
 
-          {/* Right Side - Image Section */}
-          <div className="flex justify-center md:justify-end md:sticky md:top-10">
+          <div className="hidden md:flex justify-center md:sticky md:top-10">
             <img
               src={riderImage}
-              alt="TradeCen Rider Illustration"
-              className="w-full max-w-lg md:max-w-xl h-auto object-contain"
+              alt="Rider Illustration"
+              className="w-full max-w-lg object-contain"
             />
           </div>
         </div>

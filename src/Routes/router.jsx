@@ -47,6 +47,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "be-rider",
+        loader: () => fetch("warehouses.json").then((res) => res.json()),
         Component: RiderRegistration,
       },
     ],
