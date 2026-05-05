@@ -13,6 +13,7 @@ import ForgetPassword from "../Pages/ForgetPassword/ForgetPassword";
 import OTPVerify from "../Pages/ForgetPassword/OTPVerify";
 import ResetPassword from "../Pages/ForgetPassword/ResetPassword";
 import RoleSelection from "../Pages/RoleSelection/RoleSelection";
+import RiderRegistration from "../Pages/RiderRegistration/RiderRegistration";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "role-onboarding",
         Component: RoleSelection,
+      },
+      {
+        path: "be-rider",
+        Component: RiderRegistration,
       },
     ],
   },

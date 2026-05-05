@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FiTruck, FiShoppingBag, FiArrowRight } from "react-icons/fi";
 
 const RoleSelection = () => {
@@ -8,7 +8,7 @@ const RoleSelection = () => {
 
   const roles = [
     {
-      id: "rider",
+      id: "/be-rider",
       title: "Be a Rider",
       description:
         "Deliver packages, earn on your schedule, and explore the city.",
@@ -16,7 +16,7 @@ const RoleSelection = () => {
       color: "#CAEB66",
     },
     {
-      id: "merchant",
+      id: "/be-merchant",
       title: "Be a Merchant",
       description:
         "Grow your business, reach more customers, and manage orders easily.",
@@ -24,11 +24,6 @@ const RoleSelection = () => {
       color: "#CAEB66",
     },
   ];
-
-  const handleRoleSelect = (roleId) => {
-    // You can save this to local state or navigate to a specific signup form
-    navigate(`/auth/signup/${roleId}`);
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
@@ -47,14 +42,14 @@ const RoleSelection = () => {
         {/* ROLE CARDS */}
         <div className="grid md:grid-cols-2 gap-8">
           {roles.map((role) => (
-            <div
+            <Link
+              to={role.id}
               key={role.id}
               onMouseEnter={() => setHovered(role.id)}
               onMouseLeave={() => setHovered(null)}
-              onClick={() => handleRoleSelect(role.id)}
               className={`relative bg-white p-8 rounded-3xl border-2 transition-all duration-300 cursor-pointer overflow-hidden group shadow-sm ${
                 hovered === role.id
-                  ? "border-[#CAEB66] shadow-xl translate-y-[-8px]"
+                  ? "border-[#CAEB66] shadow-xl translate-y-[-5px]"
                   : "border-gray-100"
               }`}
             >
@@ -90,7 +85,7 @@ const RoleSelection = () => {
                   Get Started <FiArrowRight />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
