@@ -12,6 +12,7 @@ import SignUp from "../Pages/SignUp/SignUp";
 import ForgetPassword from "../Pages/ForgetPassword/ForgetPassword";
 import OTPVerify from "../Pages/ForgetPassword/OTPVerify";
 import ResetPassword from "../Pages/ForgetPassword/ResetPassword";
+import RoleSelection from "../Pages/RoleSelection/RoleSelection";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "contact",
         Component: ContactPage,
+      },
+      {
+        path: "role-onboarding",
+        Component: RoleSelection,
       },
     ],
   },

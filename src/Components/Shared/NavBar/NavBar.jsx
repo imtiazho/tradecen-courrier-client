@@ -3,9 +3,10 @@ import { FaTruckFast } from "react-icons/fa6";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
+import { BsBuildingFillAdd } from "react-icons/bs";
 
 const NavBar = () => {
-  const { user, handleLogOut } = useAuth();
+  const { user, dbUser, handleLogOut } = useAuth();
 
   const list = (
     <>
@@ -82,6 +83,7 @@ const NavBar = () => {
     }
   };
 
+  console.log(dbUser);
   return (
     <div className="navbar bg-base-100 py-3.75 px-6.25 rounded-[15px]">
       <div className="navbar-start">
@@ -158,38 +160,13 @@ const NavBar = () => {
                 <p className="text-base font-black text-[#0D2E2E] truncate w-full text-center">
                   {user?.displayName || "User Name"}
                 </p>
-                <p className="text-[10px] text-gray-400 truncate w-full text-center">
-                  {user?.email}
+                <p className="text-[10px] text-white truncate text-center uppercase bg-gray-900 py-1 px-2 rounded">
+                  {dbUser?.role}
                 </p>
               </div>
 
               {/* Menu Items */}
               <div className="space-y-1">
-                <li>
-                  <Link
-                    to="/dashboard"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#CAEB66] hover:text-black transition-all duration-300 group"
-                  >
-                    <span className="p-2 bg-gray-50 rounded-md group-hover:bg-white/50">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                        />
-                      </svg>
-                    </span>
-                    <span className="font-bold">Dashboard</span>
-                  </Link>
-                </li>
-
                 <li>
                   <Link
                     to="/profile"
@@ -214,6 +191,45 @@ const NavBar = () => {
                     <span className="font-bold">My Profile</span>
                   </Link>
                 </li>
+
+                {dbUser.role === "user" ? (
+                  <li>
+                    <Link
+                      to="/role-onboarding"
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#CAEB66] hover:text-black transition-all duration-300 group"
+                    >
+                      <span className="p-2 bg-gray-50 rounded-md group-hover:bg-white/50">
+                        <BsBuildingFillAdd />
+                      </span>
+                      <span className="font-bold">Join with Us</span>
+                    </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link
+                      to="/dashboard"
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#CAEB66] hover:text-black transition-all duration-300 group"
+                    >
+                      <span className="p-2 bg-gray-50 rounded-md group-hover:bg-white/50">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                          />
+                        </svg>
+                      </span>
+                      <span className="font-bold">Dashboard</span>
+                    </Link>
+                  </li>
+                )}
 
                 <div className="divider my-1 opacity-50"></div>
 

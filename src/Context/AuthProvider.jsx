@@ -12,11 +12,13 @@ import {
 } from "firebase/auth";
 import { useEffect } from "react";
 import { AuthContext } from "./AuthContext";
+import axios from "axios";
 
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
+  const [dbUser, setDbUser] = useState({});
   const [loading, setLoading] = useState(null);
 
   const createUser = (email, password) => {
@@ -45,8 +47,23 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+
+      setLoading(true);
+      if (currentUser?.email) {
+        try {
+          const res = await axios.get(
+            `http://localhost:5000/user/${currentUser.email}`,
+          );
+          setDbUser(res.data);
+        } catch (error) {
+          setDbUser(null);
+        }
+      } else {
+        setDbUser(null);
+      }
+
       setLoading(false);
     });
 
@@ -57,6 +74,7 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
+    dbUser,
     loading,
     setLoading,
     createUser,

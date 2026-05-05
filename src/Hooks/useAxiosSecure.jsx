@@ -8,6 +8,7 @@ const axiosSecure = axios.create({
 
 const useAxiosSecure = () => {
   const { user, handleLogOut } = useAuth();
+  
   useEffect(() => {
     const reqInterceptor = axiosSecure.interceptors.request.use((config) => {
       if (user && user.accessToken) {
