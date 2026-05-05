@@ -83,7 +83,6 @@ const NavBar = () => {
     }
   };
 
-  console.log(dbUser);
   return (
     <div className="navbar bg-base-100 py-3.75 px-6.25 rounded-[15px]">
       <div className="navbar-start">
@@ -192,7 +191,7 @@ const NavBar = () => {
                   </Link>
                 </li>
 
-                {dbUser.role === "user" ? (
+                {dbUser?.role === "user" ? (
                   <li>
                     <Link
                       to="/role-onboarding"
