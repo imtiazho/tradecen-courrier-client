@@ -18,6 +18,7 @@ import MerchantRegistration from "../Pages/MerchantRegistration/MerchantRegistra
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
+import VerifiedUserRoute from "./VerifiedUserRoute";
 
 export const router = createBrowserRouter([
   {
@@ -95,9 +96,9 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <PrivateRoute>
+      <VerifiedUserRoute>
         <Dashboard></Dashboard>
-      </PrivateRoute>
+      </VerifiedUserRoute>
     ),
     children: [{}],
   },

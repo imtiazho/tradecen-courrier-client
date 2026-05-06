@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   if (loading) {
-    return <LoadingModal></LoadingModal>
+    return <LoadingModal isLoading={true}></LoadingModal>;
   }
   if (user) {
     return children;

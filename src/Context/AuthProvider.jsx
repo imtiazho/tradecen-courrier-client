@@ -20,7 +20,7 @@ const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [dbUser, setDbUser] = useState({});
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -53,24 +53,25 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-
-      setLoading(true);
-      if (currentUser?.email) {
-        try {
-          const res = await axios.get(
-            `http://localhost:5000/user/${currentUser.email}`,
-          );
-          setDbUser(res.data);
-        } catch (error) {
-          setDbUser(null);
-          console.log("User not found in DB yet (normal for new signups)");
-        }
-      } else {
+      if (!currentUser) {
+        setUser(null);
         setDbUser(null);
+        setLoading(false);
+        return;
       }
 
-      setLoading(false);
+      setUser(currentUser);
+
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/user/${currentUser.email}`,
+        );
+        setDbUser(res.data);
+      } catch (error) {
+        setDbUser(null);
+      } finally {
+        setLoading(false);
+      }
     });
 
     return () => {
