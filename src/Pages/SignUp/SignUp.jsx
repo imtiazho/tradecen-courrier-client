@@ -11,8 +11,15 @@ import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const { googleSignIn, createUser, updateUser, setLoading, loading } =
-    useAuth();
+  const {
+    googleSignIn,
+    createUser,
+    updateUser,
+    setLoading,
+    loading,
+    verifyEmail,
+    setDbUser,
+  } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
@@ -46,23 +53,28 @@ const SignUp = () => {
       // Create User
       await createUser(data.email, data.password);
 
-      //
+      // Update User
       await updateUser({
         displayName: data.name,
         photoURL: photoURL,
       });
 
-      // Update Firebase Info
+      // Updated from Firebase
       const userInfo = {
         email: data.email,
         displayName: data.name,
         photoURL: photoURL,
+        isOnboarded: false,
+        role: "user",
+        createdAt: new Date(),
       };
+
+      await verifyEmail();
 
       // Send data to DB
       const dbRes = await axiosSecure.post("/users", userInfo);
-
       if (dbRes.data.insertedId) {
+        setDbUser(...userInfo);
         Swal.fire({
           title: "Success!",
           text: "Account created successfully",
@@ -104,17 +116,20 @@ const SignUp = () => {
   };
 
   const handleSocialLogin = (e) => {
-    e.preventDefault(); // অত্যন্ত গুরুত্বপূর্ণ: বাটন ক্লিক রিলোড আটকাবে
+    e.preventDefault();
     googleSignIn().then((res) => {
+      // Info from firebase
       const userInfo = {
         email: res.user.email,
         displayName: res.user.displayName,
         photoURL: res.user.photoURL,
+        isOnboarded: false,
+        role: "user",
+        createdAt: new Date(),
       };
-      console.log("Google User Info:", userInfo);
 
-      // Database POST logic here
       axiosSecure.post("/users", userInfo).then(() => {
+        setDbUser(...userInfo);
         navigate("/");
       });
     });

@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -46,6 +47,10 @@ const AuthProvider = ({ children }) => {
     return updateProfile(auth.currentUser, profile);
   };
 
+  const verifyEmail = () => {
+    return sendEmailVerification(auth.currentUser);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
@@ -59,6 +64,7 @@ const AuthProvider = ({ children }) => {
           setDbUser(res.data);
         } catch (error) {
           setDbUser(null);
+          console.log("User not found in DB yet (normal for new signups)");
         }
       } else {
         setDbUser(null);
@@ -75,6 +81,7 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     dbUser,
+    setDbUser,
     loading,
     setLoading,
     createUser,
@@ -82,6 +89,7 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     handleLogOut,
     updateUser,
+    verifyEmail,
   };
 
   return (

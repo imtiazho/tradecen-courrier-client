@@ -17,6 +17,7 @@ import RiderRegistration from "../Pages/RiderRegistration/RiderRegistration";
 import MerchantRegistration from "../Pages/MerchantRegistration/MerchantRegistration";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
+import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MerchantRegistration></MerchantRegistration>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "verify-email",
+        element: (
+          <PrivateRoute>
+            <VerifyEmail></VerifyEmail>
           </PrivateRoute>
         ),
       },
