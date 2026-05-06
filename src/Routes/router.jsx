@@ -49,27 +49,27 @@ export const router = createBrowserRouter([
       {
         path: "role-onboarding",
         element: (
-          <PrivateRoute>
+          <VerifiedUserRoute>
             <RoleSelection></RoleSelection>
-          </PrivateRoute>
+          </VerifiedUserRoute>
         ),
       },
       {
         path: "be-rider",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
         element: (
-          <PrivateRoute>
+          <VerifiedUserRoute>
             <RiderRegistration></RiderRegistration>
-          </PrivateRoute>
+          </VerifiedUserRoute>
         ),
       },
       {
         path: "be-merchant",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
         element: (
-          <PrivateRoute>
+          <VerifiedUserRoute>
             <MerchantRegistration></MerchantRegistration>
-          </PrivateRoute>
+          </VerifiedUserRoute>
         ),
       },
       {
