@@ -15,6 +15,8 @@ import ResetPassword from "../Pages/ForgetPassword/ResetPassword";
 import RoleSelection from "../Pages/RoleSelection/RoleSelection";
 import RiderRegistration from "../Pages/RiderRegistration/RiderRegistration";
 import MerchantRegistration from "../Pages/MerchantRegistration/MerchantRegistration";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -44,17 +46,29 @@ export const router = createBrowserRouter([
       },
       {
         path: "role-onboarding",
-        Component: RoleSelection,
+        element: (
+          <PrivateRoute>
+            <RoleSelection></RoleSelection>
+          </PrivateRoute>
+        ),
       },
       {
         path: "be-rider",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
-        Component: RiderRegistration,
+        element: (
+          <PrivateRoute>
+            <RiderRegistration></RiderRegistration>
+          </PrivateRoute>
+        ),
       },
       {
         path: "be-merchant",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
-        Component: MerchantRegistration,
+        element: (
+          <PrivateRoute>
+            <MerchantRegistration></MerchantRegistration>
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -68,6 +82,15 @@ export const router = createBrowserRouter([
       { path: "/auth/verify-OTP", Component: OTPVerify },
       { path: "/auth/reset-password", Component: ResetPassword },
     ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
+    children: [{}],
   },
   {
     path: "*",
