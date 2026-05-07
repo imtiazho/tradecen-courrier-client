@@ -19,6 +19,7 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
 import VerifiedUserRoute from "./VerifiedUserRoute";
+import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 
 export const router = createBrowserRouter([
   {
@@ -69,6 +70,14 @@ export const router = createBrowserRouter([
         element: (
           <VerifiedUserRoute>
             <MerchantRegistration></MerchantRegistration>
+          </VerifiedUserRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <VerifiedUserRoute>
+            <ProfilePage></ProfilePage>
           </VerifiedUserRoute>
         ),
       },
