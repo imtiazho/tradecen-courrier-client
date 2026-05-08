@@ -17,13 +17,14 @@ const PricingCalculator = () => {
       if (w <= 3) {
         cost = destination === "Within City" ? 110 : 150;
       } else {
-        // Logic: >3kg = Base price + 40 per extra kg
-        // Within City: 110 base + (w-3)*40
-        // Outside: 150 base + (w-3)*40 + 40 extra
-        const extraWeight = Math.ceil(w - 3);
         const basePrice = destination === "Within City" ? 110 : 150;
-        const extraCharge = destination === "Within City" ? 0 : 40;
-        cost = basePrice + extraWeight * 40 + extraCharge;
+        
+        const extraWeight = Math.ceil(w - 3);
+        const extraWeightCharge = extraWeight * 40;
+
+        const outsideExtraFixedCharge = destination === "Within City" ? 0 : 40;
+
+        cost = basePrice + extraWeightCharge + outsideExtraFixedCharge;
       }
     }
     setTotalCost(cost);
@@ -37,10 +38,10 @@ const PricingCalculator = () => {
   };
 
   return (
-    <section className="bg-[#F2F4F7] py-16 md:py-20 px-4 md:px-10 lg:px-20 font-sans">
-      <div className="max-w-7xl mx-auto bg-white rounded-[48px] p-8 md:p-16 lg:p-20 shadow-sm border border-[#E9ECEF]">
+    <section className="pt-10 pb-10 font-sans">
+      <div className="bg-white rounded-[30px] p-8 md:p-16 lg:p-20">
         {/* 1. Header Section */}
-        <div className="mb-10">
+        <div className="mb-6">
           <h2 className="text-[#02312A] text-4xl md:text-5xl font-extrabold mb-6">
             Pricing Calculator
           </h2>
@@ -64,13 +65,13 @@ const PricingCalculator = () => {
           <form onSubmit={calculateCost} className="space-y-6">
             {/* Parcel Type */}
             <div className="space-y-2">
-              <label className="text-sm font-bold text-[#02312A] ml-1">
+              <label className="block text-[13px] font-bold text-[#002B36] mb-1.5 ml-1">
                 Parcel type
               </label>
               <select
                 value={parcelType}
                 onChange={(e) => setParcelType(e.target.value)}
-                className="select select-bordered w-full rounded-xl bg-white border-[#E1E5EA] focus:outline-none focus:border-[#CAEB66]"
+                className="w-full border border-gray-200 p-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all text-sm bg-white"
                 required
               >
                 <option value="" disabled>
@@ -83,13 +84,13 @@ const PricingCalculator = () => {
 
             {/* Delivery Destination */}
             <div className="space-y-2">
-              <label className="text-sm font-bold text-[#02312A] ml-1">
+              <label className="block text-[13px] font-bold text-[#002B36] mb-1.5 ml-1">
                 Delivery Destination
               </label>
               <select
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                className="select select-bordered w-full rounded-xl bg-white border-[#E1E5EA] focus:outline-none focus:border-[#CAEB66]"
+                className="w-full border border-gray-200 p-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all text-sm bg-white"
                 required
               >
                 <option value="" disabled>
@@ -102,7 +103,7 @@ const PricingCalculator = () => {
 
             {/* Weight Input */}
             <div className="space-y-2">
-              <label className="text-sm font-bold text-[#02312A] ml-1">
+              <label className="block text-[13px] font-bold text-[#002B36] mb-1.5 ml-1">
                 Weight (KG)
               </label>
               <input
@@ -111,7 +112,7 @@ const PricingCalculator = () => {
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 placeholder="0.0"
-                className="input input-bordered w-full rounded-xl bg-white border-[#E1E5EA] focus:outline-none focus:border-[#CAEB66]"
+                className="w-full border border-gray-200 p-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all text-sm bg-white"
                 required={parcelType === "Non-Document"}
               />
             </div>
