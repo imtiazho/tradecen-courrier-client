@@ -22,6 +22,7 @@ import VerifiedUserRoute from "./VerifiedUserRoute";
 import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 import TrackParcels from "../Pages/TrackParcels/TrackParcels";
 import SendParcel from "../Pages/SendParcel/SendParcel";
+import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
 
 export const router = createBrowserRouter([
   {
@@ -121,10 +122,12 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <VerifiedUserRoute>
-        <Dashboard></Dashboard>
+        <DashboardLayout></DashboardLayout>
       </VerifiedUserRoute>
     ),
-    children: [{}],
+    children: [{
+      index: true, Component: Dashboard
+    }],
   },
   {
     path: "*",
