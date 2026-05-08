@@ -62,6 +62,16 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
+          to="/send-parcel"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Add Parcel
+        </NavLink>
+      </li>
+      {/* <li>
+        <NavLink
           to="/contact"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
@@ -69,7 +79,7 @@ const NavBar = () => {
         >
           Contact
         </NavLink>
-      </li>
+      </li> */}
     </>
   );
 

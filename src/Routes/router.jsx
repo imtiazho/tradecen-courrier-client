@@ -96,10 +96,12 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        // testing purpose
         path: "send-parcel",
+        loader: () => fetch("warehouses.json").then((res) => res.json()),
         element: (
+          <VerifiedUserRoute>
             <SendParcel></SendParcel>
+          </VerifiedUserRoute>
         ),
       },
     ],
