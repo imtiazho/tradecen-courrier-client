@@ -32,6 +32,16 @@ const NavBar = () => {
       </li>
       <li>
         <NavLink
+          to="/track-parcel"
+          className={({ isActive }) =>
+            isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
+          }
+        >
+          Track Order
+        </NavLink>
+      </li>
+      {/* <li>
+        <NavLink
           to="/about-us"
           className={({ isActive }) =>
             isActive ? "bg-[#CAEB66] text-black" : "bg-transparent"
@@ -39,7 +49,7 @@ const NavBar = () => {
         >
           About
         </NavLink>
-      </li>
+      </li> */}
       <li>
         <NavLink
           to="/pricing"

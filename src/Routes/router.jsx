@@ -20,6 +20,8 @@ import PrivateRoute from "./PrivateRoute";
 import VerifyEmail from "../Pages/VerifyEmail/VerifyEmail";
 import VerifiedUserRoute from "./VerifiedUserRoute";
 import ProfilePage from "../Pages/ProfilePage/ProfilePage";
+import TrackParcels from "../Pages/TrackParcels/TrackParcels";
+import SendParcel from "../Pages/SendParcel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: "contact",
         Component: ContactPage,
+      },
+      {
+        path: "track-parcel",
+        Component: TrackParcels,
       },
       {
         path: "role-onboarding",
@@ -87,6 +93,13 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <VerifyEmail></VerifyEmail>
           </PrivateRoute>
+        ),
+      },
+      {
+        // testing purpose
+        path: "send-parcel",
+        element: (
+            <SendParcel></SendParcel>
         ),
       },
     ],

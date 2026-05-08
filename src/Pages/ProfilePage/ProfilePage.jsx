@@ -13,8 +13,6 @@ const ProfilePage = () => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       displayName: dbUser?.displayName || "",
-      photoURL: dbUser?.photoURL || "",
-      // এখানে আরও ফিল্ড যোগ করতে পারেন যেমন phone বা bio
     },
   });
 
@@ -26,7 +24,7 @@ const ProfilePage = () => {
       );
 
       if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
-        // আপডেট হওয়ার পর সেন্ট্রাল স্টেট (dbUser) আপডেট করুন
+        
         setDbUser({ ...dbUser, ...data });
         setIsEditing(false);
         Swal.fire("Updated!", "Profile info has been updated.", "success");
