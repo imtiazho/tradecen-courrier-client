@@ -9,6 +9,7 @@ import {
   RiMore2Fill,
   RiTruckLine,
 } from "react-icons/ri";
+import { Link } from "react-router";
 import {
   AreaChart,
   Area,
@@ -35,7 +36,7 @@ const reports = [
     client: "Rasel Ahmed",
     date: "Jan 5, 2025",
     weight: "10 kg",
-    shipper: "DHL",
+    shipper: "TradeCen",
     price: "4500.00",
     status: "Delivered",
     color: "bg-green-100 text-green-600",
@@ -45,7 +46,7 @@ const reports = [
     client: "Rakib Hossain",
     date: "Jan 8, 2025",
     weight: "15 kg",
-    shipper: "Inpost",
+    shipper: "TradeCen",
     price: "9800.00",
     status: "Delivered",
     color: "bg-green-100 text-green-600",
@@ -55,7 +56,7 @@ const reports = [
     client: "Rakib",
     date: "12 Feb, 2025",
     weight: "5 kg",
-    shipper: "Pathao",
+    shipper: "TradeCen",
     price: "2000.00",
     status: "Transit",
     color: "bg-blue-100 text-blue-600",
@@ -65,7 +66,7 @@ const reports = [
     client: "Abu Sufian",
     date: "05 Jan, 2025",
     weight: "7 kg",
-    shipper: "Steadfast",
+    shipper: "TradeCen",
     price: "2700.00",
     status: "Waiting",
     color: "bg-red-100 text-red-600",
@@ -75,7 +76,7 @@ const reports = [
     client: "Rasel Ahmed",
     date: "Jan 5, 2025",
     weight: "15 kg",
-    shipper: "UPS",
+    shipper: "TradeCen",
     price: "1500.00",
     status: "Transit",
     color: "bg-blue-100 text-blue-600",
@@ -85,7 +86,7 @@ const reports = [
     client: "Jhankar Mahbub",
     date: "22 Dec, 2024",
     weight: "10 kg",
-    shipper: "DHL",
+    shipper: "TradeCen",
     price: "8500.00",
     status: "Pending",
     color: "bg-orange-100 text-orange-600",
@@ -143,22 +144,24 @@ const MerchantState = () => {
     { label: "Ready to Deliver", value: "50", color: "text-orange-400" },
     { label: "Delivered", value: "50", color: "text-green-500" },
   ];
-
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-[#002B36]">
+          <h2 className="text-2xl font-black text-[#002B36] tracking-[.6px]">
             Dashboard Overview
           </h2>
           <p className="text-sm text-gray-600 ">
             You can access all your data and information from anywhere.
           </p>
         </div>
-        <button className="bg-[#CAEB66] hover:bg-[#b8d65a] text-[#002B36] font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all cursor-pointer">
+        <Link
+          to="/send-parcel"
+          className="bg-[#CAEB66] hover:bg-[#b8d65a] text-[#002B36] font-bold px-6 py-3 rounded-[10px] flex items-center gap-2 transition-all cursor-pointer"
+        >
           <RiAddLine size={20} /> Add Parcel
-        </button>
+        </Link>
       </div>
 
       {/* --- Stats Cards --- */}
@@ -166,7 +169,7 @@ const MerchantState = () => {
         {stats.map((stat, idx) => (
           <div
             key={idx}
-            className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] flex items-center gap-4 hover:translate-y-[-2px] transition-transform"
+            className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] flex items-center gap-4  transition-transform duration-300 hover:border-[#CAEB66]"
           >
             <div
               className={`w-12 h-12 rounded-2xl bg-[#F8F9FA] flex items-center justify-center ${stat.color}`}
@@ -174,7 +177,7 @@ const MerchantState = () => {
               <RiTruckLine size={24} />
             </div>
             <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.4px]">
                 {stat.label}
               </p>
               <h4 className="text-xl font-black text-[#002B36]">
@@ -400,7 +403,7 @@ const MerchantState = () => {
         <div className="overflow-x-auto border border-gray-100 p-2 rounded-[20px]">
           <table className="w-full border-separate border-spacing-y-3">
             <thead>
-              <tr className="text-[#ADB5BD] text-left">
+              <tr className="text-[#2d2d2d] text-left">
                 <th className="pb-4 pl-4 font-bold text-[11px] uppercase tracking-wider">
                   ID
                 </th>
@@ -451,7 +454,7 @@ const MerchantState = () => {
                   </td>
                   <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100">
                     <span
-                      className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-tight ${item.color}`}
+                      className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${item.color}`}
                     >
                       {item.status}
                     </span>
@@ -497,9 +500,9 @@ const MerchantState = () => {
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-bold text-[#002B36] text-lg">Late Invoices</h3>
+            <h3 className="font-bold text-[#002B36] text-lg tracking-wide">Late Invoices</h3>
             <div className="flex items-center gap-2">
-              <button className="bg-[#CAEB66] text-[#002B36] px-5 py-2.5 rounded-full text-xs font-bold hover:shadow-md transition-all">
+              <button className="bg-[#CAEB66] text-[#002B36] px-5 py-2.5 rounded-full text-xs font-bold transition-all">
                 View All Invoices
               </button>
               <button className="p-3 rounded-[25px] hover:text-[#002B36] transition-colors border border-gray-300">
@@ -550,7 +553,7 @@ const MerchantState = () => {
 
         <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-bold text-[#002B36] text-lg">
+            <h3 className="font-bold text-[#002B36] text-lg tracking-wide">
               Shipment Alerts
             </h3>
             <button className="bg-[#CAEB66] text-[#002B36] px-5 py-2.5 rounded-full text-xs font-bold">

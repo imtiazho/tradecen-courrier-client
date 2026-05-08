@@ -18,8 +18,22 @@ import {
   RiStore2Line,
   RiTruckLine,
 } from "react-icons/ri";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const DashboardLayout = () => {
+  const { dbUser, loading: authLoading, setLoading } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const { data: merchant = {}, isLoading: merchantLoading } = useQuery({
+    queryKey: ["merchant", dbUser?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/merchant/${dbUser?.email}`);
+      return res.data;
+    },
+    enabled: !!dbUser?.email && !authLoading,
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const menuItems = [
@@ -137,7 +151,7 @@ const DashboardLayout = () => {
       </aside>
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8 sticky top-0 z-10 shadow-sm">
+        <header className="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8 sticky top-0 z-10">
           {/* Left Side: Sidebar Toggle Button */}
           <div>
             <button
@@ -165,14 +179,14 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-3 pl-2">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-black text-[#002B36]">
-                  Zahid Hossain
+                  {merchant.displayName}
                 </p>
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
-                  Admin Account
+                  {merchant.role} Account
                 </p>
               </div>
-              <div className="w-11 h-11 bg-[#CAEB66] rounded-2xl flex items-center justify-center font-black text-[#002B36] shadow-sm border-2 border-white cursor-pointer hover:scale-105 transition-transform">
-                ZH
+              <div className="w-11 h-11 overflow-hidden bg-[#CAEB66] rounded-2xl flex items-center justify-center font-black text-[#002B36] shadow-sm border-2 border-white cursor-pointer hover:scale-105 transition-transform">
+                <img src={merchant?.photoURL} alt="" />
               </div>
             </div>
           </div>

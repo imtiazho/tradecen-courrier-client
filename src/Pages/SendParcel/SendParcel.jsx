@@ -185,8 +185,8 @@ const SendParcel = () => {
   const labelStyle = "block text-[13px] font-bold text-[#002B36] mb-1.5 ml-1";
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4">
-      <div className="max-w-6xl mx-auto bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
+    <div className="min-h-screen pt-8 pb-12">
+      <div className="bg-white rounded-[25px] border border-gray-100 overflow-hidden">
         {/* Header Section */}
         <div className="p-10 border-b border-gray-50 flex justify-between items-end">
           <div>
