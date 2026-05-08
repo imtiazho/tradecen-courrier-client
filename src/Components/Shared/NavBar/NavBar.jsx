@@ -151,7 +151,7 @@ const NavBar = () => {
             >
               <div className="w-14 rounded-full shadow-inner">
                 <img
-                  src={user?.photoURL || "https://i.ibb.co/mR79Y6B/user.png"}
+                  src={user?.photoURL || dbUser?.photoURL}
                   className="object-cover w-full h-full"
                   alt="User Profile"
                 />
