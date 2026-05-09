@@ -129,7 +129,7 @@ const alerts = [
   },
 ];
 
-const MerchantState = () => {
+const MerchantState = ({ stats }) => {
   const [isOpenGraph, setIsOpenGraph] = useState(false);
   const [isOpenShipping, setIsOpenShipping] = useState(false);
   const [selectedGraphMonth, setSelectedGraphMonth] = useState("This Month");
@@ -137,13 +137,22 @@ const MerchantState = () => {
 
   const options = ["This Month", "Last Month"];
 
-  const stats = [
-    { label: "To Pay", value: "129", color: "text-gray-400" },
-    { label: "Ready Pick UP", value: "1,325", color: "text-[#CAEB66]" },
-    { label: "In Transit", value: "50", color: "text-blue-400" },
-    { label: "Ready to Deliver", value: "50", color: "text-orange-400" },
-    { label: "Delivered", value: "50", color: "text-green-500" },
+  const statistic = [
+    { label: "To Pay", value: stats.toPay, color: "text-gray-400" },
+    {
+      label: "Ready Pick UP",
+      value: stats.readyPickUp,
+      color: "text-[#CAEB66]",
+    },
+    { label: "In Transit", value: stats.inTransit, color: "text-blue-400" },
+    {
+      label: "Ready to Deliver",
+      value: stats.readyDeliver,
+      color: "text-orange-400",
+    },
+    { label: "Delivered", value: stats.delivered, color: "text-green-500" },
   ];
+  
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -166,7 +175,7 @@ const MerchantState = () => {
 
       {/* --- Stats Cards --- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {stats.map((stat, idx) => (
+        {statistic.map((stat, idx) => (
           <div
             key={idx}
             className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] flex items-center gap-4  transition-transform duration-300 hover:border-[#CAEB66]"
@@ -500,7 +509,9 @@ const MerchantState = () => {
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-bold text-[#002B36] text-lg tracking-wide">Late Invoices</h3>
+            <h3 className="font-bold text-[#002B36] text-lg tracking-wide">
+              Late Invoices
+            </h3>
             <div className="flex items-center gap-2">
               <button className="bg-[#CAEB66] text-[#002B36] px-5 py-2.5 rounded-full text-xs font-bold transition-all">
                 View All Invoices
