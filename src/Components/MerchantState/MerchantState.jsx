@@ -129,11 +129,19 @@ const alerts = [
   },
 ];
 
-const MerchantState = ({ stats, chartData, setTimeFrame }) => {
+const MerchantState = ({
+  stats,
+  chartData,
+  setTimeFrame,
+  setWeekFrame,
+  totalPages,
+  currentPage,
+  setCurrentPage
+}) => {
   const [isOpenGraph, setIsOpenGraph] = useState(false);
   const [isOpenShipping, setIsOpenShipping] = useState(false);
   const [selectedGraphMonth, setSelectedGraphMonth] = useState("this-week");
-  const [selectedShipping, setSelectedShipping] = useState("This Month");
+  const [selectedShipping, setSelectedShipping] = useState("this-week");
 
   const options = ["this-week", "last-week", "last-month"];
 
@@ -212,7 +220,7 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
                 <div className="flex items-center gap-2">
                   <RiCalendarLine className="text-gray-400" size={16} />
                   <span className="text-xs font-bold text-[#002B36] capitalize">
-                    {selectedGraphMonth}
+                    {selectedGraphMonth.split("-").join(" ")}
                   </span>
                 </div>
                 <span
@@ -231,7 +239,7 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
                       onClick={() => {
                         setSelectedGraphMonth(option);
                         setIsOpenGraph(false);
-                        setTimeFrame(option)
+                        setTimeFrame(option);
                       }}
                       className={`px-4 py-2 text-xs font-bold transition-colors cursor-pointer capitalize
                 ${
@@ -240,7 +248,7 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
                     : "text-gray-500 hover:bg-[#F8F9FA] hover:text-[#002B36]"
                 }`}
                     >
-                      {option}
+                      {option.split("-").join(" ")}
                     </div>
                   ))}
                 </div>
@@ -359,8 +367,8 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
               >
                 <div className="flex items-center gap-2">
                   <RiCalendarLine className="text-gray-400" size={16} />
-                  <span className="text-xs font-bold text-[#002B36]">
-                    {selectedShipping}
+                  <span className="text-xs font-bold text-[#002B36] capitalize">
+                    {selectedShipping.split("-").join(" ")}
                   </span>
                 </div>
                 <span
@@ -372,13 +380,14 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
 
               {/* Dropdown Menu */}
               {isOpenShipping && (
-                <div className="absolute top-[110%] left-0 w-full bg-white border border-gray-50 rounded-xl shadow-2xl py-2 z-50 overflow-hidden animate-in fade-in zoom-in duration-200">
+                <div className="absolute top-[110%] left-0 w-full bg-white border border-gray-50 rounded-xl shadow-2xl py-2 z-50 overflow-hidden animate-in fade-in zoom-in duration-200 capitalize">
                   {options.map((option) => (
                     <div
                       key={option}
                       onClick={() => {
                         setSelectedShipping(option);
                         setIsOpenShipping(false);
+                        setWeekFrame(option);
                       }}
                       className={`px-4 py-2 text-xs font-bold transition-colors cursor-pointer
                 ${
@@ -387,7 +396,7 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
                     : "text-gray-500 hover:bg-[#F8F9FA] hover:text-[#002B36]"
                 }`}
                     >
-                      {option}
+                      {option.split("-").join(" ")}
                     </div>
                   ))}
                 </div>
@@ -492,12 +501,13 @@ const MerchantState = ({ stats, chartData, setTimeFrame }) => {
             ← Previous
           </button>
           <div className="flex gap-2">
-            {[1, 2, 3, "..", 8, 9, 10].map((n, i) => (
+            {[...Array(totalPages).keys()].map((n, i) => (
               <button
                 key={i}
+                onClick={() => setCurrentPage(n)}
                 className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${n === 1 ? "bg-[#CAEB66] text-[#002B36]" : "text-gray-400 hover:bg-gray-50"}`}
               >
-                {n}
+                {n + 1}
               </button>
             ))}
           </div>
