@@ -21,13 +21,13 @@ import {
 } from "recharts";
 
 const data = [
-  { name: "Mon", value: 11000 },
-  { name: "Tue", value: 16000 },
-  { name: "Wed", value: 7500 },
-  { name: "Thu", value: 13000 },
-  { name: "Fri", value: 15500 },
-  { name: "Sat", value: 20000 },
-  { name: "Sun", value: 9000 },
+  { name: "Mon", value: 110 },
+  { name: "Tue", value: 160 },
+  { name: "Wed", value: 75 },
+  { name: "Thu", value: 130 },
+  { name: "Fri", value: 155 },
+  { name: "Sat", value: 200 },
+  { name: "Sun", value: 90 },
 ];
 
 const reports = [
@@ -129,13 +129,13 @@ const alerts = [
   },
 ];
 
-const MerchantState = ({ stats }) => {
+const MerchantState = ({ stats, chartData, setTimeFrame }) => {
   const [isOpenGraph, setIsOpenGraph] = useState(false);
   const [isOpenShipping, setIsOpenShipping] = useState(false);
-  const [selectedGraphMonth, setSelectedGraphMonth] = useState("This Month");
+  const [selectedGraphMonth, setSelectedGraphMonth] = useState("this-week");
   const [selectedShipping, setSelectedShipping] = useState("This Month");
 
-  const options = ["This Month", "Last Month"];
+  const options = ["this-week", "last-week", "last-month"];
 
   const statistic = [
     { label: "To Pay", value: stats.toPay, color: "text-gray-400" },
@@ -152,7 +152,7 @@ const MerchantState = ({ stats }) => {
     },
     { label: "Delivered", value: stats.delivered, color: "text-green-500" },
   ];
-  
+
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -211,7 +211,7 @@ const MerchantState = ({ stats }) => {
               >
                 <div className="flex items-center gap-2">
                   <RiCalendarLine className="text-gray-400" size={16} />
-                  <span className="text-xs font-bold text-[#002B36]">
+                  <span className="text-xs font-bold text-[#002B36] capitalize">
                     {selectedGraphMonth}
                   </span>
                 </div>
@@ -231,8 +231,9 @@ const MerchantState = ({ stats }) => {
                       onClick={() => {
                         setSelectedGraphMonth(option);
                         setIsOpenGraph(false);
+                        setTimeFrame(option)
                       }}
-                      className={`px-4 py-2 text-xs font-bold transition-colors cursor-pointer
+                      className={`px-4 py-2 text-xs font-bold transition-colors cursor-pointer capitalize
                 ${
                   selectedGraphMonth === option
                     ? "bg-[#CAEB66] text-[#002B36]"
@@ -261,86 +262,87 @@ const MerchantState = ({ stats }) => {
 
         {/* Recharts Area Chart */}
         <div className="h-[370px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              data={data}
-              margin={{ top: 10, right: 10, left: -15, bottom: 30 }}
-            >
-              <defs>
-                <linearGradient id="zapGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#CAEB66" stopOpacity={0.5} />
-                  <stop offset="95%" stopColor="#CAEB66" stopOpacity={0} />
-                </linearGradient>
-              </defs>
+          {chartData.length > 0 ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={chartData}
+                margin={{ top: 10, right: 10, left: -15, bottom: 30 }}
+              >
+                <defs>
+                  <linearGradient id="zapGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#CAEB66" stopOpacity={0.5} />
+                    <stop offset="95%" stopColor="#CAEB66" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
 
-              {/* Horizontal & Vertical Dotted Lines (Accuracy matched to image) */}
-              <CartesianGrid
-                strokeDasharray="4 4"
-                vertical={true}
-                horizontal={true}
-                stroke="#E9ECEF"
-              />
+                {/* Horizontal & Vertical Dotted Lines (Accuracy matched to image) */}
+                <CartesianGrid
+                  strokeDasharray="4 4"
+                  vertical={true}
+                  horizontal={true}
+                  stroke="#E9ECEF"
+                />
 
-              <XAxis
-                dataKey="name"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#ADB5BD", fontSize: 12, fontWeight: 600 }}
-                dy={15}
-              />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#ADB5BD", fontSize: 12, fontWeight: 600 }}
+                  dy={15}
+                  interval="preserveStartEnd"
+                  minTickGap={30}
+                />
 
-              <YAxis
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#ADB5BD", fontSize: 12, fontWeight: 600 }}
-                tickFormatter={(value) => `$${value / 1000}k`}
-                domain={[0, 25000]}
-                ticks={[1000, 5000, 10000, 15000, 20000, 25000]}
-              />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: "#ADB5BD", fontSize: 12, fontWeight: 600 }}
+                  tickFormatter={(value) => `৳${value}`}
+                />
 
-              <Tooltip
-                cursor={{
-                  stroke: "#CAEB66",
-                  strokeWidth: 2,
-                  strokeDasharray: "5 5",
-                }}
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <div className="bg-white p-3 shadow-[0px_10px_30px_rgba(0,0,0,0.1)] rounded-xl border border-gray-50 animate-in fade-in zoom-in duration-200">
-                        <p className="text-[10px] font-bold text-gray-400 mb-1">
-                          Sun, Jul 13, 2025
-                        </p>
-                        <p className="text-sm font-black text-[#002B36] flex items-center gap-2">
-                          <span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
-                          ${payload[0].value.toLocaleString()}.00
-                        </p>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-white p-3 shadow-lg rounded-xl border border-gray-50">
+                          <p className="text-[10px] font-bold text-gray-400 mb-1">
+                            {payload[0].payload.name}
+                          </p>
+                          <p className="text-sm font-black text-[#002B36] flex items-center gap-2">
+                            <span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
+                            ৳{payload[0].value.toLocaleString()}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
 
-              <Area
-                type="monotone"
-                dataKey="value"
-                stroke="#CAEB66"
-                strokeWidth={4}
-                fillOpacity={1}
-                fill="url(#zapGradient)"
-                animationDuration={1500}
-                dot={false}
-                activeDot={{
-                  r: 6,
-                  fill: "#CAEB66",
-                  stroke: "white",
-                  strokeWidth: 3,
-                  boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-                }}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+                <Area
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#CAEB66"
+                  strokeWidth={4}
+                  fillOpacity={1}
+                  fill="url(#zapGradient)"
+                  animationDuration={1500}
+                  dot={false}
+                  activeDot={{
+                    r: 6,
+                    fill: "#CAEB66",
+                    stroke: "white",
+                    strokeWidth: 3,
+                    boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+                  }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center text-gray-400">
+              No revenue data available for this week.
+            </div>
+          )}
         </div>
       </div>
 
