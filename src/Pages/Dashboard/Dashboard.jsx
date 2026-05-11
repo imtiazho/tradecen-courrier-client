@@ -52,7 +52,6 @@ const Dashboard = () => {
     enabled: !!user?.email,
   });
 
-  console.log(limit * currentPage, "P = ", currentPage, totalPages);
 
   if (roleLoading)
     return (

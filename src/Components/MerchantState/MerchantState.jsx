@@ -29,69 +29,14 @@ const data = [
   { name: "Sat", value: 200 },
   { name: "Sun", value: 90 },
 ];
-
-const reports = [
-  {
-    id: "#RQ21534",
-    client: "Rasel Ahmed",
-    date: "Jan 5, 2025",
-    weight: "10 kg",
-    shipper: "TradeCen",
-    price: "4500.00",
-    status: "Delivered",
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    id: "#RQ21534",
-    client: "Rakib Hossain",
-    date: "Jan 8, 2025",
-    weight: "15 kg",
-    shipper: "TradeCen",
-    price: "9800.00",
-    status: "Delivered",
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    id: "#RQ21534",
-    client: "Rakib",
-    date: "12 Feb, 2025",
-    weight: "5 kg",
-    shipper: "TradeCen",
-    price: "2000.00",
-    status: "Transit",
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    id: "#RQ21534",
-    client: "Abu Sufian",
-    date: "05 Jan, 2025",
-    weight: "7 kg",
-    shipper: "TradeCen",
-    price: "2700.00",
-    status: "Waiting",
-    color: "bg-red-100 text-red-600",
-  },
-  {
-    id: "#RQ21534",
-    client: "Rasel Ahmed",
-    date: "Jan 5, 2025",
-    weight: "15 kg",
-    shipper: "TradeCen",
-    price: "1500.00",
-    status: "Transit",
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    id: "#RQ21534",
-    client: "Jhankar Mahbub",
-    date: "22 Dec, 2024",
-    weight: "10 kg",
-    shipper: "TradeCen",
-    price: "8500.00",
-    status: "Pending",
-    color: "bg-orange-100 text-orange-600",
-  },
-];
+// status: "Delivered",
+// color: "bg-green-100 text-green-600",
+// status: "Transit",
+// color: "bg-blue-100 text-blue-600",
+// status: "Waiting",
+// color: "bg-red-100 text-red-600",
+// status: "Pending",
+// color: "bg-orange-100 text-orange-600",
 
 const invoices = [
   { no: "#PTD 145142547", price: "4500.00", date: "10 day ago" },
@@ -137,7 +82,7 @@ const MerchantState = ({
   totalPages,
   currentPage,
   setCurrentPage,
-  shippingData
+  shippingData,
 }) => {
   const [isOpenGraph, setIsOpenGraph] = useState(false);
   const [isOpenShipping, setIsOpenShipping] = useState(false);
@@ -161,8 +106,7 @@ const MerchantState = ({
     },
     { label: "Delivered", value: stats.delivered, color: "text-green-500" },
   ];
-  
-  console.log(shippingData);
+
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -439,9 +383,6 @@ const MerchantState = ({
                   Weight
                 </th>
                 <th className="pb-4 font-bold text-[11px] uppercase tracking-wider">
-                  Shipper
-                </th>
-                <th className="pb-4 font-bold text-[11px] uppercase tracking-wider">
                   Price
                 </th>
                 <th className="pb-4 font-bold text-[11px] uppercase tracking-wider">
@@ -454,68 +395,84 @@ const MerchantState = ({
             </thead>
 
             <tbody>
-              {reports.map((item, idx) => (
-                <tr key={idx} className="group transition-all">
-                  <td className="py-5 pl-5 rounded-l-[20px] bg-[#F8F9FA]/60 border-y border-l border-transparent group-hover:border-gray-100 font-bold text-gray-500 text-xs">
-                    {item.id}
-                  </td>
-                  <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-semibold text-gray-500">
-                    {item.client}
-                  </td>
-                  <td className="py-5 bg-[#F8F9FA]/60  border-y border-transparent group-hover:border-gray-100 text-xs text-gray-500 font-medium">
-                    {item.date}
-                  </td>
-                  <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-bold text-gray-500">
-                    {item.weight}
-                  </td>
-                  <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-medium text-gray-500">
-                    {item.shipper}
-                  </td>
-                  <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-black text-gray-500">
-                    {item.price}
-                  </td>
-                  <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100">
-                    <span
-                      className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${item.color}`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="py-5 pr-5 rounded-r-[20px] bg-[#F8F9FA]/60 border-y border-r border-transparent group-hover:border-gray-100 text-right">
-                    <div className="flex items-center justify-end gap-3">
-                      <button className="flex items-center gap-1 text-[11px] font-bold text-gray-500 hover:text-[#002B36] cursor-pointer">
-                        <RiEditLine size={16} /> Edit
-                      </button>
-                      <button className="text-gray-500 hover:text-[#002B36] cursor-pointer">
-                        <RiMore2Fill size={18} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {shippingData.length > 0 &&
+                shippingData.map((item, idx) => (
+                  <tr key={idx} className="group transition-all rounded-xl">
+                    <td className="py-5 pl-5 rounded-l-[20px] bg-[#F8F9FA]/60 border-y border-l border-transparent group-hover:border-gray-100 font-bold text-gray-500 text-xs">
+                      {item?.trackingID}
+                    </td>
+                    <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-semibold text-gray-500">
+                      {item?.receiverInfo?.name}
+                    </td>
+                    <td className="py-5 bg-[#F8F9FA]/60  border-y border-transparent group-hover:border-gray-100 text-xs text-gray-500 font-medium">
+                      {new Date(item?.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </td>
+                    <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-bold text-gray-500">
+                      {item?.parcelWeight} KG
+                    </td>
+                    <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-black text-gray-500">
+                      ৳ {item?.cost}
+                    </td>
+                    <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100">
+                      <span
+                        className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${item.deliveryStatus === "intransit" && "bg-blue-100 text-blue-600"} ${item.deliveryStatus === "delivered" && "bg-green-100 text-green-600"}`}
+                      >
+                        {item.deliveryStatus}
+                      </span>
+                    </td>
+                    <td className="py-5 pr-5 rounded-r-[20px] bg-[#F8F9FA]/60 border-y border-r border-transparent group-hover:border-gray-100 text-right">
+                      <div className="flex items-center justify-end gap-3">
+                        <button className="flex items-center gap-1 text-[11px] font-bold text-gray-500 hover:text-[#002B36] cursor-pointer">
+                          <RiEditLine size={16} /> Edit
+                        </button>
+                        <button className="text-gray-500 hover:text-[#002B36] cursor-pointer">
+                          <RiMore2Fill size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
 
         {/* Pagination Placeholder */}
-        <div className="mt-8 flex items-center justify-between">
-          <button className="px-4 py-2 bg-white border border-gray-100 rounded-xl text-xs font-bold text-gray-400 hover:text-[#002B36] transition-all flex items-center gap-2 cursor-pointer">
-            ← Previous
-          </button>
-          <div className="flex gap-2">
+        <div className="mt-8 grid grid-cols-3 items-center justify-center">
+          <div className="flex justify-start">
+            {currentPage > 0 && (
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-400 hover:text-[#002B36] transition-all flex items-center gap-2 cursor-pointer"
+              >
+                ← Previous
+              </button>
+            )}
+          </div>
+          <div className="flex gap-2 justify-center">
             {[...Array(totalPages).keys()].map((n, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentPage(n)}
-                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${n === 1 ? "bg-[#CAEB66] text-[#002B36]" : "text-gray-400 hover:bg-gray-50"}`}
+                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all cursor-pointer ${n === currentPage ? "bg-[#CAEB66] text-[#002B36]" : "text-gray-400 hover:bg-gray-50"}`}
               >
                 {n + 1}
               </button>
             ))}
           </div>
-          <button className="px-4 py-2 bg-white border border-gray-100 rounded-xl text-xs font-bold text-gray-400 hover:text-[#002B36] transition-all flex items-center gap-2 cursor-pointer">
-            Next →
-          </button>
+          <div className="flex justify-end">
+            {currentPage < totalPages - 1 && (
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-400 hover:text-[#002B36] transition-all flex items-center gap-2 cursor-pointer"
+              >
+                Next →
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
