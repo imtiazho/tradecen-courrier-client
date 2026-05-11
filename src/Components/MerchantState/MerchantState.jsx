@@ -136,7 +136,8 @@ const MerchantState = ({
   setWeekFrame,
   totalPages,
   currentPage,
-  setCurrentPage
+  setCurrentPage,
+  shippingData
 }) => {
   const [isOpenGraph, setIsOpenGraph] = useState(false);
   const [isOpenShipping, setIsOpenShipping] = useState(false);
@@ -160,7 +161,8 @@ const MerchantState = ({
     },
     { label: "Delivered", value: stats.delivered, color: "text-green-500" },
   ];
-
+  
+  console.log(shippingData);
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}

@@ -40,7 +40,7 @@ const Dashboard = () => {
   });
 
   const { isLoading: shippingLoading, data: shippingData = {} } = useQuery({
-    queryKey: ["shippingData", user?.email, weekFrame],
+    queryKey: ["shippingData", user?.email, weekFrame, currentPage],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/parcels?email=${user.email}&limit=${limit}&skip=${limit * currentPage}`,
@@ -51,6 +51,8 @@ const Dashboard = () => {
     },
     enabled: !!user?.email,
   });
+
+  console.log(limit * currentPage, "P = ", currentPage, totalPages);
 
   if (roleLoading)
     return (
@@ -69,6 +71,7 @@ const Dashboard = () => {
         setCurrentPage={setCurrentPage}
         totalPages={totalPages}
         currentPage={currentPage}
+        shippingData={shippingData}
       ></MerchantState>
     );
   if (role === "rider") return <RiderState></RiderState>;
