@@ -48,7 +48,7 @@ const VerifyEmail = () => {
   };
 
   return (
-    <div className="bg-gray-50 flex flex-col items-center justify-center min-h-screen p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <div className="bg-white p-10 rounded-3xl shadow-xl max-w-md w-full text-center border-2 border-[#CAEB66]">
         <div className="w-20 h-20 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg

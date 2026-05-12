@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import NavBar from "../../Components/Shared/NavBar/NavBar";
-import { NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import Sidebar from "../../Components/Sidebar/Sidebar";
 import {
   RiBankCardLine,
@@ -94,9 +94,12 @@ const DashboardLayout = () => {
         }`}
       >
         <div className="p-8 min-w-[288px]">
-          <h1 className="text-2xl font-black text-[#002B36] flex items-center gap-2">
+          <Link
+            to="/"
+            className="text-2xl font-black text-[#002B36] flex items-center gap-2"
+          >
             TradeCen<span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
-          </h1>
+          </Link>
         </div>
 
         <div className="flex-1 px-4 space-y-8 overflow-y-auto min-w-[288px]">

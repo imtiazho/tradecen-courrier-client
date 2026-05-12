@@ -43,7 +43,7 @@ const Dashboard = () => {
     queryKey: ["shippingData", user?.email, weekFrame, currentPage],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels?email=${user.email}&limit=${limit}&skip=${limit * currentPage}`,
+        `/parcels?email=${user.email}&limit=${limit}&skip=${limit * currentPage}&filter=${weekFrame}`,
       );
       setTotalParcels(res.data.count);
       setTotalPages(Math.ceil(res.data.count / limit));
