@@ -28,6 +28,8 @@ import ReadyToPickUp from "../Pages/ReadyToPickUp/ReadyToPickUp";
 import InTransitParcel from "../Pages/InTransitParcel/InTransitParcel";
 import ReadyToDeliver from "../Pages/ReadyToDeliver/ReadyToDeliver";
 import Delivered from "../Pages/Delivered/Delivered";
+import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
+import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -154,6 +156,14 @@ export const router = createBrowserRouter([
       {
         path: "delivered",
         element: <Delivered></Delivered>,
+      },
+      {
+        path: "payment-success",
+        element: <PaymentSuccess></PaymentSuccess>,
+      },
+      {
+        path: "payment-cancelled",
+        element: <PaymentCancelled></PaymentCancelled>,
       },
     ],
   },

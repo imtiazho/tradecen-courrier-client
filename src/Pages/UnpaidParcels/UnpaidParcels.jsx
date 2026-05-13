@@ -37,46 +37,63 @@ const UnpaidParcels = () => {
   const totalDue = unpaidParcelsData?.totalDue || 0;
 
   const handleParcelDelete = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "This parcel will be removed permanently!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#BEF264",
-    cancelButtonColor: "#64748B", 
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "No, cancel",
-    reverseButtons: true,
-    customClass: {
-      confirmButton: "!text-black !font-bold !px-6 !py-3 !rounded-[10px]", 
-      cancelButton: "!text-white !font-medium !px-6 !py-3 !rounded-[10px]"
-    },
-    
-    buttonsStyling: true 
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axiosSecure.delete(`/parcel/${id}`)
-        .then((res) => {
-          if (res.data.deletedCount > 0) {
-            refetch();
-            Swal.fire({
-              title: "Deleted!",
-              text: "The parcel has been successfully removed.",
-              icon: "success",
-              confirmButtonColor: "#BEF264",
-              customClass: {
-                confirmButton: "!text-black !font-bold"
-              }
-            });
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          Swal.fire("Error", "Something went wrong!", "error");
-        });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This parcel will be removed permanently!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#BEF264",
+      cancelButtonColor: "#64748B",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel",
+      reverseButtons: true,
+      customClass: {
+        confirmButton: "!text-black !font-bold !px-6 !py-3 !rounded-[10px]",
+        cancelButton: "!text-white !font-medium !px-6 !py-3 !rounded-[10px]",
+      },
+
+      buttonsStyling: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .delete(`/parcel/${id}`)
+          .then((res) => {
+            if (res.data.deletedCount > 0) {
+              refetch();
+              Swal.fire({
+                title: "Deleted!",
+                text: "The parcel has been successfully removed.",
+                icon: "success",
+                confirmButtonColor: "#BEF264",
+                customClass: {
+                  confirmButton: "!text-black !font-bold",
+                },
+              });
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            Swal.fire("Error", "Something went wrong!", "error");
+          });
+      }
+    });
+  };
+
+  // Handle Payment
+  const handlePayment = async (parcel) => {
+    const paymentInfo = {
+      deliveryCharge: parcel.deliveryCharge,
+      parcelId: parcel._id,
+      senderEmail: parcel.senderInfo.email,
+      parcelName: parcel.parcelName,
+      trackingID: parcel.trackingID,
+    };
+
+    const res = await axiosSecure.post("/payment-checkout", paymentInfo);
+    if (res.data?.url) {
+      window.location.replace(res.data.url);
     }
-  });
-};
+  };
 
   return (
     <div className="p-4 bg-[#F8FAFC] min-h-screen font-sans text-slate-700">
@@ -150,7 +167,10 @@ const UnpaidParcels = () => {
                     </div>
                   </td>
                   <td className="px-8 py-6">
-                    <button className="flex items-center gap-2 text-[11px] font-black bg-orange-50 text-orange-600 px-4 py-2 rounded-xl hover:bg-orange-600 hover:text-white transition-all duration-300 cursor-pointer">
+                    <button
+                      onClick={() => handlePayment(parcel)}
+                      className="flex items-center gap-2 text-[11px] font-black bg-orange-50 text-orange-600 px-4 py-2 rounded-xl hover:bg-orange-600 hover:text-white transition-all duration-300 cursor-pointer"
+                    >
                       <RiMoneyDollarCircleFill size={14} />
                       PAY NOW
                     </button>
