@@ -107,7 +107,7 @@ const UnpaidParcels = () => {
             Settle your pending delivery charges to keep shipments moving.
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-[#bef264] cursor-pointer text-slate-900 font-bold py-3 px-8 rounded-xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(190,242,100,0.2)]">
+        <button className="flex items-center gap-2 bg-[#bef264] cursor-pointer text-slate-900 font-bold py-3 px-8 rounded-xl transition-all duration-300 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.04)] ">
           <FaCreditCard />
           Pay Total Due (৳{totalDue})
         </button>
