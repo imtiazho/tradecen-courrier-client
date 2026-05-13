@@ -30,6 +30,7 @@ import ReadyToDeliver from "../Pages/ReadyToDeliver/ReadyToDeliver";
 import Delivered from "../Pages/Delivered/Delivered";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
+import Deliveries from "../Pages/Deliveries/Deliveries";
 
 export const router = createBrowserRouter([
   {
@@ -164,6 +165,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-cancelled",
         element: <PaymentCancelled></PaymentCancelled>,
+      },
+      {
+        path: "deliveries",
+        element: <Deliveries></Deliveries>,
       },
     ],
   },

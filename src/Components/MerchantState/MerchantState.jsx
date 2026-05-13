@@ -123,7 +123,7 @@ const MerchantState = ({
       color: "text-green-500",
     },
   ];
-
+  
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}

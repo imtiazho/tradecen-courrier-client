@@ -8,42 +8,27 @@ import {
 } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 const Delivered = () => {
-  const unpaidParcels = [
-    {
-      _id: "1",
-      trackingID: "ZAP-7821945",
-      parcelName: "iPhone 15 Pro Max",
-      deliveryCharge: 60,
-      deliveryStatus: "parcel-created",
-      deliveryChargeStatus: "unpaid",
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const { data: deliveredParcels = [], isLoading } = useQuery({
+    queryKey: ["inTransitParcels", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/parcels/status/${user.email}?status=delivered`,
+      );
+      return res.data;
     },
-    {
-      _id: "2",
-      trackingID: "ZAP-9012354",
-      parcelName: "Mechanical Keyboard",
-      deliveryCharge: 120,
-      deliveryStatus: "parcel-created",
-      deliveryChargeStatus: "unpaid",
-    },
-    {
-      _id: "3",
-      trackingID: "ZAP-9012354",
-      parcelName: "Mechanical Keyboard",
-      deliveryCharge: 120,
-      deliveryStatus: "parcel-created",
-      deliveryChargeStatus: "unpaid",
-    },
-    {
-      _id: "4",
-      trackingID: "ZAP-9012354",
-      parcelName: "Mechanical Keyboard",
-      deliveryCharge: 120,
-      deliveryStatus: "parcel-created",
-      deliveryChargeStatus: "unpaid",
-    },
-  ];
+  });
+
+  if (isLoading) return <LoadingModal isLoading={isLoading} />;
 
   return (
     <div className="p-4 bg-[#F8FAFC] min-h-screen font-sans">
@@ -81,13 +66,10 @@ const Delivered = () => {
                 <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
                   Payment
                 </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em] text-right">
-                  Actions
-                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {unpaidParcels.map((parcel) => (
+              {deliveredParcels.map((parcel) => (
                 <tr
                   key={parcel._id}
                   className="group hover:bg-slate-50/80 transition-all duration-200"
@@ -122,37 +104,13 @@ const Delivered = () => {
                       PAY NOW
                     </button>
                   </td>
-                  <td className="px-8 py-6 text-right">
-                    <div className="flex justify-end items-center gap-1">
-                      {/* Only allow edit/delete if status is 'parcel-created' */}
-                      {parcel.deliveryStatus === "parcel-created" && (
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <button
-                            title="Edit"
-                            className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all cursor-pointer"
-                          >
-                            <FaRegEdit size={16} />
-                          </button>
-                          <button
-                            title="Delete"
-                            className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
-                          >
-                            <FaTrashAlt size={15} />
-                          </button>
-                        </div>
-                      )}
-                      <button className="p-2.5 text-slate-300 hover:text-slate-600 rounded-xl transition-colors cursor-pointer">
-                        <HiDotsVertical size={20} />
-                      </button>
-                    </div>
-                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        {unpaidParcels.length === 0 && (
+        {deliveredParcels.length === 0 && (
           <div className="py-24 text-center">
             <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaBoxOpen size={24} className="text-slate-300" />

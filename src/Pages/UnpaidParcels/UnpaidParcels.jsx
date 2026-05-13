@@ -23,7 +23,7 @@ const UnpaidParcels = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["myParcels", user?.email],
+    queryKey: ["unPaidParcels", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/parcels/unpaid/${user.email}`);

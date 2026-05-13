@@ -111,7 +111,7 @@ const SendParcel = () => {
       createdAt: new Date(),
 
       // 🚦 Statuses
-      deliveryStatus: "parcel-created", // Initial Status
+      deliveryStatus: "pending", // Initial Status
       deliveryChargeStatus: "unpaid",
       currentLocation: `${merchant?.district || "Origin"} Hub`,
       merchantRevenueStatus: null,
@@ -147,10 +147,14 @@ const SendParcel = () => {
       pickupRider: {
         id: null,
         email: null,
+        name: "",
+        phone: "",
       },
       deliveryRider: {
         id: null,
         email: null,
+        name: "",
+        phone: "",
       },
 
       // 🤖 AI, Security & Timeline
@@ -158,11 +162,12 @@ const SendParcel = () => {
         deliveryOTP: deliveryOTPGenerator(),
       },
       timeline: {
+        lastScanLocation: "",
         estimatedDelivery: null, // AI will update this
         deliveredAt: null,
       },
     };
-    
+
     try {
       const res = await axiosSecure.post("/parcels", parcelData);
       if (res.data.insertedId) {

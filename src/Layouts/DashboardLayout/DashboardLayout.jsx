@@ -45,7 +45,7 @@ const DashboardLayout = () => {
     {
       name: "Deliveries",
       icon: <RiTruckLine size={22} />,
-      path: "/admin/deliveries",
+      path: "deliveries",
     },
     {
       name: "Invoices",
@@ -109,7 +109,7 @@ const DashboardLayout = () => {
             </p>
             <nav className="space-y-1">
               {menuItems.map((item) => (
-                <NavLink key={item.path} to={item.path} className={linkClass}>
+                <NavLink key={item.path} to={item.path} className={linkClass} end={item.path === "/dashboard"}>
                   {({ isActive }) => (
                     <>
                       {isActive && (
