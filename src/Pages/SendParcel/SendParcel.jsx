@@ -29,6 +29,7 @@ const SendParcel = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const areaAndLocation = useLoaderData() || [];
+  // Use watch to toggle the field
 
   const { data: merchant = {}, isLoading: merchantLoading } = useQuery({
     queryKey: ["merchant", dbUser?.email],
@@ -56,6 +57,7 @@ const SendParcel = () => {
   const pWeight = parseFloat(useWatch({ control, name: "parcelWeight" })) || 1;
   const selectedRegion = useWatch({ control, name: "receiverRegion" });
   const selectedDistrict = useWatch({ control, name: "receiverDistrict" });
+  const selectedMethodRev = useWatch({ control, name: "selectedMethodRev" });
 
   // Location Helper
   const clearRegions = [...new Set(areaAndLocation.map((rg) => rg.region))];
@@ -91,10 +93,10 @@ const SendParcel = () => {
     return baseCharge + extraCharge + additionalOutsideFee;
   };
 
-  const cost = calculateCost();
+  const deliveryCharge = calculateCost();
 
   const handleSendParcel = async (data) => {
-    // setLoading(true);
+    setLoading(true);
     const trackingID = trackingIDGenerator();
 
     const parcelData = {
@@ -102,15 +104,17 @@ const SendParcel = () => {
       parcelType: data.parcelType,
       parcelName: data.parcelName,
       parcelWeight: parseFloat(data.parcelWeight),
-      cost: cost,
+      cost: data.CODAmount,
+      deliveryCharge: deliveryCharge,
       currency: "BDT",
       trackingID: trackingID,
       createdAt: new Date(),
 
       // 🚦 Statuses
       deliveryStatus: "parcel-created", // Initial Status
-      paymentStatus: "unpaid",
+      deliveryChargeStatus: "unpaid",
       currentLocation: `${merchant?.district || "Origin"} Hub`,
+      merchantRevenueStatus: null,
 
       // 👤 Sender (Merchant) Details
       senderInfo: {
@@ -158,7 +162,7 @@ const SendParcel = () => {
         deliveredAt: null,
       },
     };
-
+    
     try {
       const res = await axiosSecure.post("/parcels", parcelData);
       if (res.data.insertedId) {
@@ -169,7 +173,7 @@ const SendParcel = () => {
           confirmButtonColor: "#002B36",
         });
         // navigate("/dashboard/my-parcels");
-        navigate('/')
+        navigate("/");
       }
     } catch (error) {
       Swal.fire("Error", "Failed to book parcel.", "error");
@@ -202,7 +206,7 @@ const SendParcel = () => {
               Pickup Location
             </p>
             <p className="text-sm font-bold text-[#002B36]">
-              {merchant?.district || "Not Set"}
+              {merchant?.pickupPoint || "Not Set"}
             </p>
           </div>
         </div>
@@ -233,6 +237,19 @@ const SendParcel = () => {
             </label>
           </div>
 
+          {/* Payment Method  */}
+          <div className="bg-gray-50 p-4 rounded-2xl w-fit border border-gray-100">
+            <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
+              <input
+                {...register("selectedMethodRev")}
+                type="checkbox"
+                value="COD"
+                className="radio radio-success radio-sm"
+              />{" "}
+              COD
+            </label>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-16">
             {/* Left Column: Product & Core Details */}
             <div className="space-y-8">
@@ -257,6 +274,20 @@ const SendParcel = () => {
                     <ErrorMsg errors={errors} name="parcelName" />
                   </div>
 
+                  {selectedMethodRev === "COD" && (
+                    <div>
+                      <label className={labelStyle}>COD Amount</label>
+                      <input
+                        type="number"
+                        placeholder="Total Amount..."
+                        {...register("CODAmount", {
+                          required: true,
+                        })}
+                        className={inputStyle}
+                      />
+                    </div>
+                  )}
+
                   <div>
                     <label className={labelStyle}>Weight (KG)</label>
                     <input
@@ -273,13 +304,13 @@ const SendParcel = () => {
               </div>
 
               {/* Pricing Badge for Visual Emphasis */}
-              <div className="bg-[#002B36] text-white p-7 rounded-[32px] flex justify-between items-center shadow-lg transform hover:scale-[1.02] transition-transform">
+              <div className="bg-[#002B36] text-white p-7 rounded-[32px] flex justify-between items-center shadow-lg">
                 <div>
                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
                     Service Charge
                   </p>
                   <h2 className="text-4xl font-black text-[#CAEB66]">
-                    {cost}{" "}
+                    {deliveryCharge}{" "}
                     <span className="text-sm text-white font-normal italic">
                       BDT
                     </span>
@@ -394,7 +425,7 @@ const SendParcel = () => {
                       required: "Detailed address required",
                     })}
                     className={`${inputStyle} h-24 resize-none`}
-                    placeholder="Detailed address for AI routing..."
+                    placeholder="Street Address / House / Road..."
                   ></textarea>
                   <ErrorMsg errors={errors} name="receiverAddress" />
                 </div>

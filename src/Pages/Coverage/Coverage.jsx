@@ -103,9 +103,11 @@ const Coverage = () => {
                     <h4 className="font-bold text-[#02312A]">
                       {center.district}
                     </h4>
-                    <p className="text-xs text-gray-500">
-                      Service Hub Available
-                    </p>
+                    <div className="flex items-center gap-1">
+                      {center.covered_area.map((item) => (
+                        <p className="text-xs text-gray-500 uppercase">{item}</p>
+                      ))}
+                    </div>
                   </div>
                 </Popup>
               </Marker>

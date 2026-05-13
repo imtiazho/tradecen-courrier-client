@@ -92,19 +92,36 @@ const MerchantState = ({
   const options = ["this-week", "last-week", "last-month"];
 
   const statistic = [
-    { label: "To Pay", value: stats.toPay, color: "text-gray-400" },
     {
+      to: "unpaid-parcel",
+      label: "To Pay",
+      value: stats.toPay,
+      color: "text-gray-400",
+    },
+    {
+      to: "ready-pickup",
       label: "Ready Pick UP",
       value: stats.readyPickUp,
       color: "text-[#CAEB66]",
     },
-    { label: "In Transit", value: stats.inTransit, color: "text-blue-400" },
     {
+      to: "in-transit",
+      label: "In Transit",
+      value: stats.inTransit,
+      color: "text-blue-400",
+    },
+    {
+      to: "ready-deliver",
       label: "Ready to Deliver",
       value: stats.readyDeliver,
       color: "text-orange-400",
     },
-    { label: "Delivered", value: stats.delivered, color: "text-green-500" },
+    {
+      to: "delivered",
+      label: "Delivered",
+      value: stats.delivered,
+      color: "text-green-500",
+    },
   ];
 
   return (
@@ -130,7 +147,7 @@ const MerchantState = ({
       {/* --- Stats Cards --- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {statistic.map((stat, idx) => (
-          <div
+          <Link to={stat.to}
             key={idx}
             className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] flex items-center gap-4  transition-transform duration-300 hover:border-[#CAEB66]"
           >
@@ -147,7 +164,7 @@ const MerchantState = ({
                 {stat.value}
               </h4>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -476,7 +493,7 @@ const MerchantState = ({
         </div>
       </div>
 
-      {/* Late Invoices  */}
+      {/* Late Invoices and Damage report  */}
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">

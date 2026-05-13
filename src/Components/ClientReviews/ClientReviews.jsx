@@ -86,7 +86,7 @@ const ClientReviews = () => {
                 <div
                   className={`
                   bg-white rounded-[32px] p-8 md:p-10 transition-all duration-500 border border-[#E9ECEF]
-                  ${isActive ? "scale-105 shadow-lg opacity-100" : "scale-90 opacity-40 grayscale"}
+                  ${isActive ? "scale-105  opacity-100" : "scale-90 opacity-40 grayscale"}
                 `}
                 >
                   {/* Quote Icon */}

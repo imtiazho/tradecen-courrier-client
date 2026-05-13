@@ -23,6 +23,11 @@ import ProfilePage from "../Pages/ProfilePage/ProfilePage";
 import TrackParcels from "../Pages/TrackParcels/TrackParcels";
 import SendParcel from "../Pages/SendParcel/SendParcel";
 import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
+import UnpaidParcels from "../Pages/UnpaidParcels/UnpaidParcels";
+import ReadyToPickUp from "../Pages/ReadyToPickUp/ReadyToPickUp";
+import InTransitParcel from "../Pages/InTransitParcel/InTransitParcel";
+import ReadyToDeliver from "../Pages/ReadyToDeliver/ReadyToDeliver";
+import Delivered from "../Pages/Delivered/Delivered";
 
 export const router = createBrowserRouter([
   {
@@ -125,9 +130,32 @@ export const router = createBrowserRouter([
         <DashboardLayout></DashboardLayout>
       </VerifiedUserRoute>
     ),
-    children: [{
-      index: true, Component: Dashboard
-    }],
+    children: [
+      {
+        index: true,
+        Component: Dashboard,
+      },
+      {
+        path: "unpaid-parcel",
+        element: <UnpaidParcels></UnpaidParcels>,
+      },
+      {
+        path: "ready-pickup",
+        element: <ReadyToPickUp></ReadyToPickUp>,
+      },
+      {
+        path: "in-transit",
+        element: <InTransitParcel></InTransitParcel>,
+      },
+      {
+        path: "ready-deliver",
+        element: <ReadyToDeliver></ReadyToDeliver>,
+      },
+      {
+        path: "delivered",
+        element: <Delivered></Delivered>,
+      },
+    ],
   },
   {
     path: "*",
