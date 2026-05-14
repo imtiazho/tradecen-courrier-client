@@ -29,6 +29,7 @@ const Dashboard = () => {
     },
     enabled: !!user?.email,
   });
+
   // merchant
   const { isLoading: chartLoading, data: chartData = {} } = useQuery({
     queryKey: ["revenueStats", user?.email, timeFrame],
@@ -40,6 +41,7 @@ const Dashboard = () => {
     },
     enabled: !!user?.email,
   });
+  
   // merchant
   const { isLoading: shippingLoading, data: shippingData = {} } = useQuery({
     queryKey: ["shippingData", user?.email, weekFrame, currentPage],
@@ -64,7 +66,7 @@ const Dashboard = () => {
       ></LoadingModal>
     );
   if (role === "master admin") return <AdminState></AdminState>;
-  if (role === "hub manager")
+  if (role === "hub-manager")
     return <HubmanagerDashboard></HubmanagerDashboard>;
   if (role === "merchant")
     return (

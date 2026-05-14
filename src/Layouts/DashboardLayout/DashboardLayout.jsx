@@ -39,46 +39,134 @@ import {
   RiStore3Line,
   RiCustomerService2Line,
 } from "react-icons/ri";
-
+import Swal from "sweetalert2";
 
 const roleMenuItems = {
   "master admin": [
-    { name: "Overview Dashboard", icon: <RiDashboardFill size={22} />, path: "/dashboard" },
+    {
+      name: "Overview Dashboard",
+      icon: <RiDashboardFill size={22} />,
+      path: "/dashboard",
+    },
     { name: "Hub Management", icon: <RiMapPin2Line size={22} />, path: "hubs" },
-    { name: "User Management", icon: <RiUserSettingsLine size={22} />, path: "users" },
-    { name: "Pricing & Coverage", icon: <RiBankCardLine size={22} />, path: "/admin/pricing-coverage" },
-    { name: "Financial Reports", icon: <RiFileChartLine size={22} />, path: "/admin/finance" },
-    { name: "System Settings", icon: <RiSettings4Line size={22} />, path: "/admin/settings" },
+    {
+      name: "User Management",
+      icon: <RiUserSettingsLine size={22} />,
+      path: "users",
+    },
+    {
+      name: "Pricing & Coverage",
+      icon: <RiBankCardLine size={22} />,
+      path: "/admin/pricing-coverage",
+    },
+    {
+      name: "Financial Reports",
+      icon: <RiFileChartLine size={22} />,
+      path: "/admin/finance",
+    },
+    {
+      name: "System Settings",
+      icon: <RiSettings4Line size={22} />,
+      path: "/admin/settings",
+    },
   ],
-  "hub manager": [
-    { name: "Hub Dashboard", icon: <RiDashboardFill size={22} />, path: "/hub/dashboard" },
-    { name: "Incoming", icon: <RiUserReceivedLine size={22} />, path: "/hub/incoming" },
-    { name: "Dispatch / Delivery", icon: <RiTruckLine size={22} />, path: "/hub/dispatch" },
+  "hub-manager": [
+    {
+      name: "Hub Dashboard",
+      icon: <RiDashboardFill size={22} />,
+      path: "/hub/dashboard",
+    },
+    {
+      name: "Incoming",
+      icon: <RiUserReceivedLine size={22} />,
+      path: "/hub/incoming",
+    },
+    {
+      name: "Dispatch / Delivery",
+      icon: <RiTruckLine size={22} />,
+      path: "/hub/dispatch",
+    },
     { name: "Pickups", icon: <RiFocus2Line size={22} />, path: "/hub/pickups" },
-    { name: "Returns", icon: <RiArrowGoBackLine size={22} />, path: "/hub/returns" },
-    { name: "My Riders", icon: <RiMotorbikeLine size={22} />, path: "/hub/riders" },
-    { name: "Accounts / Finance", icon: <RiWallet3Line size={22} />, path: "/hub/accounts" },
+    {
+      name: "Returns",
+      icon: <RiArrowGoBackLine size={22} />,
+      path: "/hub/returns",
+    },
+    {
+      name: "My Riders",
+      icon: <RiMotorbikeLine size={22} />,
+      path: "/hub/riders",
+    },
+    {
+      name: "Accounts / Finance",
+      icon: <RiWallet3Line size={22} />,
+      path: "/hub/accounts",
+    },
   ],
-  "rider": [
-    { name: "My Task List", icon: <RiListCheck2 size={22} />, path: "/rider/tasks" },
+  rider: [
+    {
+      name: "My Task List",
+      icon: <RiListCheck2 size={22} />,
+      path: "/rider/tasks",
+    },
     { name: "Live Map", icon: <RiMap2Line size={22} />, path: "/rider/map" },
-    { name: "Delivery Status", icon: <RiCheckboxCircleLine size={22} />, path: "/rider/status" },
-    { name: "COD Collection", icon: <RiMoneyDollarCircleLine size={22} />, path: "/rider/cod" },
-    { name: "My Earnings", icon: <RiFileTextLine size={22} />, path: "/rider/earnings" },
-    { name: "Profile / Wallet", icon: <RiWallet3Line size={22} />, path: "/rider/wallet" },
+    {
+      name: "Delivery Status",
+      icon: <RiCheckboxCircleLine size={22} />,
+      path: "/rider/status",
+    },
+    {
+      name: "COD Collection",
+      icon: <RiMoneyDollarCircleLine size={22} />,
+      path: "/rider/cod",
+    },
+    {
+      name: "My Earnings",
+      icon: <RiFileTextLine size={22} />,
+      path: "/rider/earnings",
+    },
+    {
+      name: "Profile / Wallet",
+      icon: <RiWallet3Line size={22} />,
+      path: "/rider/wallet",
+    },
   ],
-  "merchant": [
-    { name: "Merchant Dashboard", icon: <RiDashboardFill size={22} />, path: "/merchant/dashboard" },
-    { name: "Create Order", icon: <RiAddCircleLine size={22} />, path: "/merchant/create-order" },
-    { name: "Track Parcels", icon: <RiRadarLine size={22} />, path: "/merchant/track" },
-    { name: "Payment / Payouts", icon: <RiBankCardLine size={22} />, path: "/merchant/payouts" },
-    { name: "Store Settings", icon: <RiStore3Line size={22} />, path: "/merchant/settings" },
-    { name: "Support / Claims", icon: <RiCustomerService2Line size={22} />, path: "/merchant/support" },
+  merchant: [
+    {
+      name: "Merchant Dashboard",
+      icon: <RiDashboardFill size={22} />,
+      path: "/merchant/dashboard",
+    },
+    {
+      name: "Create Order",
+      icon: <RiAddCircleLine size={22} />,
+      path: "/merchant/create-order",
+    },
+    {
+      name: "Track Parcels",
+      icon: <RiRadarLine size={22} />,
+      path: "/merchant/track",
+    },
+    {
+      name: "Payment / Payouts",
+      icon: <RiBankCardLine size={22} />,
+      path: "/merchant/payouts",
+    },
+    {
+      name: "Store Settings",
+      icon: <RiStore3Line size={22} />,
+      path: "/merchant/settings",
+    },
+    {
+      name: "Support / Claims",
+      icon: <RiCustomerService2Line size={22} />,
+      path: "/merchant/support",
+    },
   ],
 };
 
 const DashboardLayout = () => {
-  const { dbUser, loading: authLoading, setLoading } = useAuth();
+  const { dbUser, loading: authLoading, setLoading, handleLogOut } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { role } = useRole();
 
@@ -115,6 +203,25 @@ const DashboardLayout = () => {
         : "text-[#5F7180] hover:bg-gray-100"
     }`;
 
+  const handleSignOut = async () => {
+    try {
+      await handleLogOut();
+
+      Swal.fire({
+        icon: "success",
+        title: "Signed Out!",
+        text: "You have been logged out successfully.",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Opss...",
+        text: "Something went wrong during sign out!",
+      });
+    }
+  };
   return (
     <div className="flex min-h-screen bg-[#F8F9FA]">
       <aside
@@ -180,7 +287,7 @@ const DashboardLayout = () => {
         </div>
 
         <div className="p-4 border-t border-gray-50 min-w-[288px]">
-          <button className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 w-full rounded-xl transition-all font-semibold">
+          <button onClick={handleSignOut} className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 w-full rounded-xl transition-all font-semibold">
             <RiLogoutBoxRLine size={22} />{" "}
             <span className="text-sm">Logout</span>
           </button>

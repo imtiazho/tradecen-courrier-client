@@ -12,9 +12,23 @@ import {
   RiQrScanLine,
   RiNotification3Line,
 } from "react-icons/ri";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const HubmanagerDashboard = () => {
-  // Stats organized by priority
+  const { user } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
+  const { isLoading: managerLoading, data: managerData = {} } = useQuery({
+    queryKey: ["managerData", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users/hub-managers/${user.email}`);
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
+  console.log(managerData);
   const stats = [
     {
       label: "Incoming",
