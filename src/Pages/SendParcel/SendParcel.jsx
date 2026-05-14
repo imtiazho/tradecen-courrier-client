@@ -140,8 +140,8 @@ const SendParcel = () => {
 
       // 🚛 Logistics & Hubs (Initial state empty)
       serviceCenters: {
-        origin: `${merchant?.area} Hub`,
-        destination: `${data.receiverArea} Hub`,
+        origin: `${merchant?.area}`,
+        destination: `${data.receiverArea}`,
       },
 
       // 🛵 Rider Assignment (Initial null)

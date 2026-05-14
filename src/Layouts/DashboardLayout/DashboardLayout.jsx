@@ -74,12 +74,12 @@ const roleMenuItems = {
     {
       name: "Hub Dashboard",
       icon: <RiDashboardFill size={22} />,
-      path: "/hub/dashboard",
+      path: "/dashboard",
     },
     {
       name: "Incoming",
       icon: <RiUserReceivedLine size={22} />,
-      path: "/hub/incoming",
+      path: "/dashboard/incoming",
     },
     {
       name: "Dispatch / Delivery",

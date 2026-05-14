@@ -15,24 +15,41 @@ import {
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const HubmanagerDashboard = () => {
   const { user } = useAuth();
-
   const axiosSecure = useAxiosSecure();
   const { isLoading: managerLoading, data: managerData = {} } = useQuery({
     queryKey: ["managerData", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users/hub-managers/${user.email}`);
-      return res.data;
+      const res = await axiosSecure.get(
+        `/users/hub-managers?email=${user.email}`,
+      );
+      return Array.isArray(res.data) && res.data.length > 0
+        ? res.data[0]
+        : res.data;
     },
     enabled: !!user?.email,
   });
-  console.log(managerData);
+
+  const { isLoading: incomingLoading, data: incomingData = [] } = useQuery({
+    queryKey: ["inComingData", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/parcels/incoming/${managerData?.hubName}`,
+      );
+      return res.data;
+    },
+    
+    enabled: !!managerData?.hubName,
+  });
+
+  console.log(incomingData);
   const stats = [
     {
       label: "Incoming",
-      count: 45,
+      count: incomingData.length,
       icon: <RiUserReceivedLine />,
       color: "text-blue-600",
       bg: "bg-blue-50",
@@ -60,9 +77,12 @@ const HubmanagerDashboard = () => {
     },
   ];
 
+  if (managerLoading) {
+    <LoadingModal isLoading={managerLoading}></LoadingModal>;
+  }
+
   return (
     <div className="p-8 space-y-8 bg-[#F9FAFB] min-h-screen font-sans">
-      {/* --- ১. স্মার্ট হেডার (Minimal) --- */}
       <div className="flex justify-between items-end">
         <div>
           <span className="text-[10px] font-black uppercase tracking-[2px] text-gray-400">
@@ -82,7 +102,6 @@ const HubmanagerDashboard = () => {
         </div>
       </div>
 
-      {/* --- ২. কী-মেট্রিক্স (Clean & Minimal) --- */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, i) => (
           <div

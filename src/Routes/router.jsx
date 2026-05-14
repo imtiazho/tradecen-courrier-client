@@ -34,6 +34,7 @@ import Deliveries from "../Pages/Deliveries/Deliveries";
 import UserManagement from "../Pages/UserManagement/UserManagement";
 import RiderRequest from "../Pages/RiderRequest/RiderRequest";
 import HubManager from "../Pages/HubManager/HubManager";
+import Incoming from "../Pages/Incoming/Incoming";
 
 export const router = createBrowserRouter([
   {
@@ -193,6 +194,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "incoming",
+        element: <Incoming></Incoming>
+      }
     ],
   },
   {
