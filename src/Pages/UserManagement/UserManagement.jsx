@@ -3,10 +3,10 @@ import { NavLink, Outlet } from "react-router";
 
 const UserManagement = () => {
   const tabs = [
-    { name: "Hub Managers", path: "hub-managers" },
+    { name: "Hub Managers", path: "." },
     { name: "Merchants", path: "merchants" },
     { name: "Riders", path: "riders" },
-    { name: "Rider Requests", path: "" },
+    { name: "Rider Requests", path: "rider-request" },
   ];
 
   return (
@@ -23,6 +23,7 @@ const UserManagement = () => {
           <NavLink
             key={tab.path}
             to={tab.path}
+            end
             className={({ isActive }) => `
               px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-xl
               ${

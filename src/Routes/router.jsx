@@ -33,6 +33,7 @@ import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
 import Deliveries from "../Pages/Deliveries/Deliveries";
 import UserManagement from "../Pages/UserManagement/UserManagement";
 import RiderRequest from "../Pages/RiderRequest/RiderRequest";
+import HubManager from "../Pages/HubManager/HubManager";
 
 export const router = createBrowserRouter([
   {
@@ -179,6 +180,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
+            loader: () => fetch("/warehouses.json").then((res) => res.json()),
+            element: <HubManager></HubManager>,
+          },
+          {
+            path: "rider-request",
             loader: () =>
               fetch("http://localhost:5000/riders?status=pending").then((res) =>
                 res.json(),
