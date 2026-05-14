@@ -35,6 +35,7 @@ import UserManagement from "../Pages/UserManagement/UserManagement";
 import RiderRequest from "../Pages/RiderRequest/RiderRequest";
 import HubManager from "../Pages/HubManager/HubManager";
 import Incoming from "../Pages/Incoming/Incoming";
+import MyTaskRider from "../Pages/MyTaskRider/MyTaskRider";
 
 export const router = createBrowserRouter([
   {
@@ -196,8 +197,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "incoming",
-        element: <Incoming></Incoming>
-      }
+        element: <Incoming></Incoming>,
+      },
+      {
+        path: "my-task",
+        element: <MyTaskRider></MyTaskRider>,
+      },
     ],
   },
   {

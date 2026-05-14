@@ -133,10 +133,11 @@ const Incoming = () => {
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-semibold ${parcel.deliveryStatus === "parcel-created" ? "bg-yellow-100 text-yellow-700" : "bg-blue-100 text-blue-700"}`}
                   >
-                    {parcel.deliveryStatus === "parcel-created" ? 
-                      "Pickup Pending" : 
-                      parcel.deliveryStatus === "assign-pickup-rider" ? "Pickup Rider Assigned" : "In Transit"}
-                      
+                    {parcel.deliveryStatus === "parcel-created"
+                      ? "Pickup Pending"
+                      : parcel.deliveryStatus === "assign-pickup-rider"
+                        ? "Pickup Rider Assigned"
+                        : "In Transit"}
                   </span>
                 </td>
                 <td>
@@ -148,7 +149,9 @@ const Incoming = () => {
                       document.getElementById("rider_modal").showModal();
                     }}
                   >
-                    {parcel.deliveryStatus === "parcel-created" ? "Assign Rider" : "Rider Assigned"}
+                    {parcel.deliveryStatus === "parcel-created"
+                      ? "Assign Rider"
+                      : "Rider Assigned"}
                   </button>
                 </td>
               </tr>

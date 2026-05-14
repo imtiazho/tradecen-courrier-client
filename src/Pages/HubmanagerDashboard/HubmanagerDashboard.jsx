@@ -45,7 +45,7 @@ const HubmanagerDashboard = () => {
     enabled: !!managerData?.hubName,
   });
 
-  console.log(incomingData);
+  
   const stats = [
     {
       label: "Incoming",

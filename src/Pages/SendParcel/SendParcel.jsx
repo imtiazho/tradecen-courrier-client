@@ -122,7 +122,7 @@ const SendParcel = () => {
         name: merchant?.businessName || dbUser?.displayName,
         email: dbUser?.email,
         phone: merchant?.contact,
-        address: merchant?.pickupPoint, // full street address
+        address: merchant?.pickupPoint,
         region: merchant?.region,
         district: merchant?.district,
         area: merchant?.area,

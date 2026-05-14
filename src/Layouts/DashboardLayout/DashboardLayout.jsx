@@ -107,7 +107,7 @@ const roleMenuItems = {
     {
       name: "My Task List",
       icon: <RiListCheck2 size={22} />,
-      path: "/rider/tasks",
+      path: "/dashboard/my-task",
     },
     { name: "Live Map", icon: <RiMap2Line size={22} />, path: "/rider/map" },
     {
