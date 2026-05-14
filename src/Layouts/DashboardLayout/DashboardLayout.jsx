@@ -2,68 +2,97 @@ import React, { useState } from "react";
 import NavBar from "../../Components/Shared/NavBar/NavBar";
 import { Link, NavLink, Outlet } from "react-router";
 import Sidebar from "../../Components/Sidebar/Sidebar";
-import {
-  RiBankCardLine,
-  RiDashboardFill,
-  RiFileTextLine,
-  RiLockPasswordLine,
-  RiLogoutBoxRLine,
-  RiMapPin2Line,
-  RiMenuFoldLine,
-  RiMenuUnfoldLine,
-  RiNotification3Line,
-  RiQuestionLine,
-  RiSearch2Line,
-  RiSettings4Line,
-  RiStore2Line,
-  RiTruckLine,
-} from "react-icons/ri";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import useRole from "../../Hooks/useRole";
+import {
+  RiDashboardFill,
+  RiTruckLine,
+  RiFileTextLine,
+  RiStore2Line,
+  RiBankCardLine,
+  RiMapPin2Line,
+  RiUserReceivedLine,
+  RiFocus2Line,
+  RiArrowGoBackLine,
+  RiMotorbikeLine,
+  RiWallet3Line,
+  RiAddCircleLine,
+  RiSearchLine,
+  RiMapPinUserLine,
+  RiLineChartLine,
+  RiLogoutBoxRLine,
+  RiMenuFoldLine,
+  RiMenuUnfoldLine,
+  RiNotification3Line,
+  RiSettings4Line,
+  RiLockPasswordLine,
+  RiQuestionLine,
+  RiUserSettingsLine,
+  RiFileChartLine,
+  RiListCheck2,
+  RiMap2Line,
+  RiCheckboxCircleLine,
+  RiMoneyDollarCircleLine,
+  RiRadarLine,
+  RiStore3Line,
+  RiCustomerService2Line,
+} from "react-icons/ri";
+
+
+const roleMenuItems = {
+  "master admin": [
+    { name: "Overview Dashboard", icon: <RiDashboardFill size={22} />, path: "/dashboard" },
+    { name: "Hub Management", icon: <RiMapPin2Line size={22} />, path: "hubs" },
+    { name: "User Management", icon: <RiUserSettingsLine size={22} />, path: "users" },
+    { name: "Pricing & Coverage", icon: <RiBankCardLine size={22} />, path: "/admin/pricing-coverage" },
+    { name: "Financial Reports", icon: <RiFileChartLine size={22} />, path: "/admin/finance" },
+    { name: "System Settings", icon: <RiSettings4Line size={22} />, path: "/admin/settings" },
+  ],
+  "hub manager": [
+    { name: "Hub Dashboard", icon: <RiDashboardFill size={22} />, path: "/hub/dashboard" },
+    { name: "Incoming", icon: <RiUserReceivedLine size={22} />, path: "/hub/incoming" },
+    { name: "Dispatch / Delivery", icon: <RiTruckLine size={22} />, path: "/hub/dispatch" },
+    { name: "Pickups", icon: <RiFocus2Line size={22} />, path: "/hub/pickups" },
+    { name: "Returns", icon: <RiArrowGoBackLine size={22} />, path: "/hub/returns" },
+    { name: "My Riders", icon: <RiMotorbikeLine size={22} />, path: "/hub/riders" },
+    { name: "Accounts / Finance", icon: <RiWallet3Line size={22} />, path: "/hub/accounts" },
+  ],
+  "rider": [
+    { name: "My Task List", icon: <RiListCheck2 size={22} />, path: "/rider/tasks" },
+    { name: "Live Map", icon: <RiMap2Line size={22} />, path: "/rider/map" },
+    { name: "Delivery Status", icon: <RiCheckboxCircleLine size={22} />, path: "/rider/status" },
+    { name: "COD Collection", icon: <RiMoneyDollarCircleLine size={22} />, path: "/rider/cod" },
+    { name: "My Earnings", icon: <RiFileTextLine size={22} />, path: "/rider/earnings" },
+    { name: "Profile / Wallet", icon: <RiWallet3Line size={22} />, path: "/rider/wallet" },
+  ],
+  "merchant": [
+    { name: "Merchant Dashboard", icon: <RiDashboardFill size={22} />, path: "/merchant/dashboard" },
+    { name: "Create Order", icon: <RiAddCircleLine size={22} />, path: "/merchant/create-order" },
+    { name: "Track Parcels", icon: <RiRadarLine size={22} />, path: "/merchant/track" },
+    { name: "Payment / Payouts", icon: <RiBankCardLine size={22} />, path: "/merchant/payouts" },
+    { name: "Store Settings", icon: <RiStore3Line size={22} />, path: "/merchant/settings" },
+    { name: "Support / Claims", icon: <RiCustomerService2Line size={22} />, path: "/merchant/support" },
+  ],
+};
 
 const DashboardLayout = () => {
   const { dbUser, loading: authLoading, setLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
+  const { role } = useRole();
 
-  const { data: merchant = {}, isLoading: merchantLoading } = useQuery({
-    queryKey: ["merchant", dbUser?.email],
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/merchant/${dbUser?.email}`);
-      return res.data;
-    },
-    enabled: !!dbUser?.email && !authLoading,
-  });
+  // const { data: merchant = {}, isLoading: merchantLoading } = useQuery({
+  //   queryKey: ["merchant", dbUser?.email],
+  //   queryFn: async () => {
+  //     const res = await axiosSecure.get(`/user/${dbUser?.email}`);
+  //     return res.data;
+  //   },
+  //   enabled: !!dbUser?.email && !authLoading,
+  // });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  const menuItems = [
-    {
-      name: "Dashboard",
-      icon: <RiDashboardFill size={22} />,
-      path: "/dashboard",
-    },
-    {
-      name: "Deliveries",
-      icon: <RiTruckLine size={22} />,
-      path: "deliveries",
-    },
-    {
-      name: "Invoices",
-      icon: <RiFileTextLine size={22} />,
-      path: "/admin/invoices",
-    },
-    { name: "Stores", icon: <RiStore2Line size={22} />, path: "/admin/stores" },
-    {
-      name: "Pricing Plan",
-      icon: <RiBankCardLine size={22} />,
-      path: "/admin/pricing",
-    },
-    {
-      name: "Coverage Area",
-      icon: <RiMapPin2Line size={22} />,
-      path: "/admin/coverage",
-    },
-  ];
+  console.log(role);
+  const menuItems = roleMenuItems[role] || [];
 
   const generalItems = [
     {
@@ -109,7 +138,12 @@ const DashboardLayout = () => {
             </p>
             <nav className="space-y-1">
               {menuItems.map((item) => (
-                <NavLink key={item.path} to={item.path} className={linkClass} end={item.path === "/dashboard"}>
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={linkClass}
+                  end={item.path === "/dashboard"}
+                >
                   {({ isActive }) => (
                     <>
                       {isActive && (
@@ -182,14 +216,14 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-3 pl-2">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-black text-[#002B36]">
-                  {merchant.displayName}
+                  {dbUser.displayName}
                 </p>
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">
-                  {merchant.role} Account
+                  {dbUser.role} Account
                 </p>
               </div>
               <div className="w-11 h-11 overflow-hidden bg-[#CAEB66] rounded-2xl flex items-center justify-center font-black text-[#002B36] shadow-sm border-2 border-white cursor-pointer hover:scale-105 transition-transform">
-                <img src={merchant?.photoURL} alt="" />
+                <img src={dbUser?.photoURL} alt="" />
               </div>
             </div>
           </div>

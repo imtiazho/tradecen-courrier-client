@@ -111,7 +111,7 @@ const SendParcel = () => {
       createdAt: new Date(),
 
       // 🚦 Statuses
-      deliveryStatus: "pending", // Initial Status
+      deliveryStatus: "parcel-created", // Initial Status
       deliveryChargeStatus: "unpaid",
       currentLocation: `${merchant?.district || "Origin"} Hub`,
       merchantRevenueStatus: null,

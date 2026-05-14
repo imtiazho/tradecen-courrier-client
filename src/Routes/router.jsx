@@ -31,6 +31,8 @@ import Delivered from "../Pages/Delivered/Delivered";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import PaymentCancelled from "../Pages/PaymentCancelled/PaymentCancelled";
 import Deliveries from "../Pages/Deliveries/Deliveries";
+import UserManagement from "../Pages/UserManagement/UserManagement";
+import RiderRequest from "../Pages/RiderRequest/RiderRequest";
 
 export const router = createBrowserRouter([
   {
@@ -65,27 +67,27 @@ export const router = createBrowserRouter([
       {
         path: "role-onboarding",
         element: (
-          <VerifiedUserRoute>
-            <RoleSelection></RoleSelection>
-          </VerifiedUserRoute>
+          <RoleSelection></RoleSelection>
+          // <VerifiedUserRoute>
+          // </VerifiedUserRoute>
         ),
       },
       {
         path: "be-rider",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
         element: (
-          <VerifiedUserRoute>
-            <RiderRegistration></RiderRegistration>
-          </VerifiedUserRoute>
+          <RiderRegistration></RiderRegistration>
+          // <VerifiedUserRoute>
+          // </VerifiedUserRoute>
         ),
       },
       {
         path: "be-merchant",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
         element: (
-          <VerifiedUserRoute>
-            <MerchantRegistration></MerchantRegistration>
-          </VerifiedUserRoute>
+          <MerchantRegistration></MerchantRegistration>
+          // <VerifiedUserRoute>
+          // </VerifiedUserRoute>
         ),
       },
       {
@@ -108,9 +110,9 @@ export const router = createBrowserRouter([
         path: "send-parcel",
         loader: () => fetch("warehouses.json").then((res) => res.json()),
         element: (
-          <VerifiedUserRoute>
-            <SendParcel></SendParcel>
-          </VerifiedUserRoute>
+          <SendParcel></SendParcel>
+          // <VerifiedUserRoute>
+          // </VerifiedUserRoute>
         ),
       },
     ],
@@ -129,9 +131,10 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <VerifiedUserRoute>
-        <DashboardLayout></DashboardLayout>
-      </VerifiedUserRoute>
+      // <VerifiedUserRoute>
+      //   <DashboardLayout></DashboardLayout>
+      // </VerifiedUserRoute>
+      <DashboardLayout></DashboardLayout>
     ),
     children: [
       {
@@ -169,6 +172,20 @@ export const router = createBrowserRouter([
       {
         path: "deliveries",
         element: <Deliveries></Deliveries>,
+      },
+      {
+        path: "users",
+        element: <UserManagement></UserManagement>,
+        children: [
+          {
+            index: true,
+            loader: () =>
+              fetch("http://localhost:5000/riders?status=pending").then((res) =>
+                res.json(),
+              ),
+            element: <RiderRequest></RiderRequest>,
+          },
+        ],
       },
     ],
   },

@@ -7,6 +7,7 @@ import RiderState from "../../Components/RiderState/RiderState";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import HubmanagerDashboard from "../HubmanagerDashboard/HubmanagerDashboard";
 
 const Dashboard = () => {
   const [timeFrame, setTimeFrame] = useState("this-week");
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const limit = 10;
 
+  // merchant
   const { isLoading: statusLoading, data: stats = {} } = useQuery({
     queryKey: ["statistics", user?.email],
     queryFn: async () => {
@@ -27,7 +29,7 @@ const Dashboard = () => {
     },
     enabled: !!user?.email,
   });
-
+  // merchant
   const { isLoading: chartLoading, data: chartData = {} } = useQuery({
     queryKey: ["revenueStats", user?.email, timeFrame],
     queryFn: async () => {
@@ -38,7 +40,7 @@ const Dashboard = () => {
     },
     enabled: !!user?.email,
   });
-
+  // merchant
   const { isLoading: shippingLoading, data: shippingData = {} } = useQuery({
     queryKey: ["shippingData", user?.email, weekFrame, currentPage],
     queryFn: async () => {
@@ -52,6 +54,8 @@ const Dashboard = () => {
     enabled: !!user?.email,
   });
 
+  
+
 
   if (roleLoading)
     return (
@@ -59,7 +63,9 @@ const Dashboard = () => {
         loading={roleLoading || statusLoading || chartLoading}
       ></LoadingModal>
     );
-  if (role === "admin") return <AdminState></AdminState>;
+  if (role === "master admin") return <AdminState></AdminState>;
+  if (role === "hub manager")
+    return <HubmanagerDashboard></HubmanagerDashboard>;
   if (role === "merchant")
     return (
       <MerchantState

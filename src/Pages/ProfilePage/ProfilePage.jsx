@@ -24,7 +24,6 @@ const ProfilePage = () => {
       );
 
       if (res.data.modifiedCount > 0 || res.data.matchedCount > 0) {
-        
         setDbUser({ ...dbUser, ...data });
         setIsEditing(false);
         Swal.fire("Updated!", "Profile info has been updated.", "success");
