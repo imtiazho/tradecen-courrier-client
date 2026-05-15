@@ -98,8 +98,7 @@ const InTransitParcel = () => {
                         On Route
                       </span>
                       <p className="text-[10px] text-slate-400 font-medium">
-                        Last Scan:{" "}
-                        {parcel.timeline?.lastScanLocation || "Central Hub"}
+                        Last Scan: {parcel?.currentLocation}
                       </p>
                     </div>
                   </td>

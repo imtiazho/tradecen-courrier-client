@@ -21,7 +21,7 @@ const ReadyToPickUp = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels/status/${user.email}?status=ready-to-pickup`,
+        `/parcels/status/${user.email}?status=assign-pickup-rider`,
       );
       return res.data;
     },
@@ -41,7 +41,7 @@ const ReadyToPickUp = () => {
             Riders have been assigned. Your shipments will be collected soon.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
           <FaShippingFast className="text-[#84cc16]" />
           <span className="text-sm font-bold text-slate-700">
             Total Parcels: {pendingPickUpParcelsData.length}

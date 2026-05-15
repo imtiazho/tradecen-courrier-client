@@ -47,7 +47,7 @@ const MyTaskRider = () => {
       });
 
       if (res.data.success) {
-        Swal.fire("Success", "Parcel picked up and status updated!", "success");
+        Swal.fire("Success", "Parcel Delivered and status updated!", "success");
         refetch();
       }
     } catch (error) {
@@ -58,7 +58,7 @@ const MyTaskRider = () => {
   if (isLoading) return <LoadingModal isLoading={true}></LoadingModal>;
   console.log(riderData.activeTasks);
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 min-h-screen">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
         My Active Tasks ({riderData?.activeTasks?.length || 0})
       </h2>
@@ -68,11 +68,11 @@ const MyTaskRider = () => {
           riderData.activeTasks.map((task) => (
             <div
               key={task.parcelId}
-              className="card bg-white shadow-xl border-t-4 border-blue-600 transition-transform hover:scale-[1.02]"
+              className="card bg-white shadow-[0_2px_5px_rgba(0,0,0,0.05)] border-t-4 border-[#CAEB66] transition-transform hover:scale-[1.02]"
             >
               <div className="card-body p-5">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="badge badge-primary badge-outline font-bold">
+                  <span className="badge badge-primary badge-outline font-bold text-[#002B36]">
                     #{task.trackingID}
                   </span>
                   <span className="text-[10px] text-gray-400">
@@ -80,8 +80,8 @@ const MyTaskRider = () => {
                   </span>
                 </div>
 
-                <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-4">
-                  <h3 className="text-xs font-bold text-blue-800 uppercase tracking-wider mb-2">
+                <div className="bg-[#caeb6673] p-3 rounded-lg border border-blue-100 mb-4">
+                  <h3 className="text-xs font-bold text-[#002B36] uppercase tracking-wider mb-2">
                     {task.taskType === "pickup" ? "Pickup From:" : "Deliver to"}
                   </h3>
                   <p className="font-bold text-gray-800">
@@ -89,7 +89,7 @@ const MyTaskRider = () => {
                   </p>
 
                   <div className="flex items-start gap-1 mt-2">
-                    <span className="text-blue-600">📍</span>
+                    <span className="text-[#002B36]">📍</span>
                     <p className="text-sm text-gray-600 leading-tight">
                       {task.pickupLocation || task.deliveryLocation}
                     </p>
@@ -98,7 +98,7 @@ const MyTaskRider = () => {
                   <div className="mt-3">
                     <a
                       href={`tel:${task.merchantPhone ? task.merchantPhone : task.consumerPhone}`}
-                      className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-200 rounded-full text-blue-700 text-xs font-bold hover:bg-blue-600 hover:text-white transition-colors"
+                      className="inline-flex items-center gap-2 px-3 py-1 bg-[#CAEB66] rounded-full text-[#002B36] text-xs font-bold transition-colors"
                     >
                       📞{" "}
                       {task.merchantPhone
@@ -114,7 +114,7 @@ const MyTaskRider = () => {
                       onClick={() =>
                         handlePickedUp(task.parcelId, task.trackingID)
                       }
-                      className="btn btn-sm btn-primary w-full flex items-center gap-2"
+                      className="btn btn-sm bg-[#CAEB66] w-full flex items-center gap-2"
                     >
                       Confirm Pickup
                     </button>
@@ -123,7 +123,7 @@ const MyTaskRider = () => {
                       onClick={() =>
                         handleDelivered(task.parcelId, task.trackingID)
                       }
-                      className="btn btn-sm btn-primary w-full flex items-center gap-2"
+                      className="btn btn-sm btn-primary bg-[#CAEB66] text-[#002B36] border-0 w-full flex items-center gap-2 shadow-none"
                     >
                       Confirm Delivered
                     </button>

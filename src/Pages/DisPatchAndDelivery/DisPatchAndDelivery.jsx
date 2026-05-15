@@ -19,8 +19,6 @@ const DispatchAndDelivery = () => {
     },
     enabled: !!user?.email,
   });
-
-  
   
   const tabs = [
     {
@@ -52,7 +50,7 @@ const DispatchAndDelivery = () => {
       </div>
 
       {/* Modern Tabs Navigation */}
-      <div className="flex gap-2 border-b border-gray-100 mb-8 bg-white/50 p-1.5 rounded-2xl w-fit shadow-sm">
+      <div className="flex gap-2 border-b border-gray-100 mb-8 bg-white/50 p-1.5 rounded-2xl w-fit shadow-[0_2px_1px_rgba(0,0,0,0.05)]">
         {tabs.map((tab) => (
           <NavLink
             key={tab.path}
@@ -62,7 +60,7 @@ const DispatchAndDelivery = () => {
               px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-xl
               ${
                 isActive
-                  ? "bg-[#CAEB66]/20 text-[#002B36] border border-[#CAEB66]/50 shadow-sm"
+                  ? "bg-[#CAEB66] text-[#002B36] shadow-sm"
                   : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
               }
             `}
@@ -85,7 +83,7 @@ const DispatchAndDelivery = () => {
       </div>
 
       {/* Content Area */}
-      <div className="transition-all duration-500 bg-white p-6 rounded-3xl shadow-sm border border-gray-50">
+      <div className="transition-all duration-500 bg-white p-6 rounded-xl shadow-[0_2px_1px_rgba(0,0,0,0.05)] border border-gray-50">
         <Outlet context={ managerData?.hubName } />
       </div>
     </div>

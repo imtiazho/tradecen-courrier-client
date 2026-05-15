@@ -117,19 +117,10 @@ const DeliveryParcelLocal = () => {
   };
 
   return (
-    <div className="p-4">
-      <div className="mb-6">
-        <h2 className="text-xl font-black text-slate-800">
-          Local Delivery Management
-        </h2>
-        <p className="text-xs text-gray-400">
-          Assign riders for parcels that reached your destination hub.
-        </p>
-      </div>
-
-      <table className="w-full text-left border-separate border-spacing-y-3">
-        <thead>
-          <tr className="text-gray-400 text-[11px] uppercase font-black tracking-widest">
+    <div>
+      <table className="w-full text-left rounded-xl border-spacing-y-3">
+        <thead className="bg-[#CAEB66] ">
+          <tr className="text-[#002B36] text-[11px] uppercase font-black tracking-widest">
             <th className="px-6 py-3">Parcel Info</th>
             <th className="px-6 py-3">Customer Location</th>
             <th className="px-6 py-3 text-center">Operation</th>
@@ -139,11 +130,11 @@ const DeliveryParcelLocal = () => {
           {(inHouse.deliveryList || []).map((parcel) => (
             <tr
               key={parcel._id}
-              className="bg-white hover:shadow-sm transition-all border border-gray-50"
+              className="bg-white transition-all border border-gray-50"
             >
               <td className="px-6 py-4 rounded-l-2xl">
                 <div className="flex flex-col">
-                  <span className="text-[10px] font-bold text-[#CAEB66] bg-[#002B36] px-2 py-0.5 rounded-full w-fit mb-1 font-mono">
+                  <span className="text-[10px] font-bold text-[#002B36] bg-[#CAEB66] px-2 py-0.5 rounded-full w-fit mb-1 font-mono">
                     {parcel.trackingID}
                   </span>
                   <span className="text-sm font-black text-slate-800">
@@ -157,7 +148,7 @@ const DeliveryParcelLocal = () => {
               <td className="px-6 py-4">
                 <div className="flex items-center gap-2 text-[11px] font-bold text-gray-500">
                   <FaMapMarkerAlt className="text-[#CAEB66]" />
-                  {parcel.receiverInfo.area}, {parcel.receiverInfo.district}
+                  {parcel.receiverInfo.address}, {parcel.receiverInfo.district}
                 </div>
               </td>
               <td className="px-6 py-4 rounded-r-2xl text-center">
@@ -174,7 +165,7 @@ const DeliveryParcelLocal = () => {
                       setSelectedParcel(parcel);
                       setIsModalOpen(true);
                     }}
-                    className="bg-[#002B36] text-[#CAEB66] px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-[#CAEB66] hover:text-[#002B36] transition-all shadow-sm border border-[#CAEB66]/20"
+                    className="bg-[#CAEB66] cursor-pointer text-[#002B36] px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-[#CAEB66] hover:text-[#002B36] transition-all shadow-sm border border-[#CAEB66]/20"
                   >
                     Assign Delivery Rider
                   </button>

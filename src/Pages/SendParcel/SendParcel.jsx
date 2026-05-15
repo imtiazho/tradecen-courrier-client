@@ -104,17 +104,17 @@ const SendParcel = () => {
       parcelType: data.parcelType,
       parcelName: data.parcelName,
       parcelWeight: parseFloat(data.parcelWeight),
-      codAmount: selectedMethodRev ? data.CODAmount : 0,
       deliveryCharge: deliveryCharge,
-      cost: selectedMethodRev ? data.CODAmount : 0 + parseInt(deliveryCharge),
+      codAmount: selectedMethodRev ? data.CODAmount : 0,
       currency: "BDT",
       trackingID: trackingID,
       createdAt: new Date(),
 
       // 🚦 Statuses
-      deliveryStatus: "parcel-created", // Initial Status
+      deliveryStatus: "parcel-created",
       deliveryChargeStatus: "unpaid",
-      currentLocation: `${merchant?.district || "Origin"} Hub`,
+      currentLocation: "",
+      revMethod: selectedMethodRev ? "COD" : "Online",
       merchantRevenueStatus: null,
 
       // 👤 Sender (Merchant) Details
@@ -168,7 +168,7 @@ const SendParcel = () => {
         deliveredAt: null,
       },
     };
-    console.log(parcelData);
+
     try {
       const res = await axiosSecure.post("/parcels", parcelData);
       if (res.data.insertedId) {
@@ -189,7 +189,7 @@ const SendParcel = () => {
   };
 
   if (merchantLoading) return <LoadingModal isLoading={true} />;
-  console.log(merchant);
+
   const inputStyle =
     "w-full border border-gray-200 p-3.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CAEB66]/50 transition-all text-sm bg-white";
   const labelStyle = "block text-[13px] font-bold text-[#002B36] mb-1.5 ml-1";
