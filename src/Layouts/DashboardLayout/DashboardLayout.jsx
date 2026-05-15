@@ -84,7 +84,7 @@ const roleMenuItems = {
     {
       name: "Dispatch / Delivery",
       icon: <RiTruckLine size={22} />,
-      path: "/hub/dispatch",
+      path: "/dashboard/dispatch-delivery",
     },
     { name: "Pickups", icon: <RiFocus2Line size={22} />, path: "/hub/pickups" },
     {

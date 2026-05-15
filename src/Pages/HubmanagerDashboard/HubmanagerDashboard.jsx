@@ -16,6 +16,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import { LucideWarehouse } from "lucide-react";
 
 const HubmanagerDashboard = () => {
   const { user } = useAuth();
@@ -55,6 +56,13 @@ const HubmanagerDashboard = () => {
       bg: "bg-blue-50",
     },
     {
+      label: "In House",
+      count: "12",
+      icon: <LucideWarehouse />,
+      color: "text-purple-600",
+      bg: "bg-purple-50",
+    },
+    {
       label: "Out for Delivery",
       count: 28,
       icon: <RiTruckLine />,
@@ -67,14 +75,7 @@ const HubmanagerDashboard = () => {
       icon: <RiCheckboxCircleLine />,
       color: "text-green-600",
       bg: "bg-green-50",
-    },
-    {
-      label: "Pending COD",
-      count: "৳ 12.5k",
-      icon: <RiWallet3Line />,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
-    },
+    }
   ];
 
   if (managerLoading) {
@@ -123,11 +124,8 @@ const HubmanagerDashboard = () => {
         ))}
       </div>
 
-      {/* --- ৩. মেইন অপারেশনাল এরিয়া (Grid Layout) --- */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* বাম পাশ: রিসেন্ট পার্সেল এবং কুইক শর্টকাট (8 Columns) */}
         <div className="lg:col-span-8 space-y-8">
-          {/* কুইক অ্যাকশন কার্ডস (Small & Sleek) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white p-6 rounded-[30px] border border-orange-100 flex items-center justify-between group hover:border-orange-300 transition-all cursor-pointer">
               <div className="flex items-center gap-4">

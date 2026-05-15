@@ -79,6 +79,24 @@ const Incoming = () => {
     }
   };
 
+  const handleReceiveAtHub = async (id) => {
+    try {
+      const res = await axiosSecure.patch(`/parcels/hub/received/${id}`);
+
+      if (res.data.success) {
+        Swal.fire({
+          title: "Received!",
+          text: "Parcel is now ready for local delivery.",
+          icon: "success",
+          confirmButtonColor: "#002B36",
+        });
+        refetchParcels();
+      }
+    } catch (error) {
+      Swal.fire("Error", "Could not mark as received", "error");
+    }
+  };
+
   if (managerLoading || incomingLoading) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
@@ -141,18 +159,27 @@ const Incoming = () => {
                   </span>
                 </td>
                 <td>
-                  <button
-                    disabled={parcel.deliveryStatus !== "parcel-created"}
-                    className={`btn btn-sm btn-primary`}
-                    onClick={() => {
-                      setSelectedParcel(parcel);
-                      document.getElementById("rider_modal").showModal();
-                    }}
-                  >
-                    {parcel.deliveryStatus === "parcel-created"
-                      ? "Assign Rider"
-                      : "Rider Assigned"}
-                  </button>
+                  {managerData.hubName === parcel.senderInfo.area ? (
+                    <button
+                      disabled={parcel.deliveryStatus !== "parcel-created"}
+                      className={`btn btn-sm btn-primary`}
+                      onClick={() => {
+                        setSelectedParcel(parcel);
+                        document.getElementById("rider_modal").showModal();
+                      }}
+                    >
+                      {parcel.deliveryStatus === "parcel-created"
+                        ? "Assign Rider"
+                        : "Rider Assigned"}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleReceiveAtHub(parcel._id)}
+                      className="bg-[#CAEB66] text-[#002B36] px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-[#002B36] hover:text-[#CAEB66] transition-all"
+                    >
+                      Confirm Receive
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}

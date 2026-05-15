@@ -39,7 +39,7 @@ const MyTaskRider = () => {
   };
 
   if (isLoading) return <LoadingModal isLoading={true}></LoadingModal>;
-
+  console.log(riderData.activeTasks);
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
@@ -65,7 +65,9 @@ const MyTaskRider = () => {
 
                 <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-4">
                   <h3 className="text-xs font-bold text-blue-800 uppercase tracking-wider mb-2">
-                    Pickup From:
+                    {task.taskType === "pickup"
+                      ? "Pickup From:"
+                      : "Deliver to"}
                   </h3>
                   <p className="font-bold text-gray-800">
                     {task.merchantName || "Unknown Merchant"}

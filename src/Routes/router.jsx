@@ -36,6 +36,8 @@ import RiderRequest from "../Pages/RiderRequest/RiderRequest";
 import HubManager from "../Pages/HubManager/HubManager";
 import Incoming from "../Pages/Incoming/Incoming";
 import MyTaskRider from "../Pages/MyTaskRider/MyTaskRider";
+import DisPatchAndDelivery from "../Pages/DisPatchAndDelivery/DisPatchAndDelivery";
+import DisPatch from "../Pages/DisPatch/DisPatch";
 
 export const router = createBrowserRouter([
   {
@@ -202,6 +204,11 @@ export const router = createBrowserRouter([
       {
         path: "my-task",
         element: <MyTaskRider></MyTaskRider>,
+      },
+      {
+        path: "dispatch-delivery",
+        element: <DisPatchAndDelivery></DisPatchAndDelivery>,
+        children: [{ index: true, element: <DisPatch></DisPatch> }],
       },
     ],
   },
