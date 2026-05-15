@@ -29,7 +29,7 @@ const TrackParcels = () => {
   const parcelInfo = trackingData.length > 0 ? trackingData[0] : null;
 
   return (
-    <div className="max-w-6xl mx-auto p-6 lg:p-12 bg-white min-h-screen font-sans mt-12 rounded-2xl">
+    <div className="p-6 lg:p-12 bg-white min-h-screen font-sans mt-6 rounded-2xl">
       {/* Header Section */}
       <div className="mb-10">
         <h1 className="text-4xl font-black text-[#02312A] mb-2 tracking-tight">
@@ -55,7 +55,7 @@ const TrackParcels = () => {
         />
         <button
           onClick={handleSearch}
-          className="absolute right-2 top-2 bg-[#02312A] text-[#CAEB66] font-bold px-6 py-2.5 rounded-full hover:bg-black transition-all active:scale-95"
+          className="absolute right-1 top-1 bg-[#02312A] text-[#CAEB66] font-bold px-6 py-2.5 rounded-full hover:bg-black transition-all active:scale-95 cursor-pointer"
         >
           {loading ? "Searching..." : "Track"}
         </button>
@@ -63,14 +63,13 @@ const TrackParcels = () => {
 
       {trackingData.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start animate-in fade-in duration-500">
-          {/* Left Card: Product Summary */}
-          <div className="bg-[#F3F7F9] p-8 rounded-[40px] border border-gray-100">
+          <div className="bg-[#F3F7F9] p-8 rounded-[25px] border border-gray-100">
             <h2 className="text-2xl font-black text-[#02312A] mb-6 flex items-center gap-3">
               <FaBoxOpen className="text-[#CAEB66]" /> Product Details
             </h2>
 
             <div className="space-y-4">
-              <div className="bg-white p-4 rounded-2xl shadow-sm">
+              <div className="bg-[#CAEB66] p-4 rounded-xl">
                 <p className="text-gray-400 text-[10px] uppercase font-black tracking-widest mb-1">
                   Tracking ID
                 </p>
@@ -126,7 +125,7 @@ const TrackParcels = () => {
           </div>
 
           {/* Right Card: Dynamic Tracking Updates */}
-          <div className="bg-[#F3F7F9] p-8 rounded-[40px] border border-gray-100">
+          <div className="bg-[#F3F7F9] p-8 rounded-[25px] border border-gray-100">
             <h2 className="text-2xl font-black text-[#02312A] mb-8">History</h2>
 
             <div className="relative space-y-8">
