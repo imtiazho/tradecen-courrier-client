@@ -7,20 +7,6 @@ import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import Swal from "sweetalert2";
 
 const DisPatch = () => {
-  // আপনার দেওয়া ডামি ডেটা (এটি পরবর্তীতে API থেকে আসবে)
-  const dispatchParcels = [
-    {
-      _id: "6a05e93e99d6fcedb0f33b99",
-      parcelName: "Nuts and chick peas juice",
-      trackingID: "TCC-46R6IDYZC",
-      deliveryStatus: "reached-origin-warehouse",
-      currentLocation: "Dhaka Hub",
-      senderInfo: { name: "NiftyLand", district: "Dhaka" },
-      receiverInfo: { name: "Imtiaz Hossain", district: "Lakshmipur" },
-      parcelWeight: 4,
-      codAmount: "1000",
-    },
-  ];
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const { isLoading: managerLoading, data: managerData = {} } = useQuery({
@@ -153,7 +139,7 @@ const DisPatch = () => {
         </tbody>
       </table>
 
-      {dispatchParcels.length === 0 && (
+      {inHouse?.dispatchList?.length === 0 && (
         <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-100">
           <p className="text-gray-400 font-medium italic">
             No parcels ready for dispatch!

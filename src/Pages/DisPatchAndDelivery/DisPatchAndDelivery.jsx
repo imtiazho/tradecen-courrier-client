@@ -30,7 +30,7 @@ const DispatchAndDelivery = () => {
     },
     {
       name: "Delivery",
-      path: "delivery",
+      path: "delivery-local",
       desc: "Parcels to be delivered to destination",
     },
   ];

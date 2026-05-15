@@ -38,6 +38,23 @@ const MyTaskRider = () => {
     }
   };
 
+  const handleDelivered = async (parcelId, trackingID) => {
+    try {
+      const res = await axiosSecure.patch("/riders/complete-delivered/update", {
+        riderId: riderData._id,
+        parcelId,
+        trackingID,
+      });
+
+      if (res.data.success) {
+        Swal.fire("Success", "Parcel picked up and status updated!", "success");
+        refetch();
+      }
+    } catch (error) {
+      Swal.fire("Error", "Something went wrong!", "error");
+    }
+  };
+  console.log(riderData.activeTasks);
   if (isLoading) return <LoadingModal isLoading={true}></LoadingModal>;
   console.log(riderData.activeTasks);
   return (
@@ -65,40 +82,52 @@ const MyTaskRider = () => {
 
                 <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-4">
                   <h3 className="text-xs font-bold text-blue-800 uppercase tracking-wider mb-2">
-                    {task.taskType === "pickup"
-                      ? "Pickup From:"
-                      : "Deliver to"}
+                    {task.taskType === "pickup" ? "Pickup From:" : "Deliver to"}
                   </h3>
                   <p className="font-bold text-gray-800">
-                    {task.merchantName || "Unknown Merchant"}
+                    {task.merchantName || task.consumerName}
                   </p>
 
                   <div className="flex items-start gap-1 mt-2">
                     <span className="text-blue-600">📍</span>
                     <p className="text-sm text-gray-600 leading-tight">
-                      {task.pickupLocation || "Address not provided"}
+                      {task.pickupLocation || task.deliveryLocation}
                     </p>
                   </div>
 
                   <div className="mt-3">
                     <a
-                      href={`tel:${task.merchantPhone}`}
+                      href={`tel:${task.merchantPhone ? task.merchantPhone : task.consumerPhone}`}
                       className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-200 rounded-full text-blue-700 text-xs font-bold hover:bg-blue-600 hover:text-white transition-colors"
                     >
-                      📞 {task.merchantPhone || "No Phone"}
+                      📞{" "}
+                      {task.merchantPhone
+                        ? task.merchantPhone
+                        : task.consumerPhone}
                     </a>
                   </div>
                 </div>
 
                 <div className="card-actions mt-2">
-                  <button
-                    onClick={() =>
-                      handlePickedUp(task.parcelId, task.trackingID)
-                    }
-                    className="btn btn-sm btn-primary w-full flex items-center gap-2"
-                  >
-                    Confirm Pickup
-                  </button>
+                  {task.taskType === "pickup" ? (
+                    <button
+                      onClick={() =>
+                        handlePickedUp(task.parcelId, task.trackingID)
+                      }
+                      className="btn btn-sm btn-primary w-full flex items-center gap-2"
+                    >
+                      Confirm Pickup
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        handleDelivered(task.parcelId, task.trackingID)
+                      }
+                      className="btn btn-sm btn-primary w-full flex items-center gap-2"
+                    >
+                      Confirm Delivered
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

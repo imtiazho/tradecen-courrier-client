@@ -38,6 +38,7 @@ import Incoming from "../Pages/Incoming/Incoming";
 import MyTaskRider from "../Pages/MyTaskRider/MyTaskRider";
 import DisPatchAndDelivery from "../Pages/DisPatchAndDelivery/DisPatchAndDelivery";
 import DisPatch from "../Pages/DisPatch/DisPatch";
+import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLocal";
 
 export const router = createBrowserRouter([
   {
@@ -208,7 +209,13 @@ export const router = createBrowserRouter([
       {
         path: "dispatch-delivery",
         element: <DisPatchAndDelivery></DisPatchAndDelivery>,
-        children: [{ index: true, element: <DisPatch></DisPatch> }],
+        children: [
+          { index: true, element: <DisPatch></DisPatch> },
+          {
+            path: "delivery-local",
+            element: <DeliveryParcelLocal></DeliveryParcelLocal>,
+          },
+        ],
       },
     ],
   },
