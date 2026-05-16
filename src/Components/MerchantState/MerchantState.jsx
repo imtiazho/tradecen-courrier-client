@@ -90,7 +90,7 @@ const MerchantState = ({
   const [selectedShipping, setSelectedShipping] = useState("this-week");
 
   const options = ["this-week", "last-week", "last-month"];
-
+  console.log(stats.toPay);
   const statistic = [
     {
       to: "unpaid-parcel",

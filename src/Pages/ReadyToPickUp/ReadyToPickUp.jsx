@@ -65,11 +65,11 @@ const ReadyToPickUp = () => {
                   Charge Info
                 </th>
                 <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
+                  Amount
+                </th>
+                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
                   Status
                 </th>
-                {/* <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em] text-right">
-                  Action
-                </th> */}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
@@ -133,11 +133,14 @@ const ReadyToPickUp = () => {
                         {parcel.deliveryChargeStatus}
                       </span>
                       <span className="text-xs font-bold mt-1 text-slate-900">
-                        ৳{parcel.deliveryCharge}
+                        ৳ {parcel.deliveryCharge}
                       </span>
                     </div>
                   </td>
-
+                  {/* Amout */}
+                  <td className="px-8 py-6 text-xs font-bold mt-1 text-slate-900">
+                    ৳ {parcel.revMethod === "COD" ? parcel.codAmount : 0}
+                  </td>
                   {/* Pickup Status */}
                   <td className="px-8 py-6">
                     <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border border-blue-100">

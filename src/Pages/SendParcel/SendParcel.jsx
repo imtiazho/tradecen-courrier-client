@@ -105,7 +105,7 @@ const SendParcel = () => {
       parcelName: data.parcelName,
       parcelWeight: parseFloat(data.parcelWeight),
       deliveryCharge: deliveryCharge,
-      codAmount: selectedMethodRev ? data.CODAmount : 0,
+      codAmount: selectedMethodRev ? parseInt(data.CODAmount) : 0,
       currency: "BDT",
       trackingID: trackingID,
       createdAt: new Date(),

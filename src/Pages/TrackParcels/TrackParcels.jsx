@@ -81,7 +81,7 @@ const TrackParcels = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-gray-400 text-[10px] uppercase font-black mb-1">
-                    Item Name
+                    Parcel Name
                   </p>
                   <p className="text-gray-700 font-bold text-sm">
                     {parcelInfo.parcelName}

@@ -133,9 +133,9 @@ const roleMenuItems = {
   ],
   merchant: [
     {
-      name: "Merchant Dashboard",
+      name: "Dashboard",
       icon: <RiDashboardFill size={22} />,
-      path: "/merchant/dashboard",
+      path: "/dashboard",
     },
     {
       name: "Create Order",
