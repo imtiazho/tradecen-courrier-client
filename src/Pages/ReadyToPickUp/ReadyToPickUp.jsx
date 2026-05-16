@@ -41,8 +41,8 @@ const ReadyToPickUp = () => {
             Riders have been assigned. Your shipments will be collected soon.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
-          <FaShippingFast className="text-[#84cc16]" />
+        <div className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 px-5 py-3 rounded-xl shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
+          <FaShippingFast className="text-slate-900" />
           <span className="text-sm font-bold text-slate-700">
             Total Parcels: {pendingPickUpParcelsData.length}
           </span>
@@ -50,7 +50,7 @@ const ReadyToPickUp = () => {
       </div>
 
       {/* Table Container */}
-      <div className="bg-white rounded-[20px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.01)] border border-slate-100 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>

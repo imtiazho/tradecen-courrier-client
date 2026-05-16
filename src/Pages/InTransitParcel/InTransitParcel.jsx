@@ -4,7 +4,7 @@ import {
   FaBarcode,
   FaBoxOpen,
   FaPhoneAlt,
-  FaTruckMoving, // নতুন আইকন
+  FaTruckMoving,
   FaMapMarkerAlt,
   FaTruckLoading,
 } from "react-icons/fa";
@@ -29,9 +29,9 @@ const InTransitParcel = () => {
   });
 
   if (isLoading) return <LoadingModal isLoading={isLoading} />;
-
+  console.log(inTransitParcels);
   return (
-    <div className="p-4 bg-[#F8FAFC] min-h-screen font-sans">
+    <div className="p-4 bg-[#F8FAFC] shadow-[0_2px_5px_rgba(0,0,0,0.01)] min-h-screen font-sans">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
@@ -42,9 +42,9 @@ const InTransitParcel = () => {
             Parcels are moving through our logistics network.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-white px-5 py-3 rounded-2xl border border-slate-200 shadow-sm">
-          <FaTruckMoving className="text-blue-500" />
-          <span className="text-sm font-bold text-slate-700">
+        <div className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 px-5 py-3 rounded-2xl border border-slate-200 shadow-[0_2px_5px_rgba(0,0,0,0.01)]">
+          <FaTruckMoving className="text-slate-900" />
+          <span className="text-sm font-bold">
             Total Moving: {inTransitParcels.length}
           </span>
         </div>
@@ -59,13 +59,13 @@ const InTransitParcel = () => {
                   Shipment Info
                 </th>
                 <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Live Location
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
                   Transport Method
                 </th>
                 <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Payment
+                  Delivery Charge
+                </th>
+                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
+                  Amount
                 </th>
               </tr>
             </thead>
@@ -86,19 +86,6 @@ const InTransitParcel = () => {
                       </div>
                       <p className="font-bold text-slate-700 text-sm">
                         {parcel.parcelName}
-                      </p>
-                    </div>
-                  </td>
-
-                  {/* Live Location */}
-                  <td className="px-8 py-6">
-                    <div className="space-y-2">
-                      <span className="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-600 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border border-indigo-100">
-                        <FaMapMarkerAlt className="animate-pulse" />
-                        On Route
-                      </span>
-                      <p className="text-[10px] text-slate-400 font-medium">
-                        Last Scan: {parcel?.currentLocation}
                       </p>
                     </div>
                   </td>
@@ -136,6 +123,12 @@ const InTransitParcel = () => {
                         ৳{parcel.deliveryCharge}
                       </span>
                     </div>
+                  </td>
+
+                  <td className="px-8 py-6">
+                    <p className="text-xs font-bold mt-1 text-slate-900">
+                      {parcel.revMethod === "COD" ? parcel.codAmount : 0} (BDT)
+                    </p>
                   </td>
                 </tr>
               ))}

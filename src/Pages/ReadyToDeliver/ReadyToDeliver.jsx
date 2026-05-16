@@ -6,6 +6,7 @@ import {
   FaMapMarkerAlt,
   FaPhoneAlt,
   FaRegEdit,
+  FaTruckMoving,
   FaTrashAlt,
   FaTruckLoading,
   FaUserCircle,
@@ -22,11 +23,11 @@ const ReadyToDeliver = () => {
   const axiosSecure = useAxiosSecure();
 
   const { data: readyToDeliverParcels = [], isLoading } = useQuery({
-    queryKey: ["inTransitParcels", user?.email],
+    queryKey: ["readyToDeliver", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/parcels/status/${user.email}?status=ready-to-deliver`,
+        `/parcels/status/${user.email}?status=assign-delivery-rider`,
       );
       return res.data;
     },
@@ -40,16 +41,18 @@ const ReadyToDeliver = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Unpaid Invoices
+            Ready to Delivery
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            Settle your pending delivery charges to keep shipments moving.
+            Parcels are going to delivery through rider.
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-[#bef264] cursor-pointer text-slate-900 font-bold py-3 px-8 rounded-2xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(190,242,100,0.39)]">
-          <FaCreditCard />
-          Pay Total Due (৳180)
-        </button>
+        <div className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 px-5 py-3 rounded-2xl border border-slate-200 shadow-[0_2px_5px_rgba(0,0,0,0.01)]">
+          <FaTruckMoving className="text-slate-900" />
+          <span className="text-sm font-bold">
+            To be Delivered: {readyToDeliverParcels?.length}
+          </span>
+        </div>
       </div>
 
       {/* Table Container */}
@@ -65,7 +68,10 @@ const ReadyToDeliver = () => {
                   Assigned Rider
                 </th>
                 <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Charge Info
+                  Delivery Charge
+                </th>
+                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
+                  Amount
                 </th>
                 <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
                   Status
@@ -109,7 +115,8 @@ const ReadyToDeliver = () => {
                             href={`tel:${parcel.pickupRider.phone}`}
                             className="flex items-center gap-1.5 text-[10px] font-black text-indigo-500 hover:text-indigo-700 transition-colors uppercase tracking-wider cursor-pointer"
                           >
-                            <FaPhoneAlt size={10} /> {parcel.deliveryRider.phone}
+                            <FaPhoneAlt size={10} />{" "}
+                            {parcel.deliveryRider.phone}
                           </a>
                         ) : (
                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
@@ -133,9 +140,14 @@ const ReadyToDeliver = () => {
                         {parcel.deliveryChargeStatus}
                       </span>
                       <span className="text-xs font-bold mt-1 text-slate-900">
-                        ৳{parcel.deliveryCharge}
+                        ৳ {parcel.deliveryCharge}
                       </span>
                     </div>
+                  </td>
+                  <td className="px-8 py-6">
+                    <span className="text-xs font-bold mt-1 text-slate-900">
+                      ৳ {parcel.codAmount}
+                    </span>
                   </td>
 
                   {/* Pickup Status */}
@@ -145,12 +157,6 @@ const ReadyToDeliver = () => {
                       On the way
                     </span>
                   </td>
-
-                  {/* <td className="px-8 py-6 text-right">
-                                    <button className="p-2.5 text-slate-300 hover:text-slate-600 hover:bg-white hover:shadow-sm rounded-xl transition-all cursor-pointer border border-transparent hover:border-slate-100">
-                                      <HiDotsVertical size={20} />
-                                    </button>
-                                  </td> */}
                 </tr>
               ))}
             </tbody>

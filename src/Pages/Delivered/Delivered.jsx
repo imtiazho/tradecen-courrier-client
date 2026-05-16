@@ -5,6 +5,7 @@ import {
   FaCreditCard,
   FaRegEdit,
   FaTrashAlt,
+  FaTruckMoving,
 } from "react-icons/fa";
 import { HiDotsVertical } from "react-icons/hi";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
@@ -18,7 +19,7 @@ const Delivered = () => {
   const axiosSecure = useAxiosSecure();
 
   const { data: deliveredParcels = [], isLoading } = useQuery({
-    queryKey: ["inTransitParcels", user?.email],
+    queryKey: ["deliveredParcels", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -36,16 +37,18 @@ const Delivered = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Unpaid Invoices
+            Delivered Parcels
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            Settle your pending delivery charges to keep shipments moving.
+            All your delivered parcels here!
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-[#bef264] cursor-pointer text-slate-900 font-bold py-3 px-8 rounded-2xl transition-all duration-300 shadow-[0_4px_14px_0_rgba(190,242,100,0.39)]">
-          <FaCreditCard />
-          Pay Total Due (৳180)
-        </button>
+        <div className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 px-5 py-3 rounded-2xl border border-slate-200 shadow-[0_2px_5px_rgba(0,0,0,0.01)]">
+          <FaTruckMoving className="text-slate-900" />
+          <span className="text-sm font-bold">
+            Delivered: {deliveredParcels?.length}
+          </span>
+        </div>
       </div>
 
       {/* Table Container */}
@@ -95,14 +98,25 @@ const Delivered = () => {
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-1 font-black text-slate-900">
                       <span className="text-xs text-slate-400">৳</span>
-                      {parcel.deliveryCharge}
+                      {parcel.codAmount}
                     </div>
                   </td>
+
                   <td className="px-8 py-6">
-                    <button className="flex items-center gap-2 text-[11px] font-black bg-orange-50 text-orange-600 px-4 py-2 rounded-xl hover:bg-orange-600 hover:text-white transition-all duration-300 cursor-pointer">
-                      <RiMoneyDollarCircleFill size={14} />
-                      PAY NOW
-                    </button>
+                    <div className="flex flex-col">
+                      <span
+                        className={`text-[10px] font-black uppercase px-2 py-1 rounded-md w-fit ${
+                          parcel.deliveryChargeStatus === "paid"
+                            ? "bg-green-50 text-green-600"
+                            : "bg-orange-50 text-orange-600"
+                        }`}
+                      >
+                        {parcel.deliveryChargeStatus}
+                      </span>
+                      <span className="text-xs font-bold mt-1 text-slate-900">
+                        ৳{parcel.deliveryCharge}
+                      </span>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -116,9 +130,7 @@ const Delivered = () => {
               <FaBoxOpen size={24} className="text-slate-300" />
             </div>
             <h3 className="text-slate-900 font-bold">All settled!</h3>
-            <p className="text-slate-400 text-sm">
-              No unpaid delivery charges found.
-            </p>
+            <p className="text-slate-400 text-sm">No delivered parcel found.</p>
           </div>
         )}
       </div>
