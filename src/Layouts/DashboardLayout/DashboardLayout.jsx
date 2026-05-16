@@ -140,7 +140,7 @@ const roleMenuItems = {
     {
       name: "Create Order",
       icon: <RiAddCircleLine size={22} />,
-      path: "/merchant/create-order",
+      path: "/dashboard/create-order",
     },
     {
       name: "Track Parcels",

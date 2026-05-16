@@ -39,6 +39,7 @@ import MyTaskRider from "../Pages/MyTaskRider/MyTaskRider";
 import DisPatchAndDelivery from "../Pages/DisPatchAndDelivery/DisPatchAndDelivery";
 import DisPatch from "../Pages/DisPatch/DisPatch";
 import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLocal";
+import CreateOrder from "../Pages/CreateOrder/CreateOrder";
 
 export const router = createBrowserRouter([
   {
@@ -205,6 +206,10 @@ export const router = createBrowserRouter([
       {
         path: "my-task",
         element: <MyTaskRider></MyTaskRider>,
+      },
+      {
+        path: "create-order",
+        element: <CreateOrder></CreateOrder>,
       },
       {
         path: "dispatch-delivery",

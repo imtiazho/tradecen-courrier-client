@@ -123,7 +123,7 @@ const MerchantState = ({
       color: "text-green-500",
     },
   ];
-  
+
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -147,7 +147,8 @@ const MerchantState = ({
       {/* --- Stats Cards --- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {statistic.map((stat, idx) => (
-          <Link to={stat.to}
+          <Link
+            to={stat.to}
             key={idx}
             className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] flex items-center gap-4  transition-transform duration-300 hover:border-[#CAEB66]"
           >
@@ -432,14 +433,39 @@ const MerchantState = ({
                       {item?.parcelWeight} KG
                     </td>
                     <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100 text-xs font-black text-gray-500">
-                      ৳ {item?.cost}
+                      ৳ {item?.codAmount}
                     </td>
                     <td className="py-5 bg-[#F8F9FA]/60 border-y border-transparent group-hover:border-gray-100">
-                      <span
-                        className={`px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${item.deliveryStatus === "intransit" && "bg-blue-100 text-blue-600"} ${item.deliveryStatus === "delivered" && "bg-green-100 text-green-600"}`}
-                      >
-                        {item.deliveryStatus}
-                      </span>
+                      {(() => {
+                        const statusConfig = {
+                          "parcel-created": "bg-gray-100 text-gray-600",
+                          "assign-pickup-rider":
+                            "bg-purple-100 text-purple-600",
+                          "reached-origin-warehouse":
+                            "bg-indigo-100 text-indigo-600",
+                          "in-transit": "bg-blue-100 text-blue-600",
+                          "reached-destination-warehouse":
+                            "bg-cyan-100 text-cyan-600",
+                          "assign-delivery-rider":
+                            "bg-orange-100 text-orange-600",
+                          delivered: "bg-green-100 text-green-600",
+                          returned: "bg-red-100 text-red-600", // In future
+                        };
+
+                        const currentStatus =
+                          item?.deliveryStatus || "parcel-created";
+                        const colorClass =
+                          statusConfig[currentStatus] ||
+                          "bg-gray-100 text-gray-500";
+
+                        return (
+                          <span
+                            className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${colorClass}`}
+                          >
+                            {currentStatus.split("-").join(" ")}
+                          </span>
+                        );
+                      })()}
                     </td>
                     <td className="py-5 pr-5 rounded-r-[20px] bg-[#F8F9FA]/60 border-y border-r border-transparent group-hover:border-gray-100 text-right">
                       <div className="flex items-center justify-end gap-3">
