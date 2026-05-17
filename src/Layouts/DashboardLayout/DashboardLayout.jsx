@@ -40,6 +40,7 @@ import {
   RiCustomerService2Line,
 } from "react-icons/ri";
 import Swal from "sweetalert2";
+import { FaBox } from "react-icons/fa6";
 
 const roleMenuItems = {
   "master admin": [
@@ -136,6 +137,11 @@ const roleMenuItems = {
       name: "Dashboard",
       icon: <RiDashboardFill size={22} />,
       path: "/dashboard",
+    },
+    {
+      name: "All Parcels",
+      icon: <FaBox  size={22} />,
+      path: "/dashboard/all-parcels",
     },
     {
       name: "Create Order",

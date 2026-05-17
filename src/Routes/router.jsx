@@ -41,6 +41,7 @@ import DisPatch from "../Pages/DisPatch/DisPatch";
 import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLocal";
 import CreateOrder from "../Pages/CreateOrder/CreateOrder";
 import TrackParcelInsideDashBoard from "../Pages/TrackParcelInsideDashBoard/TrackParcelInsideDashBoard";
+import AllParcelsMerchant from "../Pages/AllParcelsMerchant/AllParcelsMerchant";
 
 export const router = createBrowserRouter([
   {
@@ -215,6 +216,10 @@ export const router = createBrowserRouter([
       {
         path: "track-parcel-merchant",
         element: <TrackParcelInsideDashBoard></TrackParcelInsideDashBoard>,
+      },
+      {
+        path: "all-parcels",
+        element: <AllParcelsMerchant></AllParcelsMerchant>,
       },
       {
         path: "dispatch-delivery",
