@@ -9,6 +9,7 @@ import {
   FaChevronRight,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const AllParcelsMerchant = () => {
   const { user } = useAuth();
@@ -53,9 +54,13 @@ const AllParcelsMerchant = () => {
     });
   };
 
-  // Pagination হ্যান্ডেলার
+  // Pagination
   const totalPages = Math.ceil((parcelsData?.totalCount || 0) / limit);
-  console.log(parcelsData);
+
+  if (isLoading) {
+    return <LoadingModal isLoading={true}></LoadingModal>;
+  }
+
   return (
     <div className="p-6 bg-white rounded-[30px] shadow-sm min-h-screen">
       <div className="flex justify-between items-center mb-8">
@@ -78,13 +83,15 @@ const AllParcelsMerchant = () => {
             </tr>
           </thead>
           <tbody>
-            {isLoading ? (
+            {parcelsData.length < 0 ? (
               <tr>
-                <td
-                  colSpan="5"
-                  className="text-center py-10 font-bold text-gray-400"
-                >
-                  Loading...
+                <td colSpan={7} className="py-20 text-center">
+                  <div className="flex flex-col items-center justify-center text-gray-400 gap-2">
+                    <span className="text-3xl">📄</span>
+                    <p className="text-xs font-bold uppercase tracking-widest">
+                      No parcels data available
+                    </p>
+                  </div>
                 </td>
               </tr>
             ) : (

@@ -42,6 +42,7 @@ import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLoca
 import CreateOrder from "../Pages/CreateOrder/CreateOrder";
 import TrackParcelInsideDashBoard from "../Pages/TrackParcelInsideDashBoard/TrackParcelInsideDashBoard";
 import AllParcelsMerchant from "../Pages/AllParcelsMerchant/AllParcelsMerchant";
+import SupportClaim from "../Pages/SupportClaim/SupportClaim";
 
 export const router = createBrowserRouter([
   {
@@ -220,6 +221,10 @@ export const router = createBrowserRouter([
       {
         path: "all-parcels",
         element: <AllParcelsMerchant></AllParcelsMerchant>,
+      },
+      {
+        path: "support",
+        element: <SupportClaim></SupportClaim>,
       },
       {
         path: "dispatch-delivery",

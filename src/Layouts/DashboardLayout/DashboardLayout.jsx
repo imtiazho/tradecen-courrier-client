@@ -166,7 +166,7 @@ const roleMenuItems = {
     {
       name: "Support / Claims",
       icon: <RiCustomerService2Line size={22} />,
-      path: "/merchant/support",
+      path: "/dashboard/support",
     },
   ],
 };
