@@ -43,6 +43,8 @@ import CreateOrder from "../Pages/CreateOrder/CreateOrder";
 import TrackParcelInsideDashBoard from "../Pages/TrackParcelInsideDashBoard/TrackParcelInsideDashBoard";
 import AllParcelsMerchant from "../Pages/AllParcelsMerchant/AllParcelsMerchant";
 import SupportClaim from "../Pages/SupportClaim/SupportClaim";
+import StoreSettings from "../Pages/StoreSettings/StoreSettings";
+import PaymentPayout from "../Pages/PaymentPayout/PaymentPayout";
 
 export const router = createBrowserRouter([
   {
@@ -225,6 +227,14 @@ export const router = createBrowserRouter([
       {
         path: "support",
         element: <SupportClaim></SupportClaim>,
+      },
+      {
+        path: "store-settings",
+        element: <StoreSettings></StoreSettings>,
+      },
+      {
+        path: "payment-payout",
+        element: <PaymentPayout></PaymentPayout>,
       },
       {
         path: "dispatch-delivery",

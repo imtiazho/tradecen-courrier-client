@@ -156,12 +156,12 @@ const roleMenuItems = {
     {
       name: "Payment / Payouts",
       icon: <RiBankCardLine size={22} />,
-      path: "/merchant/payouts",
+      path: "/dashboard/payment-payout",
     },
     {
       name: "Store Settings",
       icon: <RiStore3Line size={22} />,
-      path: "/merchant/settings",
+      path: "/dashboard/store-settings",
     },
     {
       name: "Support / Claims",
