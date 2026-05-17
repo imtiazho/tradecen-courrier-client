@@ -29,14 +29,6 @@ const data = [
   { name: "Sat", value: 200 },
   { name: "Sun", value: 90 },
 ];
-// status: "Delivered",
-// color: "bg-green-100 text-green-600",
-// status: "Transit",
-// color: "bg-blue-100 text-blue-600",
-// status: "Waiting",
-// color: "bg-red-100 text-red-600",
-// status: "Pending",
-// color: "bg-orange-100 text-orange-600",
 
 const invoices = [
   { no: "#PTD 145142547", price: "4500.00", date: "10 day ago" },
@@ -83,6 +75,7 @@ const MerchantState = ({
   currentPage,
   setCurrentPage,
   shippingData,
+  lateInvoicesData,
 }) => {
   const [isOpenGraph, setIsOpenGraph] = useState(false);
   const [isOpenShipping, setIsOpenShipping] = useState(false);
@@ -90,7 +83,7 @@ const MerchantState = ({
   const [selectedShipping, setSelectedShipping] = useState("this-week");
 
   const options = ["this-week", "last-week", "last-month"];
-  console.log(chartData);
+
   const statistic = [
     {
       to: "unpaid-parcel",
@@ -123,7 +116,7 @@ const MerchantState = ({
       color: "text-green-500",
     },
   ];
-
+  console.log(lateInvoicesData);
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -550,19 +543,23 @@ const MerchantState = ({
                 </tr>
               </thead>
               <tbody>
-                {invoices.map((inv, i) => (
+                {lateInvoicesData?.map((inv, i) => (
                   <tr
                     key={i}
                     className={i % 2 === 1 ? "bg-[#F8F9FA]/50" : "bg-white"}
                   >
                     <td className="py-4 px-4 text-xs font-bold text-[#002B36]">
-                      {inv.no}
+                      {inv.trackingID}
                     </td>
                     <td className="py-4 px-4 text-xs font-bold text-[#002B36]">
-                      {inv.price}
+                      {inv.deliveryCharge}
                     </td>
                     <td className="py-4 px-4 text-xs text-[#ADB5BD] font-medium">
-                      {inv.date}
+                      {new Date(inv.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                     </td>
                     <td className="py-4 px-4 text-center">
                       <button className="text-gray-400 hover:text-[#002B36]">

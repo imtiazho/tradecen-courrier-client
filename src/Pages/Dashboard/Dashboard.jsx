@@ -56,6 +56,18 @@ const Dashboard = () => {
     enabled: !!user?.email,
   });
 
+  // merchant
+  const { isLoading: lateInvoicesLoading, data: lateInvoicesData = [] } = useQuery({
+    queryKey: ["lateInvoicesData", user?.email,],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/late-invoices/${user.email}`,
+      );
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
+
   
 
 
@@ -79,6 +91,7 @@ const Dashboard = () => {
         totalPages={totalPages}
         currentPage={currentPage}
         shippingData={shippingData}
+        lateInvoicesData={lateInvoicesData}
       ></MerchantState>
     );
   if (role === "rider") return <RiderState></RiderState>;
