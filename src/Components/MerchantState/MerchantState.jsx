@@ -9,6 +9,8 @@ import {
   RiMore2Fill,
   RiTruckLine,
 } from "react-icons/ri";
+import { TbCurrencyTaka } from "react-icons/tb";
+
 import { Link } from "react-router";
 import {
   AreaChart,
@@ -406,7 +408,7 @@ const MerchantState = ({
             </thead>
 
             <tbody>
-              {shippingData.length > 0 &&
+              {shippingData.length > 0 ? (
                 shippingData.map((item, idx) => (
                   <tr key={idx} className="group transition-all rounded-xl">
                     <td className="py-5 pl-5 rounded-l-[20px] bg-[#F8F9FA]/60 border-y border-l border-transparent group-hover:border-gray-100 font-bold text-gray-500 text-xs">
@@ -471,7 +473,19 @@ const MerchantState = ({
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={7} className="py-20 text-center">
+                    <div className="flex flex-col items-center justify-center text-gray-400 gap-2">
+                      <span className="text-3xl">📄</span>
+                      <p className="text-xs font-bold uppercase tracking-widest">
+                        No late shipping data available
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -543,31 +557,45 @@ const MerchantState = ({
                 </tr>
               </thead>
               <tbody>
-                {lateInvoicesData?.map((inv, i) => (
-                  <tr
-                    key={i}
-                    className={i % 2 === 1 ? "bg-[#F8F9FA]/50" : "bg-white"}
-                  >
-                    <td className="py-4 px-4 text-xs font-bold text-[#002B36]">
-                      {inv.trackingID}
-                    </td>
-                    <td className="py-4 px-4 text-xs font-bold text-[#002B36]">
-                      {inv.deliveryCharge}
-                    </td>
-                    <td className="py-4 px-4 text-xs text-[#ADB5BD] font-medium">
-                      {new Date(inv.createdAt).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </td>
-                    <td className="py-4 px-4 text-center">
-                      <button className="text-gray-400 hover:text-[#002B36]">
-                        <RiMore2Fill size={18} />
-                      </button>
+                {lateInvoicesData.length > 0 ? (
+                  lateInvoicesData?.map((inv, i) => (
+                    <tr
+                      key={i}
+                      className={i % 2 === 1 ? "bg-[#F8F9FA]/50" : "bg-white"}
+                    >
+                      <td className="py-4 px-4 text-xs font-bold text-[#002B36]">
+                        {inv.trackingID}
+                      </td>
+                      <td className="py-4 px-4 text-xs font-bold text-[#002B36] flex items-center">
+                        <TbCurrencyTaka className="text-[16px]" />
+                        {inv.deliveryCharge}
+                      </td>
+                      <td className="py-4 px-4 text-xs text-[#ADB5BD] font-medium">
+                        {new Date(inv.createdAt).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </td>
+                      <td className="py-4 px-4 text-center">
+                        <button className="text-gray-400 hover:text-[#002B36]">
+                          <RiMore2Fill size={18} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={4} className="py-20 text-center">
+                      <div className="flex flex-col items-center justify-center text-gray-400 gap-2">
+                        <span className="text-3xl">📄</span>
+                        <p className="text-xs font-bold uppercase tracking-widest">
+                          No late invoices data available
+                        </p>
+                      </div>
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>

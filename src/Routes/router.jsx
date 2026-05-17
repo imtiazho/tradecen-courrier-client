@@ -40,6 +40,7 @@ import DisPatchAndDelivery from "../Pages/DisPatchAndDelivery/DisPatchAndDeliver
 import DisPatch from "../Pages/DisPatch/DisPatch";
 import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLocal";
 import CreateOrder from "../Pages/CreateOrder/CreateOrder";
+import TrackParcelInsideDashBoard from "../Pages/TrackParcelInsideDashBoard/TrackParcelInsideDashBoard";
 
 export const router = createBrowserRouter([
   {
@@ -210,6 +211,10 @@ export const router = createBrowserRouter([
       {
         path: "create-order",
         element: <CreateOrder></CreateOrder>,
+      },
+      {
+        path: "track-parcel-merchant",
+        element: <TrackParcelInsideDashBoard></TrackParcelInsideDashBoard>,
       },
       {
         path: "dispatch-delivery",
