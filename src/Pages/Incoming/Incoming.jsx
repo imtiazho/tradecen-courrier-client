@@ -236,6 +236,7 @@ const Incoming = () => {
             </tbody>
           </table>
         </div>
+        
         {incomingData.length === 0 && (
           <div className="py-20 text-center">
             <div className="bg-gray-50 inline-block p-6 rounded-full mb-4">
@@ -275,7 +276,7 @@ const Incoming = () => {
             <p className="text-[10px] uppercase font-black text-gray-400 mb-2">
               Available Riders ({riders.length})
             </p>
-            {riders.length > 0 ? (
+            {riders?.length > 0 ? (
               riders.map((rider) => (
                 <div
                   key={rider._id}

@@ -15,7 +15,7 @@ const ProfilePage = () => {
       displayName: dbUser?.displayName || "",
     },
   });
-
+  
   const onSubmit = async (data) => {
     try {
       const res = await axiosSecure.patch(

@@ -1,4 +1,5 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   FaStore,
   FaMapMarkerAlt,
@@ -8,20 +9,62 @@ import {
   FaCamera,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const StoreSettings = () => {
-  const handleUpdate = (e) => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const {
+    data: merchantData,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["merchant-settings", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/merchant/${user?.email}`);
+      return res.data;
+    },
+  });
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    Swal.fire({
-      title: "Success!",
-      text: "Store information updated successfully.",
-      icon: "success",
-      confirmButtonColor: "#02312A",
-    });
+    const form = e.target;
+
+    const updatedInfo = {
+      businessName: form.businessName.value,
+      contact: form.contact.value,
+      pickupPoint: form.pickupAddress.value,
+    };
+
+    try {
+      const res = await axiosSecure.patch(
+        `/merchant-update/${user?.email}`,
+        updatedInfo,
+      );
+      if (res.data.success) {
+        refetch();
+        Swal.fire({
+          title: "Success!",
+          text: "Store information updated successfully.",
+          icon: "success",
+          confirmButtonColor: "#02312A",
+        });
+      }
+    } catch (error) {
+      console.error("Update failed", error);
+    }
   };
 
+  if (isLoading) {
+    return <LoadingModal isLoading={true}></LoadingModal>;
+  }
+
   return (
-    <div className="p-6 md:p-10 bg-white rounded-[40px] shadow-sm min-h-screen">
+    <div className="p-6 md:p-10 bg-white rounded-[22px] shadow-[0_2px_5px_rgba(0,0,0,0.05)] min-h-screen">
       {/* Header Section */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#02312A] mb-2">
@@ -36,8 +79,16 @@ const StoreSettings = () => {
         {/* 1. Store Logo Section */}
         <div className="flex items-center gap-6 p-6 bg-[#F8F9FA] rounded-[30px] border border-dashed border-gray-200">
           <div className="relative group">
-            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center border-4 border-[#CAEB66] overflow-hidden">
-              <FaStore size={40} className="text-gray-300" />
+            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center border-4 border-[#CAEB66] overflow-hidden shadow-inner">
+              {merchantData?.photoURL ? (
+                <img
+                  src={merchantData.photoURL}
+                  alt="Store Logo"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <FaStore size={40} className="text-gray-300" />
+              )}
             </div>
             <button
               type="button"
@@ -47,10 +98,17 @@ const StoreSettings = () => {
             </button>
           </div>
           <div>
-            <h4 className="font-black text-[#02312A]">Store Logo</h4>
-            <p className="text-[10px] text-gray-400 uppercase tracking-widest">
-              Recommended size: 500x500px
-            </p>
+            <h4 className="font-black text-[#02312A] uppercase tracking-tight text-xl">
+              {merchantData?.businessName}
+            </h4>
+            <div className="flex items-center gap-2">
+              <span className="bg-[#CAEB66] text-[#02312A] text-[9px] font-black px-2 py-0.5 rounded-full uppercase">
+                {merchantData?.merchantType || "Standard"}
+              </span>
+              <span className="text-[10px] text-gray-400 font-bold">
+                ID: {merchantData?._id?.slice(-8)}
+              </span>
+            </div>
           </div>
         </div>
 
@@ -59,11 +117,12 @@ const StoreSettings = () => {
           {/* Store Name */}
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-black uppercase text-gray-400 flex items-center gap-2">
-              <FaStore className="text-[#CAEB66]" /> Store Name
+              <FaStore className="text-[#CAEB66]" /> Business Name
             </label>
             <input
               type="text"
-              defaultValue="My Awesome Store"
+              name="businessName"
+              defaultValue={merchantData?.businessName}
               className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
             />
           </div>
@@ -75,7 +134,8 @@ const StoreSettings = () => {
             </label>
             <input
               type="text"
-              defaultValue="+880 1700 000000"
+              name="contact"
+              defaultValue={merchantData?.contact}
               className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
             />
           </div>
@@ -88,33 +148,34 @@ const StoreSettings = () => {
             </label>
             <textarea
               rows="3"
-              defaultValue="House 24, Road 7, Sector 4, Uttara, Dhaka"
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent resize-none"
+              name="pickupAddress"
+              defaultValue={`${merchantData?.pickupPoint}, ${merchantData?.area}, ${merchantData?.district}, ${merchantData?.region}`}
+              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent resize-none leading-relaxed"
             />
           </div>
 
-          {/* Store Website (Optional) */}
-          <div className="flex flex-col gap-2">
-            <label className="text-[10px] font-black uppercase text-gray-400 flex items-center gap-2">
-              <FaGlobe className="text-[#CAEB66]" /> Website / Social Link
-            </label>
-            <input
-              type="url"
-              placeholder="https://yourstore.com"
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
-            />
-          </div>
-
-          {/* Business Email */}
+          {/* Business Email (Read Only) */}
           <div className="flex flex-col gap-2">
             <label className="text-[10px] font-black uppercase text-gray-400 flex items-center gap-2">
               <FaEnvelope className="text-[#CAEB66]" /> Business Email
             </label>
             <input
               type="email"
-              defaultValue="store@example.com"
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
+              readOnly
+              value={merchantData?.email}
+              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-gray-400 border border-transparent cursor-not-allowed"
             />
+          </div>
+
+          {/* Account Status Display */}
+          <div className="flex flex-col gap-2">
+            <label className="text-[10px] font-black uppercase text-gray-400 flex items-center gap-2">
+              Account Status
+            </label>
+            <div className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-black text-green-600 border border-transparent flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              {merchantData?.accountStatus?.toUpperCase() || "ACTIVE"}
+            </div>
           </div>
         </div>
 
@@ -122,7 +183,7 @@ const StoreSettings = () => {
         <div className="pt-6 border-t border-gray-100 flex justify-end">
           <button
             type="submit"
-            className="bg-[#CAEB66] text-[#02312A] px-12 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-[#CAEB66]/20"
+            className="bg-[#CAEB66] text-[#02312A] px-12 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-[#CAEB66]/20 cursor-pointer"
           >
             Save Changes
           </button>

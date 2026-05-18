@@ -527,7 +527,7 @@ const MerchantState = ({
       </div>
 
       {/* Late Invoices and Damage report  */}
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-[#002B36] text-lg tracking-wide">
@@ -601,7 +601,7 @@ const MerchantState = ({
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
+        {/* <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-[#002B36] text-lg tracking-wide">
               Shipment Alerts
@@ -611,7 +611,6 @@ const MerchantState = ({
             </button>
           </div>
 
-          {/* Summary Box */}
           <div className="bg-[#F8F9FA] rounded-2xl p-6 flex items-center justify-around mb-6 border border-gray-50">
             <div className="text-center">
               <p className="text-2xl font-black text-[#002B36]">2</p>
@@ -628,7 +627,6 @@ const MerchantState = ({
             </div>
           </div>
 
-          {/* Alert List */}
           <div className="space-y-4">
             {alerts.map((alert, i) => (
               <div
@@ -658,7 +656,7 @@ const MerchantState = ({
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
