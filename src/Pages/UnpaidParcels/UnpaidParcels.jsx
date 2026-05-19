@@ -107,7 +107,10 @@ const UnpaidParcels = () => {
             Settle your pending delivery charges to keep shipments moving.
           </p>
         </div>
-        <button disabled={true} className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 font-bold py-3 px-8 rounded-xl transition-all duration-300 cursor-not-allowed">
+        <button
+          disabled={true}
+          className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 font-bold py-3 px-8 rounded-xl transition-all duration-300 cursor-not-allowed"
+        >
           <FaCreditCard />
           Pay Total Due (৳{totalDue})
         </button>
@@ -156,7 +159,9 @@ const UnpaidParcels = () => {
                         <FaBoxOpen size={18} />
                       </div>
                       <span className="font-semibold text-slate-700 text-sm">
-                        {parcel.parcelName}
+                        {parcel.parcelName.length > 18
+                          ? parcel.parcelName.slice(0, 18) + "..."
+                          : parcel.parcelName}
                       </span>
                     </div>
                   </td>

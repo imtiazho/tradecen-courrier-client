@@ -161,7 +161,9 @@ const Incoming = () => {
                   <td>
                     <div className="flex flex-col items-center">
                       <span className="font-bold text-[#002B36]">
-                        {parcel.parcelName}
+                        {parcel.parcelName.length > 18
+                          ? parcel.parcelName.slice(0, 18)+"..."
+                          : parcel.parcelName}
                       </span>
                       <span className="text-[10px] uppercase font-bold text-gray-400">
                         Dest: {parcel.receiverInfo.area}

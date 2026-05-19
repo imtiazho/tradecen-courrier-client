@@ -212,7 +212,7 @@ const SendParcel = () => {
               Pickup Location
             </p>
             <p className="text-sm font-bold text-[#002B36]">
-              {merchant?.pickupPoint || "Not Set"}
+              {merchant?.pickupPoint?.split(",")[0] || "Not Set"}
             </p>
           </div>
         </div>

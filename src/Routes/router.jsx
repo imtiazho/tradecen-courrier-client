@@ -250,6 +250,10 @@ export const router = createBrowserRouter([
     ],
   },
   {
+    path: "payment-payout",
+    element: <PaymentPayout></PaymentPayout>,
+  },
+  {
     path: "*",
     Component: ErrorPage,
   },
