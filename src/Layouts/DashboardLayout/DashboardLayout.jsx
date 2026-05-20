@@ -101,7 +101,7 @@ const roleMenuItems = {
     {
       name: "Accounts / Finance",
       icon: <RiWallet3Line size={22} />,
-      path: "/hub/accounts",
+      path: "/dashboard/account-finance",
     },
   ],
   rider: [

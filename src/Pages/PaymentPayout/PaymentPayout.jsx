@@ -97,7 +97,7 @@ const PaymentPayout = () => {
   if (paymentPayoutDataLoading) {
     return <LoadingModal></LoadingModal>;
   }
-  
+
   return (
     <div className="p-6 md:p-10 bg-[#FBFBFA] min-h-screen rounded-[40px] relative">
       {/* Header */}
@@ -242,7 +242,7 @@ const PaymentPayout = () => {
                         : "N/A"}
                     </td>
                     <td className="px-6 py-5 text-xs font-black text-[#02312A]">
-                      {row.trxID || `TRX-${row._id?.slice(-5).toUpperCase()}`}
+                      {row.trxID ? row.trxID : "Pending"}
                     </td>
                     <td className="px-6 py-5 text-xs font-black text-[#02312A]">
                       ৳{row.amount}
@@ -357,29 +357,29 @@ const PaymentPayout = () => {
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       {paymentPayoutData.pendingTransactions.map((trx) => (
-                          <tr
-                            key={trx._id}
-                            className="text-xs font-bold text-[#02312A]"
-                          >
-                            <td className="py-4 text-gray-500">
-                              {new Date(trx.requestedAt).toLocaleDateString(
-                                "en-US",
-                                {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                },
-                              )}
-                            </td>
-                            <td className="py-4 flex items-center gap-1.5 uppercase text-[10px] font-black">
-                              <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
-                              {trx.method || "bKash"}
-                            </td>
-                            <td className="py-4 text-right font-black text-orange-600">
-                              ৳{trx.amount}
-                            </td>
-                          </tr>
-                        ))}
+                        <tr
+                          key={trx._id}
+                          className="text-xs font-bold text-[#02312A]"
+                        >
+                          <td className="py-4 text-gray-500">
+                            {new Date(trx.requestedAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              },
+                            )}
+                          </td>
+                          <td className="py-4 flex items-center gap-1.5 uppercase text-[10px] font-black">
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
+                            {trx.method || "bKash"}
+                          </td>
+                          <td className="py-4 text-right font-black text-orange-600">
+                            ৳{trx.amount}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 ) : (

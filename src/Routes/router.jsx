@@ -45,6 +45,8 @@ import AllParcelsMerchant from "../Pages/AllParcelsMerchant/AllParcelsMerchant";
 import SupportClaim from "../Pages/SupportClaim/SupportClaim";
 import StoreSettings from "../Pages/StoreSettings/StoreSettings";
 import PaymentPayout from "../Pages/PaymentPayout/PaymentPayout";
+import AccountAndFinance from "../Pages/AccountAndFinance/AccountAndFinance";
+import PayoutReq from "../Pages/PayoutReq/PayoutReq";
 
 export const router = createBrowserRouter([
   {
@@ -237,6 +239,16 @@ export const router = createBrowserRouter([
         element: <PaymentPayout></PaymentPayout>,
       },
       {
+        path: "account-finance",
+        element: <AccountAndFinance></AccountAndFinance>,
+        children: [
+          {
+            path: "payout-requests",
+            element: <PayoutReq />,
+          },
+        ],
+      },
+      {
         path: "dispatch-delivery",
         element: <DisPatchAndDelivery></DisPatchAndDelivery>,
         children: [
@@ -248,10 +260,6 @@ export const router = createBrowserRouter([
         ],
       },
     ],
-  },
-  {
-    path: "payment-payout",
-    element: <PaymentPayout></PaymentPayout>,
   },
   {
     path: "*",
