@@ -30,7 +30,7 @@ const SendParcel = () => {
   const navigate = useNavigate();
   const areaAndLocation = useLoaderData() || [];
   // Use watch to toggle the field
-
+  console.log(areaAndLocation);
   const { data: merchant = {}, isLoading: merchantLoading } = useQuery({
     queryKey: ["merchant", dbUser?.email],
     queryFn: async () => {

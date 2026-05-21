@@ -39,7 +39,6 @@ import MyTaskRider from "../Pages/MyTaskRider/MyTaskRider";
 import DisPatchAndDelivery from "../Pages/DisPatchAndDelivery/DisPatchAndDelivery";
 import DisPatch from "../Pages/DisPatch/DisPatch";
 import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLocal";
-import CreateOrder from "../Pages/CreateOrder/CreateOrder";
 import TrackParcelInsideDashBoard from "../Pages/TrackParcelInsideDashBoard/TrackParcelInsideDashBoard";
 import AllParcelsMerchant from "../Pages/AllParcelsMerchant/AllParcelsMerchant";
 import SupportClaim from "../Pages/SupportClaim/SupportClaim";
@@ -216,7 +215,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "create-order",
-        element: <CreateOrder></CreateOrder>,
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
+        element: <SendParcel></SendParcel>,
       },
       {
         path: "track-parcel-merchant",
