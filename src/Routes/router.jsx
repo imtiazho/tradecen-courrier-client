@@ -39,7 +39,6 @@ import MyTaskRider from "../Pages/MyTaskRider/MyTaskRider";
 import DisPatchAndDelivery from "../Pages/DisPatchAndDelivery/DisPatchAndDelivery";
 import DisPatch from "../Pages/DisPatch/DisPatch";
 import DeliveryParcelLocal from "../Pages/DeliveryParcelLocal/DeliveryParcelLocal";
-import TrackParcelInsideDashBoard from "../Pages/TrackParcelInsideDashBoard/TrackParcelInsideDashBoard";
 import AllParcelsMerchant from "../Pages/AllParcelsMerchant/AllParcelsMerchant";
 import SupportClaim from "../Pages/SupportClaim/SupportClaim";
 import StoreSettings from "../Pages/StoreSettings/StoreSettings";

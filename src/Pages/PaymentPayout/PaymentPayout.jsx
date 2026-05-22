@@ -11,11 +11,13 @@ import {
   FaReceipt,
   FaMoneyCheckAlt,
 } from "react-icons/fa";
+import { CiBank } from "react-icons/ci";
+import { TbCurrencyTaka } from "react-icons/tb";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
-import Swal from "sweetalert2"; // অ্যালার্টের জন্য সুইটঅ্যালার্ট ব্যবহার করতে পারো ব্রো
+import Swal from "sweetalert2";
 
 const PaymentPayout = () => {
   const { user } = useAuth();
@@ -99,7 +101,7 @@ const PaymentPayout = () => {
   }
 
   return (
-    <div className="p-6 md:p-10 bg-[#fff] min-h-screen rounded-[25px] relative">
+    <div className="p-6 md:p-10 bg-[#ffffff] min-h-screen rounded-tradecen relative">
       {/* Header */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#02312A] mb-2">
@@ -112,15 +114,15 @@ const PaymentPayout = () => {
 
       {/* 1. Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {/* Available Balance Card */}
-        <div className="bg-[#02312A] p-8 rounded-[25px] text-white relative overflow-hidden group flex flex-col justify-between">
-          <FaWallet className="absolute -right-4 -bottom-4 text-white/5 size-24 pointer-events-none" />
+        {/* 1. Available Balance Card (Primary Dark Theme) */}
+        <div className="bg-[#02312A] p-8 rounded-tradecen border border-secondary text-white relative overflow-hidden group flex flex-col justify-between border border-[#02312A] shadow-lg shadow-[#02312A]/10 min-h-[220px]">
+          <FaWallet className="absolute -right-4 -bottom-4 text-white/5 size-28 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
 
           <div>
-            <p className="text-[10px] uppercase tracking-widest font-bold text-primary mb-2">
+            <p className="text-[10px] uppercase tracking-widest font-black text-[#CAEB66] mb-2">
               Available Balance
             </p>
-            <h3 className="text-4xl font-black">
+            <h3 className="text-4xl font-black tracking-tight">
               ৳ {paymentPayoutData.availableBalance || 0}
             </h3>
 
@@ -128,7 +130,7 @@ const PaymentPayout = () => {
               onClick={() =>
                 openModal("Available Balance Parcels", "available")
               }
-              className="text-[#CAEB66]/80 hover:text-[#CAEB66] text-[11px] font-bold hover:underline cursor-pointer mt-3 flex items-center gap-1 w-fit transition-colors"
+              className="text-[#CAEB66]/80 hover:text-[#CAEB66] text-[11px] font-black hover:underline cursor-pointer mt-4 inline-flex items-center gap-1.5 transition-colors uppercase tracking-wider"
             >
               See base parcels &rarr;
             </p>
@@ -141,48 +143,67 @@ const PaymentPayout = () => {
                 !paymentPayoutData.availableBalance ||
                 paymentPayoutData.availableBalance <= 0
               }
-              className="w-full bg-[#CAEB66] text-[#02312A] py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:bg-[#b8d957] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 shadow-md shadow-[#CAEB66]/10"
+              className="w-full bg-[#CAEB66] text-[#02312A] py-3 rounded-xl text-xs font-black uppercase tracking-wider hover:bg-[#b8d957] active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100 shadow-md shadow-[#CAEB66]/10"
             >
               Withdraw Money
             </button>
           </div>
         </div>
 
-        {/* Pending Payouts Card */}
-        <div className="bg-white p-8 rounded-[25px] shadow-sm border border-gray-100 relative overflow-hidden">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">
-            Pending Payouts
-          </p>
-          <h3 className="text-4xl font-black text-[#02312A]">
-            ৳ {paymentPayoutData.totalPending || 0}
-          </h3>
-          <p
-            onClick={() => openModal("Pending Payout Requests", "pending")}
-            className="text-[#02312A] text-xs font-bold hover:underline cursor-pointer mt-4 flex items-center gap-1.5 w-fit hover:underline"
-          >
-            See pending requests &rarr;
-          </p>
+        {/* 2. Pending Payouts Card (Subtle Warning/Amber Theme) */}
+        <div className="bg-[#FFF9F2] p-8 rounded-tradecen border border-[#FFE7CC] relative overflow-hidden group flex flex-col justify-between min-h-[220px] shadow-flat">
+          <div className="absolute -right-4 -bottom-4 text-[#F39C12]/5 size-28 pointer-events-none group-hover:scale-110 transition-transform duration-500 font-bold">
+            <TbCurrencyTaka className="absolute -right-5 bottom-15 text-[#F39C12]/5 size-35 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
+          </div>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-widest font-black text-[#D35400] mb-2">
+              Pending Payouts
+            </p>
+            <h3 className="text-4xl font-black text-[#02312A] tracking-tight">
+              ৳ {paymentPayoutData.totalPending || 0}
+            </h3>
+          </div>
+
+          <div className="mt-auto">
+            <p
+              onClick={() => openModal("Pending Payout Requests", "pending")}
+              className="text-[#D35400] hover:text-[#A04000] text-[11px] font-black hover:underline cursor-pointer inline-flex items-center gap-1.5 transition-colors uppercase tracking-wider"
+            >
+              See pending requests &rarr;
+            </p>
+          </div>
         </div>
 
-        {/* Total Withdrawn Card */}
-        <div className="bg-white p-8 rounded-[25px] shadow-sm border border-gray-100">
-          <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-2">
-            Total Withdrawn
-          </p>
-          <h3 className="text-4xl font-black text-[#02312A]">
-            ৳ {paymentPayoutData.totalWithdrawn || 0}
-          </h3>
+        <div className="bg-[#F4F9F4] p-8 rounded-tradecen border border-[#E2EFE2] relative overflow-hidden group flex flex-col justify-start min-h-[220px] shadow-flat">
+          <div className="absolute -right-4 -bottom-4 text-green-600/5 size-28 pointer-events-none group-hover:scale-110 transition-transform duration-500 font-bold">
+            <CiBank className="absolute -right-12 bottom-15 text-green-600/5 size-35 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
+          </div>
+
+          <div>
+            <p className="text-[10px] uppercase tracking-widest font-black text-green-700 mb-2">
+              Total Withdrawn
+            </p>
+            <h3 className="text-4xl font-black text-[#02312A] tracking-tight">
+              ৳ {paymentPayoutData.totalWithdrawn || 0}
+            </h3>
+          </div>
+
+          <div className="mt-auto pt-2">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+              Successfully processed to bank/wallet
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        {/* 2. Payout Method (Left Side) */}
         <div className="lg:col-span-1 space-y-6">
-          <h4 className="text-lg font-black text-[#02312A] flex items-center gap-2">
+          <h4 className="text-md font-bold text-[#02312A] flex items-center gap-2">
             <FaArrowUp className="text-[#CAEB66]" /> Withdrawal Method
           </h4>
 
-          <div className="p-6 bg-white rounded-[30px] border-2 border-[#CAEB66] shadow-sm relative">
+          <div className="p-6 bg-white rounded-tradecen border-2 border-[#CAEB66] shadow-flat relative">
             <div className="absolute top-4 right-4">
               <FaCheckCircle className="text-[#CAEB66]" size={20} />
             </div>
@@ -191,7 +212,7 @@ const PaymentPayout = () => {
                 <FaMobileAlt size={24} />
               </div>
               <div>
-                <p className="font-black text-[#02312A]">bKash</p>
+                <p className="font-bold text-[#02312A]">bKash</p>
                 <p className="text-[10px] text-gray-400 uppercase">
                   Mobile Banking
                 </p>
@@ -208,14 +229,14 @@ const PaymentPayout = () => {
 
         {/* 3. Transaction History (Right Side) */}
         <div className="lg:col-span-2">
-          <h4 className="text-lg font-black text-[#02312A] mb-6 flex items-center gap-2">
+          <h4 className="text-lg font-bold text-[#02312A] mb-6 flex items-center gap-2">
             <FaHistory className="text-[#CAEB66]" /> Recent Transactions
           </h4>
 
-          <div className="bg-white rounded-[35px] overflow-hidden shadow-sm border border-gray-50">
+          <div className="bg-white rounded-tradecen overflow-hidden shadow-flat border border-gray-50">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-[#F8F9FA]">
+                <tr className="bg-[#f9fafa]">
                   <th className="px-6 py-4 text-[10px] font-black uppercase text-gray-400">
                     Date
                   </th>
