@@ -185,7 +185,6 @@ const DashboardLayout = () => {
   //   enabled: !!dbUser?.email && !authLoading,
   // });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  console.log(role);
   const menuItems = roleMenuItems[role] || [];
 
   const generalItems = [
@@ -205,7 +204,7 @@ const DashboardLayout = () => {
   const linkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
       isActive
-        ? "bg-[#CAEB66] text-[#002B36] font-bold shadow-sm"
+        ? "bg-primary text-secondary font-bold shadow-sm"
         : "text-[#5F7180] hover:bg-gray-100"
     }`;
 
@@ -238,7 +237,7 @@ const DashboardLayout = () => {
         <div className="p-8 min-w-[288px]">
           <Link
             to="/"
-            className="text-2xl font-black text-[#002B36] flex items-center gap-2"
+            className="text-2xl font-black text-secondary flex items-center gap-2"
           >
             TradeCen<span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
           </Link>
@@ -260,7 +259,7 @@ const DashboardLayout = () => {
                   {({ isActive }) => (
                     <>
                       {isActive && (
-                        <span className="absolute left-0 w-1.5 h-6 bg-[#002B36] rounded-r-full" />
+                        <span className="absolute left-0 w-1.5 h-6 bg-secondary rounded-r-full" />
                       )}
 
                       <span

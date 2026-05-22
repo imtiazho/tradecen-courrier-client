@@ -3,11 +3,21 @@
 @import "tailwindcss";
 @import "daisyui/daisyui.css";
 
+@theme {
+  --shadow-flat: 1px 1px 1px 1px rgba(0, 0, 0, 0.01);
+  --radius-tradecen: 20px;
+}
+
 @plugin "daisyui/theme" {
-  name: "light";
-  default: true;
-  --color-primary: #caeb66;
-  /* --color-secondary: teal; */
+  name: "tradeCenTheme";
+  default: true;   
+  root: ":root";
+  
+  --color-primary: #CAEB66;
+  --color-secondary: #02312A;
+  
+  --radius-card: 1.25rem;
+  --radius-btn: 0.75rem;
 }
 
 body {

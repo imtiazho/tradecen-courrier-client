@@ -124,19 +124,13 @@ const MerchantState = ({
       {/* --- Header Section --- */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black text-[#002B36] tracking-[.6px]">
+          <h2 className="text-2xl font-black text-secondary tracking-[.6px]">
             Dashboard Overview
           </h2>
-          <p className="text-sm text-gray-600 ">
+          <p className="text-sm text-gray-600">
             You can access all your data and information from anywhere.
           </p>
         </div>
-        <Link
-          to="/send-parcel"
-          className="bg-[#CAEB66] hover:bg-[#b8d65a] text-[#002B36] font-bold px-6 py-3 rounded-[10px] flex items-center gap-2 transition-all cursor-pointer"
-        >
-          <RiAddLine size={20} /> Add Parcel
-        </Link>
       </div>
 
       {/* --- Stats Cards --- */}
@@ -145,7 +139,7 @@ const MerchantState = ({
           <Link
             to={stat.to}
             key={idx}
-            className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] flex items-center gap-4  transition-transform duration-300 hover:border-[#CAEB66]"
+            className="bg-white p-5 rounded-[12px] border border-gray-50 shadow-flat flex items-center gap-4  transition-transform duration-300 hover:border-[#CAEB66]"
           >
             <div
               className={`w-12 h-12 rounded-2xl bg-[#F8F9FA] flex items-center justify-center ${stat.color}`}
@@ -165,9 +159,9 @@ const MerchantState = ({
       </div>
 
       {/* --- Overall Statistics Graph (Recharts) --- */}
-      <div className="bg-white p-6 rounded-[25px] border shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)]  border-gray-50 w-full">
+      <div className="bg-white p-6 rounded-[20px] border shadow-flat  border-gray-50 w-full">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-bold text-[#002B36] text-lg tracking-wide font-sans">
+          <h3 className="font-bold text-secondary text-lg tracking-wide font-sans">
             Overall Statistics
           </h3>
           <div className="flex items-center gap-3">
@@ -233,7 +227,7 @@ const MerchantState = ({
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={chartData}
-                margin={{ top: 10, right: 10, left: -15, bottom: 30 }}
+                margin={{ top: 10, right: 30, left: -15, bottom: 30 }}
               >
                 <defs>
                   <linearGradient id="zapGradient" x1="0" y1="0" x2="0" y2="1">
@@ -242,7 +236,6 @@ const MerchantState = ({
                   </linearGradient>
                 </defs>
 
-                {/* Horizontal & Vertical Dotted Lines (Accuracy matched to image) */}
                 <CartesianGrid
                   strokeDasharray="4 4"
                   vertical={true}
@@ -264,7 +257,12 @@ const MerchantState = ({
                   axisLine={false}
                   tickLine={false}
                   tick={{ fill: "#ADB5BD", fontSize: 12, fontWeight: 600 }}
-                  tickFormatter={(value) => `৳${value}`}
+                  tickFormatter={(value) => {
+                    if (value >= 1000) {
+                      return `${value / 1000}k`;
+                    }
+                    return value;
+                  }}
                 />
 
                 <Tooltip
@@ -314,7 +312,7 @@ const MerchantState = ({
       </div>
 
       {/* --- Shipping Reports Table --- */}
-      <div className="bg-white p-8 rounded-[25px] shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] border border-gray-50 w-full">
+      <div className="bg-white p-8 rounded-[20px] shadow-flat border border-gray-50 w-full">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <h3 className="font-bold text-[#002B36] text-lg">Shipping Reports</h3>
@@ -528,7 +526,7 @@ const MerchantState = ({
 
       {/* Late Invoices and Damage report  */}
       <div className="grid grid-cols-1 gap-6">
-        <div className="bg-white p-6 rounded-[25px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
+        <div className="bg-white p-6 rounded-[20px] border border-gray-50 shadow-[1px_1px_1px_1px_rgba(0,0,0,0.01)] w-full h-full">
           <div className="flex items-center justify-between mb-6">
             <h3 className="font-bold text-[#002B36] text-lg tracking-wide">
               Late Invoices

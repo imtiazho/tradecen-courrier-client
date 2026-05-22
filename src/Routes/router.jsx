@@ -46,6 +46,7 @@ import StoreSettings from "../Pages/StoreSettings/StoreSettings";
 import PaymentPayout from "../Pages/PaymentPayout/PaymentPayout";
 import AccountAndFinance from "../Pages/AccountAndFinance/AccountAndFinance";
 import PayoutReq from "../Pages/PayoutReq/PayoutReq";
+import ParcelDetails from "../Pages/ParcelDetails/ParcelDetails";
 
 export const router = createBrowserRouter([
   {
@@ -153,6 +154,12 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Dashboard,
+      },
+      {
+        path: "all-parcels/parcel-detail/:parcelId",
+        loader: async ({ params }) =>
+          fetch(`http://localhost:5000/parcel/${params.parcelId}`),
+        element: <ParcelDetails></ParcelDetails>,
       },
       {
         path: "unpaid-parcel",

@@ -7,9 +7,12 @@ import {
   FaTrashAlt,
   FaChevronLeft,
   FaChevronRight,
+  FaLongArrowAltRight,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import { Link } from "react-router";
+import { TbListDetails } from "react-icons/tb";
 
 const AllParcelsMerchant = () => {
   const { user } = useAuth();
@@ -55,17 +58,17 @@ const AllParcelsMerchant = () => {
   };
 
   // Pagination
-  const totalPages = Math.ceil((parcelsData?.totalCount || 0) / limit);
+  const totalPages = Math.ceil((parcelsData?.count || 0) / limit);
 
   if (isLoading) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
 
   return (
-    <div className="p-6 bg-white rounded-[30px] shadow-sm min-h-screen">
+    <div className="p-6 bg-white rounded-[20px] shadow-flat">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-black text-[#02312A]">All Parcels</h2>
-        <div className="bg-[#CAEB66] px-4 py-1 rounded-full text-[10px] font-bold uppercase">
+        <h2 className="text-2xl font-black text-secondary">All Parcels</h2>
+        <div className="bg-primary text-secondary px-4 py-1 rounded-[10px] text-[10px] font-bold uppercase">
           Total: {parcelsData?.count || 0}
         </div>
       </div>
@@ -75,6 +78,7 @@ const AllParcelsMerchant = () => {
           <thead>
             <tr className="text-[#ADB5BD] text-[11px] uppercase tracking-widest font-black">
               <th className="px-6 py-3">Tracking ID</th>
+              <th className="px-6 py-3">Parcel</th>
               <th className="px-6 py-3">Recipient</th>
               <th className="px-6 py-3">Status</th>
               <th className="px-6 py-3">Charge</th>
@@ -83,7 +87,7 @@ const AllParcelsMerchant = () => {
             </tr>
           </thead>
           <tbody>
-            {parcelsData.length < 0 ? (
+            {parcelsData.length < 1 ? (
               <tr>
                 <td colSpan={7} className="py-20 text-center">
                   <div className="flex flex-col items-center justify-center text-gray-400 gap-2">
@@ -98,10 +102,19 @@ const AllParcelsMerchant = () => {
               parcelsData?.data?.map((parcel) => (
                 <tr
                   key={parcel._id}
-                  className="bg-[#F8F9FA]/60 hover:bg-white transition-all group"
+                  className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group"
                 >
-                  <td className="px-6 py-5 rounded-l-[20px] text-xs font-black text-[#02312A]">
+                  <td className="px-6 py-5 rounded-l-[16px] text-xs font-black text-[#02312A]">
                     #{parcel.trackingID}
+                  </td>
+                  <td className="px-6 py-5 text-xs font-medium text-[#02312A]">
+                    <p>{parcel.parcelName}</p>
+                    <Link
+                      className="flex items-center gap-1 mt-2"
+                      to={`parcel-detail/${parcel._id}`}
+                    >
+                      Details <TbListDetails />
+                    </Link>
                   </td>
                   <td className="px-6 py-5">
                     <p className="text-xs font-bold text-[#02312A]">
@@ -125,7 +138,7 @@ const AllParcelsMerchant = () => {
                   <td className="px-6 py-5 text-xs font-black text-[#02312A]">
                     ৳{parcel.codAmount || 0}
                   </td>
-                  <td className="px-6 py-5 rounded-r-[20px] text-center">
+                  <td className="px-6 py-5 rounded-r-[16px] text-center">
                     {parcel.deliveryStatus === "parcel-created" ||
                     parcel.deliveryStatus === "assign-pickup-rider" ? (
                       <div className="flex justify-center gap-3">
@@ -152,36 +165,47 @@ const AllParcelsMerchant = () => {
         </table>
       </div>
 
-      {/* Pagination Controls */}
-      <div className="mt-10 flex justify-center items-center gap-4">
-        <button
-          disabled={currentPage === 0}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
-          className="p-2 rounded-full bg-[#F3F4F6] disabled:opacity-30 hover:bg-[#CAEB66] transition-colors"
-        >
-          <FaChevronLeft size={12} />
-        </button>
+      {totalPages > 1 && (
+        <div className="mt-8 grid grid-cols-3 items-center justify-center">
+          <div className="flex justify-start">
+            {currentPage > 0 && (
+              <button
+                onClick={() => setCurrentPage(currentPage - 1)}
+                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-400 hover:text-[#02312A] transition-all flex items-center gap-2 cursor-pointer hover:border-[#CAEB66]"
+              >
+                ← Previous
+              </button>
+            )}
+          </div>
 
-        <div className="flex gap-2">
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentPage(index)}
-              className={`w-8 h-8 rounded-full text-xs font-bold transition-all ${currentPage === index ? "bg-[#02312A] text-[#CAEB66]" : "bg-gray-100 text-gray-500"}`}
-            >
-              {index + 1}
-            </button>
-          ))}
+          <div className="flex gap-2 justify-center">
+            {[...Array(totalPages).keys()].map((n, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(n)}
+                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  n === currentPage
+                    ? "bg-[#CAEB66] text-[#02312A] shadow-sm font-black scale-105"
+                    : "text-gray-400 hover:bg-gray-50 hover:text-[#02312A]"
+                }`}
+              >
+                {n + 1}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex justify-end">
+            {currentPage < totalPages - 1 && (
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-400 hover:text-[#02312A] transition-all flex items-center gap-2 cursor-pointer hover:border-[#CAEB66]"
+              >
+                Next →
+              </button>
+            )}
+          </div>
         </div>
-
-        <button
-          disabled={currentPage === totalPages - 1}
-          onClick={() => setCurrentPage((prev) => prev + 1)}
-          className="p-2 rounded-full bg-[#F3F4F6] disabled:opacity-30 hover:bg-[#CAEB66] transition-colors"
-        >
-          <FaChevronRight size={12} />
-        </button>
-      </div>
+      )}
     </div>
   );
 };

@@ -117,7 +117,7 @@ const PaymentPayout = () => {
           <FaWallet className="absolute -right-4 -bottom-4 text-white/5 size-24 pointer-events-none" />
 
           <div>
-            <p className="text-[10px] uppercase tracking-widest font-bold text-[#CAEB66] mb-2">
+            <p className="text-[10px] uppercase tracking-widest font-bold text-primary mb-2">
               Available Balance
             </p>
             <h3 className="text-4xl font-black">
