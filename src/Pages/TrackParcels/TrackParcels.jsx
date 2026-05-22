@@ -19,7 +19,6 @@ const TrackParcels = () => {
         setTrackingData(res.data.result);
       }
     } catch (error) {
-      console.error("Tracking error:", error);
       setTrackingData([]);
     } finally {
       setLoading(false);
@@ -29,7 +28,7 @@ const TrackParcels = () => {
   const parcelInfo = trackingData.length > 0 ? trackingData[0] : null;
 
   return (
-    <div className="p-6 lg:p-12 bg-white min-h-screen font-sans mt-6 rounded-2xl">
+    <div className="p-6 lg:p-12 bg-white font-sans mt-6 rounded-tradecen shadow-flat min-h-screen">
       {/* Header Section */}
       <div className="mb-10">
         <h1 className="text-4xl font-black text-[#02312A] mb-2 tracking-tight">
@@ -55,7 +54,7 @@ const TrackParcels = () => {
         />
         <button
           onClick={handleSearch}
-          className="absolute right-1 top-1 bg-[#02312A] text-[#CAEB66] font-bold px-6 py-2.5 rounded-full hover:bg-black transition-all active:scale-95 cursor-pointer"
+          className="absolute right-1 top-1 bg-primary text-secondary font-bold px-6 py-2.5 rounded-full hover:bg-[#bad85d] transition-all active:scale-95 cursor-pointer"
         >
           {loading ? "Searching..." : "Track"}
         </button>
@@ -65,16 +64,16 @@ const TrackParcels = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start animate-in fade-in duration-500">
           <div className="bg-[#F3F7F9] p-8 rounded-[25px] border border-gray-100">
             <h2 className="text-2xl font-black text-[#02312A] mb-6 flex items-center gap-3">
-              <FaBoxOpen className="text-[#CAEB66]" /> Product Details
+              <FaBoxOpen className="text-[#CAEB66] bg-secondary p-2 rounded-lg" size={35} /> Product Details
             </h2>
 
             <div className="space-y-4">
               <div className="bg-[#CAEB66] p-4 rounded-xl">
-                <p className="text-gray-400 text-[10px] uppercase font-black tracking-widest mb-1">
+                <p className="text-secondary text-[10px] uppercase font-black tracking-widest mb-1">
                   Tracking ID
                 </p>
-                <p className="text-[#02312A] font-mono font-bold">
-                  {parcelInfo.trackingID}
+                <p className="text-secondary font-mono font-bold">
+                  #{parcelInfo.trackingID}
                 </p>
               </div>
 

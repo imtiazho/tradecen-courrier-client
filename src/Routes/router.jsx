@@ -76,10 +76,6 @@ export const router = createBrowserRouter([
         Component: ContactPage,
       },
       {
-        path: "track-parcel",
-        Component: TrackParcels,
-      },
-      {
         path: "role-onboarding",
         element: (
           <RoleSelection></RoleSelection>
@@ -218,6 +214,10 @@ export const router = createBrowserRouter([
         element: <Incoming></Incoming>,
       },
       {
+        path: "track-parcel",
+        Component: TrackParcels,
+      },
+      {
         path: "pick-ups",
         element: <PickUp></PickUp>,
       },
@@ -229,10 +229,6 @@ export const router = createBrowserRouter([
         path: "create-order",
         loader: () => fetch("/warehouses.json").then((res) => res.json()),
         element: <SendParcel></SendParcel>,
-      },
-      {
-        path: "track-parcel-merchant",
-        element: <TrackParcelInsideDashBoard></TrackParcelInsideDashBoard>,
       },
       {
         path: "all-parcels",

@@ -151,7 +151,7 @@ const roleMenuItems = {
     {
       name: "Track Parcels",
       icon: <RiRadarLine size={22} />,
-      path: "/dashboard/track-parcel-merchant",
+      path: "/dashboard/track-parcel",
     },
     {
       name: "Payment / Payouts",
