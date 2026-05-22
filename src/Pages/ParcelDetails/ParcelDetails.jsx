@@ -69,7 +69,7 @@ const ParcelDetails = () => {
               <h4 className="text-base font-black mb-3 text-[#02312A]">
                 {parcel.senderInfo.name}
               </h4>
-              <div className="space-y-2 text-xs font-bold text-gray-500">
+              <div className="space-y-2 text-xs font-medium text-gray-500">
                 <p className="flex items-center gap-2">
                   <FaPhoneAlt className="text-gray-400" />{" "}
                   {parcel.senderInfo.phone}
@@ -94,7 +94,7 @@ const ParcelDetails = () => {
               <h4 className="text-base font-black mb-3 text-[#02312A]">
                 {parcel.receiverInfo.name}
               </h4>
-              <div className="space-y-2 text-xs font-bold text-gray-500">
+              <div className="space-y-2 text-xs font-medium text-gray-500">
                 <p className="flex items-center gap-2">
                   <FaPhoneAlt className="text-gray-400" />{" "}
                   {parcel.receiverInfo.phone}
@@ -105,7 +105,7 @@ const ParcelDetails = () => {
                   {parcel.receiverInfo.district}
                 </p>
                 <span className="inline-block mt-2 text-[10px] bg-gray-100 text-[#02312A] px-2 py-1 rounded-md font-black uppercase tracking-wider">
-                  Zone: {parcel.receiverInfo.region}
+                  Zone: {parcel.receiverInfo.district}
                 </span>
               </div>
             </div>
@@ -142,10 +142,10 @@ const ParcelDetails = () => {
               </div>
               <div className="bg-[#F8F9FA] p-4 rounded-2xl">
                 <p className="text-[10px] font-black uppercase text-gray-400">
-                  Current Node
+                  Last Scan
                 </p>
                 <p className="text-[11px] font-black mt-1 text-purple-600 capitalize">
-                  {parcel.currentLocation.replace("-", " ")}
+                  {parcel.currentLocation.replace("-", " ") || "N/A"}
                 </p>
               </div>
             </div>
@@ -164,7 +164,7 @@ const ParcelDetails = () => {
                     {parcel.pickupRider?.name || "Not Assigned"}
                   </p>
                   <p className="text-xs font-medium flex items-center gap-1">
-                    <FaPhone size={10}/>
+                    <FaPhone size={10} />
                     {parcel.pickupRider?.phone || "N/A"}
                   </p>
                 </div>
@@ -181,7 +181,7 @@ const ParcelDetails = () => {
                     {parcel.deliveryRider?.name || "Not Assigned"}
                   </p>
                   <p className="text-xs font-medium flex items-center gap-1">
-                    <FaPhone size={10}/>
+                    <FaPhone size={10} />
                     {parcel.deliveryRider?.phone || "N/A"}
                   </p>
                 </div>
@@ -207,15 +207,13 @@ const ParcelDetails = () => {
                   Total COD Amount
                 </span>
                 <span className="text-xl font-black text-[#CAEB66]">
-                  ৳{parcel.codAmount}
+                  ৳ {parcel.codAmount}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs font-bold text-gray-300">
-                  Delivery Charge
-                </span>
+                <span className="text-xs font-bold text-gray-300">Charge</span>
                 <span className="text-sm font-black text-red-400">
-                  - ৳{parcel.deliveryCharge}
+                  ৳ {parcel.deliveryCharge}
                 </span>
               </div>
             </div>
@@ -226,7 +224,11 @@ const ParcelDetails = () => {
                   Merchant Payable
                 </span>
                 <span className="text-xl font-black text-white">
-                  ৳{parcel.codAmount - parcel.deliveryCharge}
+                  {parcel.deliveryStatus === "delivered"
+                    ? parcel.deliveryChargeStatus === "unpaid"
+                      ? `৳ ${parcel.codAmount - parcel.deliveryCharge}`
+                      : `৳ ${parcel.codAmount}`
+                    : `৳ 0`}
                 </span>
               </div>
 
@@ -249,7 +251,11 @@ const ParcelDetails = () => {
                   <p
                     className={`text-[10px] font-black uppercase mt-0.5 ${parcel.merchantRevenueStatus ? "text-green-400" : "text-amber-400"}`}
                   >
-                    {parcel.merchantRevenueStatus ? "Settled" : "Pending"}
+                    {parcel.merchantRevenueStatus === null
+                      ? "N / A"
+                      : parcel.merchantRevenueStatus === "pending"
+                        ? "Pending"
+                        : "Settled"}
                   </p>
                 </div>
               </div>

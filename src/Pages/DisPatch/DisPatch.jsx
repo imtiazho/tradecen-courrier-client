@@ -58,6 +58,7 @@ const DisPatch = () => {
 
   if (inHouseLoading || managerLoading)
     return <LoadingModal isLoading={true}></LoadingModal>;
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left">
@@ -71,10 +72,7 @@ const DisPatch = () => {
         </thead>
         <tbody>
           {inHouse?.dispatchList?.map((parcel) => (
-            <tr
-              key={parcel._id}
-              className="bg-white group"
-            >
+            <tr key={parcel._id} className="bg-white group">
               {/* Parcel Details */}
               <td className="px-6 py-4 rounded-l-2xl">
                 <div className="flex flex-col">

@@ -113,7 +113,7 @@ const SendParcel = () => {
       // 🚦 Statuses
       deliveryStatus: "parcel-created",
       deliveryChargeStatus: "unpaid",
-      currentLocation: "",
+      currentLocation: "merchant-location",
       revMethod: selectedMethodRev ? "COD" : "Online",
       merchantRevenueStatus: null,
 

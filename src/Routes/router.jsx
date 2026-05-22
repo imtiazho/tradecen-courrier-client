@@ -47,6 +47,7 @@ import PaymentPayout from "../Pages/PaymentPayout/PaymentPayout";
 import AccountAndFinance from "../Pages/AccountAndFinance/AccountAndFinance";
 import PayoutReq from "../Pages/PayoutReq/PayoutReq";
 import ParcelDetails from "../Pages/ParcelDetails/ParcelDetails";
+import PickUp from "../Pages/PickUp/PickUp";
 
 export const router = createBrowserRouter([
   {
@@ -215,6 +216,10 @@ export const router = createBrowserRouter([
       {
         path: "incoming",
         element: <Incoming></Incoming>,
+      },
+      {
+        path: "pick-ups",
+        element: <PickUp></PickUp>,
       },
       {
         path: "my-task",
