@@ -64,10 +64,10 @@ const StoreSettings = () => {
   }
 
   return (
-    <div className="p-6 md:p-10 bg-white rounded-[22px] shadow-[0_2px_5px_rgba(0,0,0,0.05)] min-h-screen">
+    <div className="p-6 md:p-10 bg-white rounded-tradecen shadow-flat min-h-screen">
       {/* Header Section */}
       <div className="mb-10">
-        <h2 className="text-3xl font-black text-[#02312A] mb-2">
+        <h2 className="text-3xl font-black text-secondary mb-2">
           Store Settings
         </h2>
         <p className="text-gray-500 text-sm">
@@ -77,7 +77,7 @@ const StoreSettings = () => {
 
       <form onSubmit={handleUpdate} className="space-y-8">
         {/* 1. Store Logo Section */}
-        <div className="flex items-center gap-6 p-6 bg-[#F8F9FA] rounded-[30px] border border-dashed border-gray-200">
+        <div className="flex items-center gap-6 p-6 bg-[#F8F9FA] rounded-tradecen border border-dashed border-gray-200">
           <div className="relative group">
             <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center border-4 border-[#CAEB66] overflow-hidden shadow-inner">
               {merchantData?.photoURL ? (
@@ -123,7 +123,7 @@ const StoreSettings = () => {
               type="text"
               name="businessName"
               defaultValue={merchantData?.businessName}
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
+              className="bg-[#F8F9FA] p-4 rounded-xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
             />
           </div>
 
@@ -136,7 +136,7 @@ const StoreSettings = () => {
               type="text"
               name="contact"
               defaultValue={merchantData?.contact}
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
+              className="bg-[#F8F9FA] p-4 rounded-xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent"
             />
           </div>
 
@@ -149,8 +149,8 @@ const StoreSettings = () => {
             <textarea
               rows="3"
               name="pickupAddress"
-              defaultValue={`${merchantData?.pickupPoint}, ${merchantData?.area}, ${merchantData?.district}, ${merchantData?.region}`}
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent resize-none leading-relaxed"
+              defaultValue={merchantData?.pickupPoint}
+              className="bg-[#F8F9FA] p-4 rounded-xl text-xs font-bold text-[#02312A] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] border border-transparent resize-none leading-relaxed"
             />
           </div>
 
@@ -163,7 +163,7 @@ const StoreSettings = () => {
               type="email"
               readOnly
               value={merchantData?.email}
-              className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-bold text-gray-400 border border-transparent cursor-not-allowed"
+              className="bg-[#F8F9FA] p-4 rounded-xl text-xs font-bold text-gray-400 border border-transparent cursor-not-allowed"
             />
           </div>
 
@@ -172,7 +172,7 @@ const StoreSettings = () => {
             <label className="text-[10px] font-black uppercase text-gray-400 flex items-center gap-2">
               Account Status
             </label>
-            <div className="bg-[#F8F9FA] p-4 rounded-2xl text-xs font-black text-green-600 border border-transparent flex items-center gap-2">
+            <div className="bg-[#F8F9FA] p-4 rounded-xl text-xs font-black text-green-600 border border-transparent flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               {merchantData?.accountStatus?.toUpperCase() || "ACTIVE"}
             </div>
@@ -183,7 +183,7 @@ const StoreSettings = () => {
         <div className="pt-6 border-t border-gray-100 flex justify-end">
           <button
             type="submit"
-            className="bg-[#CAEB66] text-[#02312A] px-12 py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-[#CAEB66]/20 cursor-pointer"
+            className="bg-[#CAEB66] text-[#02312A] px-12 py-4 rounded-xl font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-[#CAEB66]/20 cursor-pointer"
           >
             Save Changes
           </button>
