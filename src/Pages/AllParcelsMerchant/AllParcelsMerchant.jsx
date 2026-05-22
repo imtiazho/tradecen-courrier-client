@@ -12,7 +12,7 @@ import {
 import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { Link } from "react-router";
-import { TbListDetails } from "react-icons/tb";
+import { CgDetailsMore } from "react-icons/cg";
 
 const AllParcelsMerchant = () => {
   const { user } = useAuth();
@@ -108,12 +108,14 @@ const AllParcelsMerchant = () => {
                     #{parcel.trackingID}
                   </td>
                   <td className="px-6 py-5 text-xs font-medium text-[#02312A]">
-                    <p>{parcel.parcelName}</p>
+                    <p className="font-black text-sm text-[#02312A]">
+                      {parcel.parcelName}
+                    </p>
                     <Link
-                      className="flex items-center gap-1 mt-2"
+                      className="inline-flex items-center gap-1 mt-1.5 font-bold text-gray-400 hover:text-[#02312A] hover:underline underline-offset-4 transition-all duration-200 cursor-pointer uppercase text-[9px] tracking-wider"
                       to={`parcel-detail/${parcel._id}`}
                     >
-                      Details <TbListDetails />
+                      <CgDetailsMore size={12} /> View Details
                     </Link>
                   </td>
                   <td className="px-6 py-5">

@@ -30,145 +30,119 @@ const ReadyToPickUp = () => {
   if (isLoading) return <LoadingModal isLoading={isLoading} />;
 
   return (
-    <div className="p-4 bg-[#F8FAFC] min-h-screen font-sans">
-      {/* Header Section */}
+    <div className="py-8 px-12 bg-[#ffffff] font-sans text-secondary rounded-tradecen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl font-extrabold text-secondary tracking-tight">
             Ready for Pickup
           </h1>
-          <p className="text-slate-500 text-sm mt-1">
+          <p className="text-slate-500 text-sm mt-2">
             Riders have been assigned. Your shipments will be collected soon.
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 px-5 py-3 rounded-xl shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
-          <FaShippingFast className="text-slate-900" />
-          <span className="text-sm font-bold text-slate-700">
-            Total Parcels: {pendingPickUpParcelsData.length}
-          </span>
-        </div>
       </div>
 
-      {/* Table Container */}
-      <div className="bg-white rounded-[12px] shadow-[0_2px_5px_rgba(0,0,0,0.01)] border border-slate-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Shipment Details
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Assigned Rider
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Charge Info
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Amount
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {pendingPickUpParcelsData.map((parcel) => (
-                <tr
-                  key={parcel._id}
-                  className="group hover:bg-slate-50/80 transition-all duration-200"
-                >
-                  {/* Shipment Details */}
-                  <td className="px-8 py-6">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <FaBarcode className="text-indigo-400 text-xs" />
-                        <span className="font-mono font-bold text-indigo-600 tracking-tighter text-sm uppercase">
-                          {parcel.trackingID}
-                        </span>
-                      </div>
-                      <p className="font-bold text-slate-700 text-sm">
-                        {parcel.parcelName}
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-separate border-spacing-y-3">
+          <thead>
+            <tr className="text-[#ADB5BD] text-[11px] uppercase tracking-widest font-black">
+              <th className="px-6 py-3">Shipment Details</th>
+              <th className="px-6 py-3">Assigned Rider</th>
+              <th className="px-6 py-3">Charge Info</th>
+              <th className="px-6 py-3">Amount</th>
+              <th className="px-6 py-3 text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pendingPickUpParcelsData.map((parcel) => (
+              <tr
+                key={parcel._id}
+                className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group"
+              >
+                <td className="px-6 py-5 rounded-l-[16px] text-xs text-[#02312A]">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <FaBarcode className="text-gray-400 text-xs" />
+                      <span className="font-mono font-black text-gray-500 tracking-tighter uppercase">
+                        #{parcel.trackingID}
+                      </span>
+                    </div>
+                    <p className="font-bold text-sm text-[#02312A]">
+                      {parcel.parcelName}
+                    </p>
+                  </div>
+                </td>
+
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gray-50 text-[#02312A] rounded-xl flex items-center justify-center border border-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all">
+                      <FaUserCircle size={18} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm text-[#02312A]">
+                        {parcel.pickupRider?.name || "Assigning..."}
                       </p>
-                    </div>
-                  </td>
-
-                  {/* Assigned Rider - Dynamic Data */}
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-600">
-                        <FaUserCircle size={24} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-slate-800">
-                          {parcel.pickupRider?.name || "Assigning..."}
+                      {parcel.pickupRider?.phone ? (
+                        <a
+                          href={`tel:${parcel.pickupRider.phone}`}
+                          className="flex items-center gap-1 mt-1 text-[10px] font-black text-gray-400 hover:text-[#02312A] transition-colors uppercase tracking-wider cursor-pointer"
+                        >
+                          <FaPhoneAlt size={8} /> {parcel.pickupRider.phone}
+                        </a>
+                      ) : (
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
+                          No Contact
                         </p>
-
-                        {parcel.pickupRider?.phone ? (
-                          <a
-                            href={`tel:${parcel.pickupRider.phone}`}
-                            className="flex items-center gap-1.5 text-[10px] font-black text-indigo-500 hover:text-indigo-700 transition-colors uppercase tracking-wider cursor-pointer"
-                          >
-                            <FaPhoneAlt size={10} /> {parcel.pickupRider.phone}
-                          </a>
-                        ) : (
-                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                            Number not available
-                          </p>
-                        )}
-                      </div>
+                      )}
                     </div>
-                  </td>
+                  </div>
+                </td>
 
-                  {/* Payment Status */}
-                  <td className="px-8 py-6">
-                    <div className="flex flex-col">
-                      <span
-                        className={`text-[10px] font-black uppercase px-2 py-1 rounded-md w-fit ${
-                          parcel.deliveryChargeStatus === "paid"
-                            ? "bg-green-50 text-green-600"
-                            : "bg-orange-50 text-orange-600"
-                        }`}
-                      >
-                        {parcel.deliveryChargeStatus}
-                      </span>
-                      <span className="text-xs font-bold mt-1 text-slate-900">
-                        ৳ {parcel.deliveryCharge}
-                      </span>
-                    </div>
-                  </td>
-                  {/* Amout */}
-                  <td className="px-8 py-6 text-xs font-bold mt-1 text-slate-900">
-                    ৳ {parcel.revMethod === "COD" ? parcel.codAmount : 0}
-                  </td>
-                  {/* Pickup Status */}
-                  <td className="px-8 py-6">
-                    <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border border-blue-100">
+                {/* Charge Info */}
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <div className="flex flex-col gap-1.5">
+                    <span
+                      className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full w-fit tracking-tighter border ${
+                        parcel.deliveryChargeStatus === "paid"
+                          ? "bg-green-50 text-green-600 border-green-100"
+                          : "bg-orange-50 text-orange-600 border-orange-100"
+                      }`}
+                    >
+                      {parcel.deliveryChargeStatus}
+                    </span>
+                    <span className="font-black text-sm">
+                      ৳{parcel.deliveryCharge}
+                    </span>
+                  </div>
+                </td>
+
+                {/* Amount */}
+                <td className="px-6 py-5 text-sm font-black text-[#02312A]">
+                  ৳{parcel.revMethod === "COD" ? parcel.codAmount : 0}
+                </td>
+
+                <td className="px-6 py-5 rounded-r-[16px] text-center">
+                  <div className="flex justify-center">
+                    <span className="inline-flex items-center gap-1.5 bg-blue-50/60 text-blue-600 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border border-blue-100/50">
                       <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                       On the way
                     </span>
-                  </td>
-
-                  {/* <td className="px-8 py-6 text-right">
-                    <button className="p-2.5 text-slate-300 hover:text-slate-600 hover:bg-white hover:shadow-sm rounded-xl transition-all cursor-pointer border border-transparent hover:border-slate-100">
-                      <HiDotsVertical size={20} />
-                    </button>
-                  </td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
         {pendingPickUpParcelsData.length === 0 && (
-          <div className="py-24 text-center">
-            <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
-              <FaBoxOpen size={32} className="text-slate-200" />
+          <div className="py-24 text-center bg-white rounded-[20px] border border-dashed border-gray-100 mt-2">
+            <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-[#02312A]/40">
+              <FaBoxOpen size={32} />
             </div>
-            <h3 className="text-slate-900 font-bold text-lg">
+            <h3 className="text-[#02312A] font-black text-lg tracking-tight">
               No pickups scheduled
             </h3>
-            <p className="text-slate-400 text-sm max-w-[250px] mx-auto mt-1">
+            <p className="text-gray-400 text-xs font-bold max-w-[340px] mx-auto mt-1.5 leading-relaxed">
               When a rider is assigned to your parcel, it will appear here.
             </p>
           </div>

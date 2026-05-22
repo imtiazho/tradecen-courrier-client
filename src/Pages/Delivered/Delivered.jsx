@@ -32,105 +32,92 @@ const Delivered = () => {
   if (isLoading) return <LoadingModal isLoading={isLoading} />;
 
   return (
-    <div className="p-4 bg-[#F8FAFC] min-h-screen font-sans">
-      {/* Header Section */}
+    <div className="py-8 px-12 bg-[#ffffff] shadow-flat rounded-tradecen font-sans text-slate-700">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl font-extrabold text-secondary tracking-tight">
             Delivered Parcels
           </h1>
-          <p className="text-slate-500 text-sm mt-1">
+          <p className="text-slate-500 text-sm mt-2">
             All your delivered parcels here!
           </p>
         </div>
-        <div className="flex items-center gap-2 bg-[#CAEB66] text-slate-900 px-5 py-3 rounded-2xl border border-slate-200 shadow-[0_2px_5px_rgba(0,0,0,0.01)]">
-          <FaTruckMoving className="text-slate-900" />
-          <span className="text-sm font-bold">
-            Delivered: {deliveredParcels?.length}
-          </span>
-        </div>
       </div>
 
-      {/* Table Container */}
-      <div className="bg-white rounded-[15px] shadow-[0_2px_15px_-3px_rgba(0,0,0,0.02)] border border-slate-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Tracking ID
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Parcel Name
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Charge
-                </th>
-                <th className="px-8 py-5 text-[11px] font-black text-slate-400 uppercase tracking-[0.1em]">
-                  Payment
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-50">
-              {deliveredParcels.map((parcel) => (
-                <tr
-                  key={parcel._id}
-                  className="group hover:bg-slate-50/80 transition-all duration-200"
-                >
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-2">
-                      <FaBarcode className="text-indigo-400 text-xs" />
-                      <span className="font-mono font-bold text-indigo-600 tracking-tighter text-sm">
-                        {parcel.trackingID}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-500 group-hover:bg-white group-hover:shadow-sm transition-all">
-                        <FaBoxOpen size={18} />
-                      </div>
-                      <span className="font-semibold text-slate-700 text-sm">
-                        {parcel.parcelName}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-8 py-6">
-                    <div className="flex items-center gap-1 font-black text-slate-900">
-                      <span className="text-xs text-slate-400">৳</span>
-                      {parcel.codAmount}
-                    </div>
-                  </td>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-separate border-spacing-y-3">
+          <thead>
+            <tr className="text-[#ADB5BD] text-[11px] uppercase tracking-widest font-black">
+              <th className="px-6 py-3">Tracking ID</th>
+              <th className="px-6 py-3">Parcel Name</th>
+              <th className="px-6 py-3">COD</th>
+              <th className="px-6 py-3">Charge</th>
+            </tr>
+          </thead>
+          <tbody>
+            {deliveredParcels.map((parcel) => (
+              <tr
+                key={parcel._id}
+                className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group"
+              >
+                <td className="px-6 py-5 rounded-l-[16px] text-xs text-[#02312A]">
+                  <div className="flex items-center gap-2">
+                    <FaBarcode className="text-gray-400 text-xs" />
+                    <span className="font-mono font-black text-gray-500 tracking-tighter uppercase">
+                      #{parcel.trackingID}
+                    </span>
+                  </div>
+                </td>
 
-                  <td className="px-8 py-6">
-                    <div className="flex flex-col">
-                      <span
-                        className={`text-[10px] font-black uppercase px-2 py-1 rounded-md w-fit ${
-                          parcel.deliveryChargeStatus === "paid"
-                            ? "bg-green-50 text-green-600"
-                            : "bg-orange-50 text-orange-600"
-                        }`}
-                      >
-                        {parcel.deliveryChargeStatus}
-                      </span>
-                      <span className="text-xs font-bold mt-1 text-slate-900">
-                        ৳{parcel.deliveryCharge}
-                      </span>
+                {/* Parcel Name */}
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-gray-50 text-[#02312A] rounded-xl flex items-center justify-center border border-gray-100 group-hover:bg-white group-hover:shadow-sm transition-all">
+                      <FaBoxOpen size={14} />
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    <span className="font-bold text-sm text-[#02312A]">
+                      {parcel.parcelName}
+                    </span>
+                  </div>
+                </td>
+
+                {/* Charge */}
+                <td className="px-6 py-5 text-sm font-black text-[#02312A]">
+                  ৳{parcel.codAmount}
+                </td>
+
+                <td className="px-6 py-5 rounded-r-[16px] text-xs text-[#02312A]">
+                  <div className="flex flex-col gap-1.5">
+                    <span
+                      className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full w-fit tracking-tighter border ${
+                        parcel.deliveryChargeStatus === "paid"
+                          ? "bg-green-50 text-green-600 border-green-100"
+                          : "bg-orange-50 text-orange-600 border-orange-100"
+                      }`}
+                    >
+                      {parcel.deliveryChargeStatus}
+                    </span>
+                    <span className="font-black text-sm">
+                      ৳{parcel.deliveryCharge}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
         {deliveredParcels.length === 0 && (
-          <div className="py-24 text-center">
-            <div className="bg-slate-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FaBoxOpen size={24} className="text-slate-300" />
+          <div className="py-24 text-center bg-white rounded-[20px] border border-dashed border-gray-100 mt-2">
+            <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-[#02312A]/40">
+              <FaBoxOpen size={32} />
             </div>
-            <h3 className="text-slate-900 font-bold">All settled!</h3>
-            <p className="text-slate-400 text-sm">No delivered parcel found.</p>
+            <h3 className="text-[#02312A] font-black text-lg tracking-tight">
+              All settled!
+            </h3>
+            <p className="text-gray-400 text-xs font-bold max-w-[340px] mx-auto mt-1.5 leading-relaxed">
+              No delivered parcel found in your history log at this moment.
+            </p>
           </div>
         )}
       </div>

@@ -195,260 +195,252 @@ const SendParcel = () => {
   const labelStyle = "block text-[13px] font-bold text-[#002B36] mb-1.5 ml-1";
 
   return (
-    <div className="min-h-screen pt-8 pb-12">
-      <div className="bg-white rounded-[25px] border border-gray-100 overflow-hidden">
-        {/* Header Section */}
-        <div className="p-10 border-b border-gray-50 flex justify-between items-end">
-          <div>
-            <h1 className="text-4xl font-black text-[#002B36]">
-              Send A Parcel
-            </h1>
-            <p className="text-gray-500 mt-2 font-medium">
-              Detailed consignment booking for AI analytics
-            </p>
-          </div>
-          <div className="hidden md:block bg-gray-50 px-6 py-3 rounded-2xl border border-gray-100">
-            <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
-              Pickup Location
-            </p>
-            <p className="text-sm font-bold text-[#002B36]">
-              {merchant?.pickupPoint?.split(",")[0] || "Not Set"}
-            </p>
-          </div>
+    <div className="bg-white rounded-tradecen shadow-flat overflow-hidden">
+      {/* Header Section */}
+      <div className="p-10 border-b border-gray-50 flex justify-between items-end">
+        <div>
+          <h1 className="text-4xl font-black text-[#002B36]">Send A Parcel</h1>
+          <p className="text-gray-500 mt-2 font-medium">
+            Detailed consignment booking for AI analytics
+          </p>
+        </div>
+        <div className="hidden md:block bg-gray-50 px-6 py-3 rounded-2xl border border-gray-100">
+          <p className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
+            Pickup Location
+          </p>
+          <p className="text-sm font-bold text-[#002B36]">
+            {merchant?.pickupPoint?.split(",")[0] || "Not Set"}
+          </p>
+        </div>
+      </div>
+
+      <form
+        onSubmit={handleSubmit(handleSendParcel)}
+        className="p-10 space-y-12"
+      >
+        {/* Parcel Category */}
+        <div className="flex gap-6 items-center bg-gray-50 p-4 rounded-2xl w-fit border border-gray-100">
+          <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
+            <input
+              {...register("parcelType")}
+              type="radio"
+              value="Document"
+              className="radio radio-success radio-sm"
+            />{" "}
+            Document
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
+            <input
+              {...register("parcelType")}
+              type="radio"
+              value="Non-Document"
+              className="radio radio-success radio-sm"
+            />{" "}
+            Non-Document
+          </label>
         </div>
 
-        <form
-          onSubmit={handleSubmit(handleSendParcel)}
-          className="p-10 space-y-12"
-        >
-          {/* Parcel Category */}
-          <div className="flex gap-6 items-center bg-gray-50 p-4 rounded-2xl w-fit border border-gray-100">
-            <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
-              <input
-                {...register("parcelType")}
-                type="radio"
-                value="Document"
-                className="radio radio-success radio-sm"
-              />{" "}
-              Document
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
-              <input
-                {...register("parcelType")}
-                type="radio"
-                value="Non-Document"
-                className="radio radio-success radio-sm"
-              />{" "}
-              Non-Document
-            </label>
-          </div>
+        {/* Payment Method  */}
+        <div className="bg-gray-50 p-4 rounded-2xl w-fit border border-gray-100">
+          <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
+            <input
+              {...register("selectedMethodRev")}
+              type="checkbox"
+              value="COD"
+              className="radio radio-success radio-sm"
+            />{" "}
+            COD
+          </label>
+        </div>
 
-          {/* Payment Method  */}
-          <div className="bg-gray-50 p-4 rounded-2xl w-fit border border-gray-100">
-            <label className="flex items-center gap-2 cursor-pointer font-bold text-sm text-[#002B36]">
-              <input
-                {...register("selectedMethodRev")}
-                type="checkbox"
-                value="COD"
-                className="radio radio-success radio-sm"
-              />{" "}
-              COD
-            </label>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-16">
-            {/* Left Column: Product & Core Details */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-lg font-black text-[#002B36] flex items-center gap-2 mb-6">
-                  <span className="w-2 h-6 bg-[#CAEB66] rounded-full inline-block"></span>
-                  Parcel Information
-                </h3>
-
-                <div className="space-y-5">
-                  <div>
-                    <label className={labelStyle}>
-                      Parcel Name / Item Type
-                    </label>
-                    <input
-                      {...register("parcelName", {
-                        required: "Name is required",
-                      })}
-                      className={inputStyle}
-                      placeholder="e.g. Official Documents, Leather Bag"
-                    />
-                    <ErrorMsg errors={errors} name="parcelName" />
-                  </div>
-
-                  {selectedMethodRev === "COD" && (
-                    <div>
-                      <label className={labelStyle}>COD Amount</label>
-                      <input
-                        type="number"
-                        placeholder="Total Amount..."
-                        {...register("CODAmount", {
-                          required: true,
-                        })}
-                        className={inputStyle}
-                      />
-                    </div>
-                  )}
-
-                  <div>
-                    <label className={labelStyle}>Weight (KG)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      {...register("parcelWeight", {
-                        required: true,
-                        min: 0.1,
-                      })}
-                      className={inputStyle}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Pricing Badge for Visual Emphasis */}
-              <div className="bg-secondary text-white p-7 rounded-[32px] flex justify-between items-center shadow-lg">
-                <div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
-                    Service Charge
-                  </p>
-                  <h2 className="text-4xl font-black text-primary">
-                    {deliveryCharge}{" "}
-                    <span className="text-sm text-white font-normal italic">
-                      BDT
-                    </span>
-                  </h2>
-                </div>
-                <div className="text-right border-l border-white/10 pl-6">
-                  <p className="text-[10px] text-gray-400 uppercase font-bold">
-                    Est. Pickup
-                  </p>
-                  <p className="text-sm font-bold">Same Day</p>
-                  <p className="text-[11px] text-[#CAEB66]">
-                    4:00 PM - 7:00 PM
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Receiver & Granular Location */}
-            <div className="space-y-8">
+        <div className="grid md:grid-cols-2 gap-16">
+          {/* Left Column: Product & Core Details */}
+          <div className="space-y-8">
+            <div>
               <h3 className="text-lg font-black text-[#002B36] flex items-center gap-2 mb-6">
                 <span className="w-2 h-6 bg-[#CAEB66] rounded-full inline-block"></span>
-                Receiver & Location
+                Parcel Information
               </h3>
 
               <div className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className={labelStyle}>Receiver Name</label>
-                    <input
-                      {...register("receiverName", {
-                        required: "Name required",
-                      })}
-                      className={inputStyle}
-                      placeholder="Full Name"
-                    />
-                    <ErrorMsg errors={errors} name="receiverName" />
-                  </div>
-                  <div>
-                    <label className={labelStyle}>Contact Number</label>
-                    <input
-                      {...register("receiverPhone", {
-                        required: "Phone required",
-                      })}
-                      className={inputStyle}
-                      placeholder="01XXXXXXXXX"
-                    />
-                    <ErrorMsg errors={errors} name="receiverPhone" />
-                  </div>
+                <div>
+                  <label className={labelStyle}>Parcel Name / Item Type</label>
+                  <input
+                    {...register("parcelName", {
+                      required: "Name is required",
+                    })}
+                    className={inputStyle}
+                    placeholder="e.g. Official Documents, Leather Bag"
+                  />
+                  <ErrorMsg errors={errors} name="parcelName" />
                 </div>
 
-                {/* AI Integration Ready Granular Location Fields */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="col-span-2">
-                    <label className={labelStyle}>Region</label>
-                    <select
-                      {...register("receiverRegion", {
-                        required: "Region required",
+                {selectedMethodRev === "COD" && (
+                  <div>
+                    <label className={labelStyle}>COD Amount</label>
+                    <input
+                      type="number"
+                      placeholder="Total Amount..."
+                      {...register("CODAmount", {
+                        required: true,
                       })}
                       className={inputStyle}
-                    >
-                      <option value="">Select Region</option>
-                      {clearRegions.map((r) => (
-                        <option key={r} value={r}>
-                          {r}
-                        </option>
-                      ))}
-                    </select>
-                    <ErrorMsg errors={errors} name="receiverRegion" />
+                    />
                   </div>
-
-                  <div>
-                    <label className={labelStyle}>District</label>
-                    <select
-                      {...register("receiverDistrict", {
-                        required: "Required",
-                      })}
-                      disabled={!selectedRegion}
-                      className={inputStyle}
-                    >
-                      <option value="">Select District</option>
-                      {getDistricts(selectedRegion).map((d) => (
-                        <option key={d} value={d}>
-                          {d}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className={labelStyle}>Area / Hub</label>
-                    <select
-                      {...register("receiverArea", { required: "Required" })}
-                      disabled={!selectedDistrict}
-                      className={inputStyle}
-                    >
-                      <option value="">Select Area</option>
-                      {getAreas(selectedDistrict).map((a) => (
-                        <option key={a} value={a}>
-                          {a}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                )}
 
                 <div>
-                  <label className={labelStyle}>
-                    Street Address / House / Road
-                  </label>
-                  <textarea
-                    {...register("receiverAddress", {
-                      required: "Detailed address required",
+                  <label className={labelStyle}>Weight (KG)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    {...register("parcelWeight", {
+                      required: true,
+                      min: 0.1,
                     })}
-                    className={`${inputStyle} h-24 resize-none`}
-                    placeholder="Street Address / House / Road..."
-                  ></textarea>
-                  <ErrorMsg errors={errors} name="receiverAddress" />
+                    className={inputStyle}
+                  />
                 </div>
+              </div>
+            </div>
+
+            {/* Pricing Badge for Visual Emphasis */}
+            <div className="bg-secondary text-white p-7 rounded-[32px] flex justify-between items-center shadow-lg">
+              <div>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
+                  Service Charge
+                </p>
+                <h2 className="text-4xl font-black text-primary">
+                  {deliveryCharge}{" "}
+                  <span className="text-sm text-white font-normal italic">
+                    BDT
+                  </span>
+                </h2>
+              </div>
+              <div className="text-right border-l border-white/10 pl-6">
+                <p className="text-[10px] text-gray-400 uppercase font-bold">
+                  Est. Pickup
+                </p>
+                <p className="text-sm font-bold">Same Day</p>
+                <p className="text-[11px] text-[#CAEB66]">4:00 PM - 7:00 PM</p>
               </div>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-gray-100 w-full">
-            <button
-              type="submit"
-              className="bg-[#CAEB66] hover:bg-[#b8d65a] text-[#002B36] font-black px-16 py-4 rounded-2xl shadow-xl shadow-[#CAEB66]/20 transition-all transform hover:-translate-y-0.5 cursor-pointer active:scale-95 text-lg w-full"
-            >
-              Confirm & Book Consignment
-            </button>
+          {/* Right Column: Receiver & Granular Location */}
+          <div className="space-y-8">
+            <h3 className="text-lg font-black text-[#002B36] flex items-center gap-2 mb-6">
+              <span className="w-2 h-6 bg-[#CAEB66] rounded-full inline-block"></span>
+              Receiver & Location
+            </h3>
+
+            <div className="space-y-5">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className={labelStyle}>Receiver Name</label>
+                  <input
+                    {...register("receiverName", {
+                      required: "Name required",
+                    })}
+                    className={inputStyle}
+                    placeholder="Full Name"
+                  />
+                  <ErrorMsg errors={errors} name="receiverName" />
+                </div>
+                <div>
+                  <label className={labelStyle}>Contact Number</label>
+                  <input
+                    {...register("receiverPhone", {
+                      required: "Phone required",
+                    })}
+                    className={inputStyle}
+                    placeholder="01XXXXXXXXX"
+                  />
+                  <ErrorMsg errors={errors} name="receiverPhone" />
+                </div>
+              </div>
+
+              {/* AI Integration Ready Granular Location Fields */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2">
+                  <label className={labelStyle}>Region</label>
+                  <select
+                    {...register("receiverRegion", {
+                      required: "Region required",
+                    })}
+                    className={inputStyle}
+                  >
+                    <option value="">Select Region</option>
+                    {clearRegions.map((r) => (
+                      <option key={r} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                  <ErrorMsg errors={errors} name="receiverRegion" />
+                </div>
+
+                <div>
+                  <label className={labelStyle}>District</label>
+                  <select
+                    {...register("receiverDistrict", {
+                      required: "Required",
+                    })}
+                    disabled={!selectedRegion}
+                    className={inputStyle}
+                  >
+                    <option value="">Select District</option>
+                    {getDistricts(selectedRegion).map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className={labelStyle}>Area / Hub</label>
+                  <select
+                    {...register("receiverArea", { required: "Required" })}
+                    disabled={!selectedDistrict}
+                    className={inputStyle}
+                  >
+                    <option value="">Select Area</option>
+                    {getAreas(selectedDistrict).map((a) => (
+                      <option key={a} value={a}>
+                        {a}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className={labelStyle}>
+                  Street Address / House / Road
+                </label>
+                <textarea
+                  {...register("receiverAddress", {
+                    required: "Detailed address required",
+                  })}
+                  className={`${inputStyle} h-24 resize-none`}
+                  placeholder="Street Address / House / Road..."
+                ></textarea>
+                <ErrorMsg errors={errors} name="receiverAddress" />
+              </div>
+            </div>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div className="pt-8 border-t border-gray-100 w-full">
+          <button
+            type="submit"
+            className="bg-[#CAEB66] hover:bg-[#b8d65a] text-[#002B36] font-black px-16 py-4 rounded-2xl shadow-xl shadow-[#CAEB66]/20 transition-all transform hover:-translate-y-0.5 cursor-pointer active:scale-95 text-lg w-full"
+          >
+            Confirm & Book Consignment
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

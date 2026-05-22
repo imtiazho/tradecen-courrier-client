@@ -48,7 +48,6 @@ const Deliveries = () => {
   return (
     <div className="space-y-6">
       <div className="bg-white p-8 rounded-[25px] shadow-sm border border-gray-50 w-full">
-        {/* --- ২. Search & Filter Area --- */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <div className="relative w-full md:w-96">
             <RiSearch2Line className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -76,7 +75,6 @@ const Deliveries = () => {
           </div>
         </div>
 
-        {/* Table Area (আপনার আগের কোড) */}
         <div className="overflow-x-auto border border-gray-100 p-2 rounded-[20px]">
           <table className="w-full border-separate border-spacing-y-3">
             <thead>
@@ -90,7 +88,6 @@ const Deliveries = () => {
                 <th className="pb-4 font-bold text-[11px] uppercase tracking-wider">
                   Destination
                 </th>{" "}
-                {/* নতুন কলাম */}
                 <th className="pb-4 font-bold text-[11px] uppercase tracking-wider">
                   Date
                 </th>
@@ -121,7 +118,6 @@ const Deliveries = () => {
                   </td>
                   <td className="py-5 bg-[#F8F9FA]/60 text-xs text-gray-500 italic">
                     {item?.receiverInfo?.district || "N/A"}{" "}
-                    {/* লোকেশন দেখালে ভালো লাগে */}
                   </td>
                   <td className="py-5 bg-[#F8F9FA]/60 text-xs text-gray-500">
                     {new Date(item?.createdAt).toLocaleDateString()}
