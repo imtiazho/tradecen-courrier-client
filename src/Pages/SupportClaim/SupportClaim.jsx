@@ -15,19 +15,23 @@ const SupportClaim = () => {
 
   const handleChatClick = () => {
     setIsChatOpen(true);
-    // SweetAlert দিয়ে একটা ওয়েলকাম মেসেজ
+
     Swal.fire({
-      title: "Badsha AI is Online!",
-      text: "How can I assist you today with your shipments?",
+      title: "TradeCen AI Coming Soon!",
+      text: "We are building an intelligent AI assistant to help you manage and track shipments effortlessly. Stay tuned!",
       icon: "info",
       confirmButtonColor: "#02312A",
-      timer: 2000,
-      showConfirmButton: false,
+      timer: 3500,
+      showConfirmButton: true,
+      confirmButtonText: "Got It!",
+      customClass: {
+        popup: "rounded-[24px]",
+      },
     });
   };
 
   return (
-    <div className="p-6 md:p-10 bg-white rounded-[40px] shadow-sm min-h-[80vh] relative">
+    <div className="p-6 md:p-10 bg-white rounded-tradecen shadow-flat min-h-[80vh] relative">
       {/* Header */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#02312A] mb-2">
@@ -63,7 +67,7 @@ const SupportClaim = () => {
               href="mailto:support@zapshift.com"
               className="text-sm font-bold text-[#02312A] underline"
             >
-              support@zapshift.com
+              support@tradecen.com
             </a>
           </div>
         </div>
@@ -77,7 +81,7 @@ const SupportClaim = () => {
                 <FaRobot className="text-[#02312A]" size={20} />
               </div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#CAEB66]">
-                Badsha AI Active
+                TradeCen AI Active
               </span>
             </div>
             <h3 className="text-2xl font-black mb-4">Chat with our AI Agent</h3>
@@ -100,7 +104,7 @@ const SupportClaim = () => {
 
       {/* --- LIVE CHAT INBOX POPUP --- */}
       {isChatOpen && (
-        <div className="fixed bottom-6 right-6 w-80 md:w-96 bg-white shadow-2xl rounded-[30px] border border-gray-100 overflow-hidden z-50 animate-in slide-in-from-bottom-10 duration-300">
+        <div className="fixed bottom-6 right-6 w-80 md:w-96 bg-white shadow-flat rounded-tradecen border border-gray-100 overflow-hidden z-50 animate-in slide-in-from-bottom-10 duration-300">
           {/* Chat Header */}
           <div className="bg-[#02312A] p-4 flex justify-between items-center text-white">
             <div className="flex items-center gap-3">
@@ -108,7 +112,7 @@ const SupportClaim = () => {
                 <FaRobot className="text-[#02312A]" size={14} />
               </div>
               <div>
-                <h5 className="text-xs font-bold">Badsha AI</h5>
+                <h5 className="text-xs font-bold">TradeCen AI</h5>
                 <p className="text-[10px] text-[#CAEB66]">Online</p>
               </div>
             </div>
@@ -123,7 +127,7 @@ const SupportClaim = () => {
           {/* Chat Messages Slot */}
           <div className="h-80 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
             <div className="bg-[#CAEB66]/20 p-3 rounded-2xl rounded-tl-none text-[11px] text-[#02312A] self-start max-w-[80%]">
-              Hello! I am Badsha. How can I help you with your parcel today?
+              Hello! I am TradeCen. How can I help you with your parcel today?
             </div>
             <div className="bg-[#02312A] p-3 rounded-2xl rounded-tr-none text-[11px] text-white self-end max-w-[80%]">
               I want to check my parcel status.
@@ -131,13 +135,13 @@ const SupportClaim = () => {
           </div>
 
           {/* Chat Input */}
-          <div className="p-4 bg-white flex items-center gap-2 border-t">
+          <div className="p-4 bg-white flex items-center gap-2 border-t border-t-gray-200">
             <input
               type="text"
               placeholder="Type your message..."
-              className="flex-1 text-xs bg-gray-100 p-3 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#CAEB66]"
+              className="flex-1 text-xs border-0 bg-gray-100 p-4 rounded-xl focus:outline-none focus:ring-1 focus:ring-[#CAEB66]"
             />
-            <button className="p-3 bg-[#CAEB66] text-[#02312A] rounded-xl hover:scale-110 transition-transform">
+            <button className="p-4 bg-[#CAEB66] text-[#02312A] rounded-xl hover:scale-110 transition-transform">
               <FaPaperPlane size={14} />
             </button>
           </div>
