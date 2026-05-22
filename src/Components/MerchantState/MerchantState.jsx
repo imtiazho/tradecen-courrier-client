@@ -118,7 +118,7 @@ const MerchantState = ({
       color: "text-green-500",
     },
   ];
-  console.log(lateInvoicesData);
+  
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -127,7 +127,7 @@ const MerchantState = ({
           <h2 className="text-2xl font-black text-secondary tracking-[.6px]">
             Dashboard Overview
           </h2>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mt-1">
             You can access all your data and information from anywhere.
           </p>
         </div>

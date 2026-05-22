@@ -99,7 +99,7 @@ const PaymentPayout = () => {
   }
 
   return (
-    <div className="p-6 md:p-10 bg-[#FBFBFA] min-h-screen rounded-[40px] relative">
+    <div className="p-6 md:p-10 bg-[#fff] min-h-screen rounded-[25px] relative">
       {/* Header */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#02312A] mb-2">
