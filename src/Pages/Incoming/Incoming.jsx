@@ -107,7 +107,7 @@ const Incoming = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h2 className="text-3xl font-extrabold text-[#002B36] tracking-tight">
+          <h2 className="text-3xl font-extrabold text-[#002B36] tracking-wide">
             Incoming Parcels
           </h2>
           <p className="text-sm text-gray-500 mt-1 font-medium">
