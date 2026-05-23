@@ -284,7 +284,7 @@ export const router = createBrowserRouter([
         element: <AccountAndFinance></AccountAndFinance>,
         children: [
           {
-            path: "payout-requests",
+            index: true,
             element: <PayoutReq />,
           },
         ],

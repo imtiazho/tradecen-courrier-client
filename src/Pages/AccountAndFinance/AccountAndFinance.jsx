@@ -9,7 +9,7 @@ const AccountAndFinance = () => {
     {
       id: "payout-requests",
       label: "Payout Requests",
-      path: "/dashboard/account-finance/payout-requests",
+      path: "/dashboard/account-finance",
       icon: <FaMoneyCheckAlt size={16} />,
     },
     {
@@ -27,13 +27,13 @@ const AccountAndFinance = () => {
   ];
 
   return (
-    <div className="p-6 md:p-10 bg-[#FBFBFA] min-h-screen rounded-[40px] relative">
+    <div className="p-6 md:p-10 bg-[#ffffff] min-h-screen rounded-tradecen shadow-flat relative">
       {/* 1. Header Section */}
       <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-black text-[#02312A] mb-2 flex items-center gap-3">
-            <div className="p-2 bg-[#02312A] text-[#CAEB66] rounded-xl shadow-md">
-              <FaWallet size={24} />
+          <h2 className="text-3xl font-black text-secondary mb-2 flex items-center gap-3">
+            <div className="p-3 bg-primary text-secondary rounded-xl shadow-md">
+              <FaWallet size={20} />
             </div>
             Account & Finance Hub
           </h2>
@@ -43,16 +43,16 @@ const AccountAndFinance = () => {
           </p>
         </div>
 
-        <div className="bg-[#02312A] text-white px-5 py-3 rounded-2xl flex items-center gap-3 border border-white/10 w-fit">
-          <span className="w-2 h-2 bg-[#CAEB66] rounded-full animate-pulse"></span>
-          <p className="text-[11px] font-black uppercase tracking-wider text-gray-300">
-            Hub Terminal: <span className="text-[#CAEB66]">Active</span>
+        <div className="bg-primary text-secondary px-5 py-3 rounded-2xl flex items-center gap-3 border border-white/10 w-fit">
+          <span className="w-2 h-2 bg-secondary rounded-full animate-pulse"></span>
+          <p className="text-[11px] font-black uppercase tracking-wider text-secondary">
+            Hub Terminal: <span className="text-secondary">Active</span>
           </p>
         </div>
       </div>
 
       {/* 2. Professional Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 p-1.5 bg-white rounded-[20px] shadow-sm border border-gray-100 max-w-fit mb-8">
+      <div className="flex gap-2 border border-gray-100 mb-8 bg-white/50 p-1.5 rounded-xl w-fit">
         {tabs.map((tab) => {
           const isActive = location.pathname === tab.path;
 
@@ -60,10 +60,10 @@ const AccountAndFinance = () => {
             <Link
               key={tab.id}
               to={tab.path}
-              className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 ${
+              className={`px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-md flex gap-2 ${
                 isActive
-                  ? "bg-[#02312A] text-[#CAEB66] shadow-md shadow-[#02312A]/10 scale-105"
-                  : "text-gray-500 hover:text-[#02312A] hover:bg-gray-50"
+                  ? "bg-[#CAEB66] text-[#002B36] shadow-sm"
+                  : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
               }`}
             >
               {tab.icon}
@@ -74,7 +74,7 @@ const AccountAndFinance = () => {
       </div>
 
       {/* 3. Dynamic Content Area via Outlet */}
-      <div className="bg-white rounded-[35px] shadow-sm border border-gray-50 p-6 md:p-8 transform transition-all animate-in fade-in duration-300">
+      <div className="rounded-tradecen border border-gray-50 p-6 md:p-8 transform transition-all animate-in fade-in duration-300">
         <Outlet />
       </div>
     </div>
