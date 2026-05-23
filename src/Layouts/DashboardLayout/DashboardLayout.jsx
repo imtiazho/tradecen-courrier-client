@@ -91,7 +91,7 @@ const roleMenuItems = {
     {
       name: "Returns",
       icon: <RiArrowGoBackLine size={22} />,
-      path: "/hub/returns",
+      path: "/dashboard/return-parcels",
     },
     {
       name: "My Riders",

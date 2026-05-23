@@ -48,6 +48,7 @@ import PayoutReq from "../Pages/PayoutReq/PayoutReq";
 import ParcelDetails from "../Pages/ParcelDetails/ParcelDetails";
 import PickUp from "../Pages/PickUp/PickUp";
 import InHouse from "../Pages/InHouse/InHouse";
+import ReturnParcels from "../Pages/ReturnParcels/ReturnParcels";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ export const router = createBrowserRouter([
       {
         path: "contact",
         Component: ContactPage,
+      },
+      {
+        path: "track-parcel",
+        Component: TrackParcels,
       },
       {
         path: "role-onboarding",
@@ -228,6 +233,10 @@ export const router = createBrowserRouter([
       {
         path: "my-task",
         element: <MyTaskRider></MyTaskRider>,
+      },
+      {
+        path: "return-parcels",
+        element: <ReturnParcels></ReturnParcels>,
       },
       {
         path: "create-order",

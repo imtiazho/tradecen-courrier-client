@@ -82,7 +82,7 @@ const Incoming = () => {
 
   const handleReceiveAtHub = async (id) => {
     try {
-      const res = await axiosSecure.patch(`/parcels/hub/received/${id}`);
+      const res = await axiosSecure.patch(`/parcels/dest-hub/received/${id}`);
       if (res.data.success) {
         Swal.fire({
           title: "Received!",
