@@ -4,6 +4,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import { MdPedalBike } from "react-icons/md";
 
 const Incoming = () => {
   const { user } = useAuth();
@@ -102,7 +103,7 @@ const Incoming = () => {
   }
 
   return (
-    <div className="p-4 md:p-8 bg-[#f8fafc] min-h-screen font-sans">
+    <div className="p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen font-sans">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
@@ -122,98 +123,95 @@ const Incoming = () => {
       </div>
 
       {/* Main Table Container */}
-      <div className="bg-white rounded-2xl shadow-[0_2px_5px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100">
-        <div className="overflow-x-auto">
-          <table className="table w-full border-separate border-spacing-0">
-            <thead>
-              <tr className="bg-[#CAEB66] text-[#002B36]">
-                <th className="py-5 pl-6 text-xs uppercase tracking-widest text-center">
-                  Tracking ID
-                </th>
-                <th className="py-5 pl-6 text-xs uppercase tracking-widest text-center">
-                  Details
-                </th>
-                <th className="py-5 pl-6 text-xs uppercase tracking-widest text-center">
-                  Sender
-                </th>
-                <th className="py-5 pl-6 text-xs uppercase tracking-widest text-center">
-                  Specs
-                </th>
-                <th className="py-5 pl-6 text-xs uppercase tracking-widest text-center">
-                  Status
-                </th>
-                <th className="py-5 pl-6 text-xs uppercase tracking-widest text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {incomingData?.map((parcel) => (
-                <tr
-                  key={parcel._id}
-                  className="hover:bg-[#CAEB66]/5 transition-colors group text-center"
-                >
-                  <td className="py-7 pl-6">
-                    <span className="bg-gray-100 px-3 py-1.5 rounded-lg font-mono font-bold text-[#002B36] text-sm group-hover:bg-[#CAEB66]/30 transition-all">
-                      #{parcel.trackingID}
+      <div className="overflow-x-auto w-full">
+        <table className="w-full text-left border-separate border-spacing-y-3">
+          <thead>
+            <tr className="text-[#ADB5BD] text-[11px] uppercase tracking-widest font-black">
+              <th className="px-6 py-3">Tracking ID</th>
+              <th className="px-6 py-3">Details</th>
+              <th className="px-6 py-3">Sender</th>
+              <th className="px-6 py-3">Specs</th>
+              <th className="px-6 py-3">Status</th>
+              <th className="px-6 py-3 text-right pr-12">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {incomingData?.map((parcel) => (
+              <tr
+                key={parcel._id}
+                className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group text-left"
+              >
+                <td className="px-6 py-5 rounded-l-[16px]">
+                  <span className="bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-lg font-mono font-black text-gray-500 text-xs tracking-tighter uppercase group-hover:bg-[#02312A]/5 group-hover:text-[#02312A] transition-all">
+                    #{parcel.trackingID}
+                  </span>
+                </td>
+
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <div className="flex flex-col items-start">
+                    <span className="font-black text-sm text-[#02312A]">
+                      {parcel.parcelName.length > 18
+                        ? parcel.parcelName.slice(0, 18) + "..."
+                        : parcel.parcelName}
                     </span>
-                  </td>
-                  <td>
-                    <div className="flex flex-col items-center">
-                      <span className="font-bold text-[#002B36]">
-                        {parcel.parcelName.length > 18
-                          ? parcel.parcelName.slice(0, 18)+"..."
-                          : parcel.parcelName}
+                    <span className="text-[9px] uppercase font-black text-gray-400 mt-0.5 tracking-wider">
+                      Dest: {parcel.receiverInfo?.area}
+                    </span>
+                  </div>
+                </td>
+
+                {/* Sender */}
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <p className="font-black text-[#02312A]">
+                    {parcel.senderInfo?.name}
+                  </p>
+                  <p className="text-[10px] text-gray-400 font-bold mt-0.5 tracking-wide">
+                    {parcel.senderInfo?.phone}
+                  </p>
+                </td>
+
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <div className="flex flex-col items-start gap-1">
+                    <span className="text-[#02312A] font-black bg-[#CAEB66]/10 border border-[#CAEB66]/20 px-1.5 py-0.5 rounded-md text-[9px] w-fit">
+                      {parcel.parcelType}
+                    </span>
+                    <span className="text-xs font-black text-[#02312A]">
+                      {parcel.parcelWeight}{" "}
+                      <span className="text-[9px] text-gray-400 font-bold">
+                        KG
                       </span>
-                      <span className="text-[10px] uppercase font-bold text-gray-400">
-                        Dest: {parcel.receiverInfo.area}
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <p className="font-bold text-sm text-gray-700">
-                      {parcel.senderInfo.name}
-                    </p>
-                    <p className="text-[11px] text-gray-500 font-medium">
-                      {parcel.senderInfo.phone}
-                    </p>
-                  </td>
-                  <td>
-                    <div className="flex flex-col items-center gap-1">
-                      <span className="px-2 py-0.5 bg-gray-100 rounded text-[10px] font-bold text-gray-600 uppercase italic">
-                        {parcel.parcelType}
-                      </span>
-                      <span className="text-xs font-black text-[#002B36]">
-                        {parcel.parcelWeight}{" "}
-                        <span className="text-[10px] text-gray-400">KG</span>
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <span
-                      className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wide ${
-                        parcel.deliveryStatus === "parcel-created"
-                          ? "bg-orange-100 text-orange-600 border border-orange-200"
-                          : parcel.deliveryStatus === "assign-pickup-rider"
-                            ? "bg-indigo-100 text-indigo-600 border border-indigo-200"
-                            : "bg-emerald-100 text-emerald-600 border border-emerald-200"
-                      }`}
-                    >
-                      {parcel.deliveryStatus === "parcel-created"
-                        ? "Waiting Pickup"
+                    </span>
+                  </div>
+                </td>
+
+                {/* Status */}
+                <td className="px-6 py-5 text-xs text-[#02312A]">
+                  <span
+                    className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wide border inline-block w-fit ${
+                      parcel.deliveryStatus === "parcel-created"
+                        ? "bg-orange-50 text-orange-600 border-orange-100"
                         : parcel.deliveryStatus === "assign-pickup-rider"
-                          ? "Rider On Way"
-                          : "In Transit"}
-                    </span>
-                  </td>
-                  <td className="pr-6">
-                    {managerData.hubName === parcel.senderInfo.area ? (
+                          ? "bg-indigo-50 text-indigo-600 border-indigo-100"
+                          : "bg-emerald-50 text-emerald-600 border-emerald-100"
+                    }`}
+                  >
+                    {parcel.deliveryStatus === "parcel-created"
+                      ? "Waiting Pickup"
+                      : parcel.deliveryStatus === "assign-pickup-rider"
+                        ? "Rider On Way"
+                        : "In Transit"}
+                  </span>
+                </td>
+
+                <td className="px-6 py-5 rounded-r-[16px] pr-6">
+                  <div className="flex justify-end pr-6 w-full">
+                    {managerData?.hubName === parcel.senderInfo?.area ? (
                       <button
                         disabled={parcel.deliveryStatus !== "parcel-created"}
-                        className={`w-full max-w-[140px] py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all shadow-sm ${
+                        className={`w-full max-w-[130px] py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all shadow-sm ${
                           parcel.deliveryStatus === "parcel-created"
-                            ? "bg-[#CAEB66] text-[#002B36] hover:shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer"
-                            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                            ? "bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 hover:scale-[1.02] active:scale-95 cursor-pointer"
+                            : "bg-gray-50 text-gray-400 border border-gray-100 cursor-not-allowed shadow-none"
                         }`}
                         onClick={() => {
                           setSelectedParcel(parcel);
@@ -227,24 +225,24 @@ const Incoming = () => {
                     ) : (
                       <button
                         onClick={() => handleReceiveAtHub(parcel._id)}
-                        className="bg-[#CAEB66] text-[#002B36] px-5 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all active:scale-95 cursor-pointer"
+                        className="w-full max-w-[130px] bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider hover:scale-[1.02] active:scale-95 cursor-pointer transition-all"
                       >
                         Confirm Receive
                       </button>
                     )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
-        {incomingData.length === 0 && (
-          <div className="py-20 text-center">
-            <div className="bg-gray-50 inline-block p-6 rounded-full mb-4">
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {(!incomingData || incomingData.length === 0) && (
+          <div className="py-20 text-center bg-white rounded-[24px] border border-dashed border-gray-100 mt-2">
+            <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-lg">
               📦
             </div>
-            <p className="text-gray-400 font-bold uppercase tracking-widest text-sm">
+            <p className="text-gray-400 font-black uppercase tracking-widest text-xs">
               No incoming parcels found
             </p>
           </div>
@@ -256,17 +254,17 @@ const Incoming = () => {
         id="rider_modal"
         className="modal modal-bottom sm:modal-middle backdrop-blur-sm"
       >
-        <div className="modal-box p-0 rounded-3xl border-none shadow-2xl overflow-hidden max-w-sm">
-          <div className="bg-[#002B36] p-6 text-center relative">
+        <div className="modal-box p-0 rounded-tradecen border-none shadow-2xl overflow-hidden max-w-lg">
+          <div className="bg-primary p-6 text-center relative">
             <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-white hover:bg-white/20">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-secondary hover:bg-black/20">
                 ✕
               </button>
             </form>
-            <div className="w-16 h-16 bg-[#CAEB66] rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3 shadow-lg transform rotate-3">
-              🛵
+            <div className="w-16 h-16 bg-secondary rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3 shadow-lg transform rotate-3">
+              <MdPedalBike size={30} className="text-white" />
             </div>
-            <h3 className="font-black text-white text-xl uppercase tracking-tight">
+            <h3 className="font-black text-secondary text-xl uppercase tracking-tight">
               Assign Pickup
             </h3>
             <p className="text-[#CAEB66] text-xs font-bold opacity-80 uppercase tracking-widest mt-1">
@@ -306,7 +304,7 @@ const Incoming = () => {
                   </div>
                   <button
                     onClick={() => handleAssignRider(rider)}
-                    className="bg-[#002B36] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95"
+                    className="bg-[#002B36] text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 cursor-pointer"
                   >
                     Select
                   </button>

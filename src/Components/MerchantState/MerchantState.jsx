@@ -118,7 +118,7 @@ const MerchantState = ({
       color: "text-green-500",
     },
   ];
-  
+
   return (
     <div className="space-y-6 font-sans">
       {/* --- Header Section --- */}
@@ -161,7 +161,8 @@ const MerchantState = ({
       {/* --- Overall Statistics Graph (Recharts) --- */}
       <div className="bg-white p-6 rounded-[20px] border shadow-flat  border-gray-50 w-full">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-bold text-secondary text-lg tracking-wide font-sans">
+          <h3 className="font-black text-secondary text-base tracking-wide flex items-center gap-1">
+                <div className="w-[6px] h-5 bg-[#CAEB66] rounded-[20px]"></div>
             Overall Statistics
           </h3>
           <div className="flex items-center gap-3">
