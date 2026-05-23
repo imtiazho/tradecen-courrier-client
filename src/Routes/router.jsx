@@ -51,6 +51,7 @@ import InHouse from "../Pages/InHouse/InHouse";
 import ReturnParcels from "../Pages/ReturnParcels/ReturnParcels";
 import RiderAreaWise from "../Pages/RiderAreaWise/RiderAreaWise";
 import MerchantsAreaWise from "../Pages/MerchantsAreaWise/MerchantsAreaWise";
+import OutForDelivery from "../Pages/OutForDelivery/OutForDelivery";
 
 export const router = createBrowserRouter([
   {
@@ -235,6 +236,10 @@ export const router = createBrowserRouter([
       {
         path: "area-merchants",
         Component: MerchantsAreaWise,
+      },
+      {
+        path: "out-for-delivery",
+        Component: OutForDelivery,
       },
       {
         path: "pick-ups",

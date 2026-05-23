@@ -62,7 +62,23 @@ const HubmanagerDashboard = () => {
 
     enabled: !!managerData?.hubName,
   });
-console.log(inHouseData);
+
+  const {
+    isLoading: outForDeliveryLoading,
+    data: outForDeliveryData = [],
+    refetch: outForDeliveryRefetch,
+  } = useQuery({
+    queryKey: ["outForDeliveryData", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/parcels/out-for-delivery/${managerData?.hubName}`,
+      );
+      return res.data;
+    },
+
+    enabled: !!managerData?.hubName,
+  });
+
   const stats = [
     {
       label: "Incoming",
@@ -82,11 +98,11 @@ console.log(inHouseData);
     },
     {
       label: "Out for Delivery",
-      count: 28,
+      count: outForDeliveryData?.length,
       icon: <RiTruckLine />,
       color: "text-orange-600",
       bg: "bg-orange-50",
-      path: "",
+      path: "/dashboard/out-for-delivery",
     },
     {
       label: "Completed",
@@ -98,7 +114,7 @@ console.log(inHouseData);
     },
   ];
 
-  if (managerLoading || incomingLoading || inHouseLoading) {
+  if (managerLoading || incomingLoading || inHouseLoading || outForDeliveryLoading) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
 
