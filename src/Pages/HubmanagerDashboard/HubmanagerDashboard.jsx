@@ -140,7 +140,7 @@ const HubmanagerDashboard = () => {
   }
 
   return (
-    <div className="px-8 py-5 space-y-8 min-h-screen font-sans">
+    <div className="px-8 bg-[#ffffff] rounded-tradecen py-5 space-y-8 min-h-screen font-sans">
       <div className="flex justify-between items-end">
         <div>
           <span className="text-[10px] font-black uppercase tracking-[2px] text-gray-400">
@@ -185,7 +185,10 @@ const HubmanagerDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 shadow-flat rounded-tradecen border border-orange-100 flex items-center justify-between group hover:border-orange-300 transition-all cursor-pointer">
+            <Link
+              to="/dashboard/return-parcels"
+              className="bg-white p-6 shadow-flat rounded-tradecen border border-orange-100 flex items-center justify-between group hover:border-orange-300 transition-all cursor-pointer"
+            >
               <div className="flex items-center gap-4">
                 <div className="bg-orange-50 p-3 rounded-2xl text-orange-500">
                   <RiArrowGoBackLine size={24} />
@@ -193,16 +196,19 @@ const HubmanagerDashboard = () => {
                 <div>
                   <h4 className="font-bold text-slate-800">Return Requests</h4>
                   <p className="text-[10px] text-gray-400 uppercase font-black">
-                    08 Items Pending
+                    0 Items Pending
                   </p>
                 </div>
               </div>
               <div className="text-orange-200 group-hover:text-orange-500 transition-colors">
                 ➔
               </div>
-            </div>
+            </Link>
 
-            <div className="bg-white p-6 shadow-flat rounded-tradecen border border-blue-100 flex items-center justify-between group hover:border-blue-300 transition-all cursor-pointer">
+            <Link
+              to="/dashboard/incoming"
+              className="bg-white p-6 shadow-flat rounded-tradecen border border-blue-100 flex items-center justify-between group hover:border-blue-300 transition-all cursor-pointer"
+            >
               <div className="flex items-center gap-4">
                 <div className="bg-blue-50 p-3 rounded-2xl text-blue-500">
                   <RiFocus2Line size={24} />
@@ -210,14 +216,14 @@ const HubmanagerDashboard = () => {
                 <div>
                   <h4 className="font-bold text-slate-800">New Pickups</h4>
                   <p className="text-[10px] text-gray-400 uppercase font-black">
-                    15 Requests Nearby
+                    {incomingData?.length} Requests Nearby
                   </p>
                 </div>
               </div>
               <div className="text-blue-200 group-hover:text-blue-500 transition-colors">
                 ➔
               </div>
-            </div>
+            </Link>
           </div>
 
           <div className="bg-white p-8 rounded-tradecen min-h-[70vh] border border-gray-100 shadow-flat">
