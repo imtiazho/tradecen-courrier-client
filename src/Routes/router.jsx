@@ -49,6 +49,8 @@ import ParcelDetails from "../Pages/ParcelDetails/ParcelDetails";
 import PickUp from "../Pages/PickUp/PickUp";
 import InHouse from "../Pages/InHouse/InHouse";
 import ReturnParcels from "../Pages/ReturnParcels/ReturnParcels";
+import RiderAreaWise from "../Pages/RiderAreaWise/RiderAreaWise";
+import MerchantsAreaWise from "../Pages/MerchantsAreaWise/MerchantsAreaWise";
 
 export const router = createBrowserRouter([
   {
@@ -225,6 +227,14 @@ export const router = createBrowserRouter([
       {
         path: "track-parcel",
         Component: TrackParcels,
+      },
+      {
+        path: "area-riders",
+        Component: RiderAreaWise,
+      },
+      {
+        path: "area-merchants",
+        Component: MerchantsAreaWise,
       },
       {
         path: "pick-ups",

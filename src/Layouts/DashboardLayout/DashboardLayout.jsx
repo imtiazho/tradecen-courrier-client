@@ -40,7 +40,7 @@ import {
   RiCustomerService2Line,
 } from "react-icons/ri";
 import Swal from "sweetalert2";
-import { FaBox } from "react-icons/fa6";
+import { FaBox, FaUserTie } from "react-icons/fa6";
 
 const roleMenuItems = {
   "master admin": [
@@ -87,16 +87,25 @@ const roleMenuItems = {
       icon: <RiTruckLine size={22} />,
       path: "/dashboard/dispatch-delivery",
     },
-    { name: "Pickups", icon: <RiFocus2Line size={22} />, path: "/dashboard/pick-ups" },
+    {
+      name: "Pickups",
+      icon: <RiFocus2Line size={22} />,
+      path: "/dashboard/pick-ups",
+    },
     {
       name: "Returns",
       icon: <RiArrowGoBackLine size={22} />,
       path: "/dashboard/return-parcels",
     },
     {
+      name: "My Merchants",
+      icon: <FaUserTie size={22} />,
+      path: "/dashboard/area-merchants",
+    },
+    {
       name: "My Riders",
       icon: <RiMotorbikeLine size={22} />,
-      path: "/hub/riders",
+      path: "/dashboard/area-riders",
     },
     {
       name: "Accounts / Finance",
@@ -140,7 +149,7 @@ const roleMenuItems = {
     },
     {
       name: "All Parcels",
-      icon: <FaBox  size={22} />,
+      icon: <FaBox size={22} />,
       path: "/dashboard/all-parcels",
     },
     {
@@ -292,7 +301,10 @@ const DashboardLayout = () => {
         </div>
 
         <div className="p-4 border-t border-gray-50 min-w-[288px]">
-          <button onClick={handleSignOut} className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 w-full rounded-xl transition-all font-semibold">
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-red-50 w-full rounded-xl transition-all font-semibold"
+          >
             <RiLogoutBoxRLine size={22} />{" "}
             <span className="text-sm">Logout</span>
           </button>
