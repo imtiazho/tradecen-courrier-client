@@ -26,7 +26,7 @@ const DisPatch = () => {
     data: inHouse = [],
     refetch,
   } = useQuery({
-    queryKey: ["inComingData", managerData?.hubName],
+    queryKey: ["inHouseData", managerData?.hubName],
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/warehouse/sorting-house/${managerData?.hubName}`,
@@ -72,7 +72,7 @@ const DisPatch = () => {
         </thead>
         <tbody>
           {inHouse?.dispatchList?.map((parcel) => (
-            <tr key={parcel._id} className="bg-white group">
+            <tr key={parcel._id} className="bg-white group hover:bg-[#F8F9FA]/60 transition-bg duration-300">
               {/* Parcel Details */}
               <td className="px-6 py-4 rounded-l-2xl">
                 <div className="flex flex-col">
@@ -138,8 +138,11 @@ const DisPatch = () => {
       </table>
 
       {inHouse?.dispatchList?.length === 0 && (
-        <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-100">
-          <p className="text-gray-400 font-medium italic">
+        <div className="py-20 text-center bg-white rounded-[24px] border border-dashed border-gray-100 mt-2">
+          <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-lg">
+            📦
+          </div>
+          <p className="text-gray-400 font-black uppercase tracking-widest text-xs">
             No parcels ready for dispatch!
           </p>
         </div>

@@ -11,7 +11,6 @@ const Incoming = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedParcel, setSelectedParcel] = useState(null);
 
-  // --- Logic remains exactly same ---
   const { isLoading: managerLoading, data: managerData = {} } = useQuery({
     queryKey: ["managerData", user?.email],
     queryFn: async () => {
@@ -136,104 +135,106 @@ const Incoming = () => {
             </tr>
           </thead>
           <tbody>
-            {incomingData?.map((parcel) => (
-              <tr
-                key={parcel._id}
-                className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group text-left"
-              >
-                <td className="px-6 py-5 rounded-l-[16px]">
-                  <span className="bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-lg font-mono font-black text-gray-500 text-xs tracking-tighter uppercase group-hover:bg-[#02312A]/5 group-hover:text-[#02312A] transition-all">
-                    #{parcel.trackingID}
-                  </span>
-                </td>
-
-                <td className="px-6 py-5 text-xs text-[#02312A]">
-                  <div className="flex flex-col items-start">
-                    <span className="font-black text-sm text-[#02312A]">
-                      {parcel.parcelName.length > 18
-                        ? parcel.parcelName.slice(0, 18) + "..."
-                        : parcel.parcelName}
+            {(Array.isArray(incomingData) ? incomingData : [])?.map(
+              (parcel) => (
+                <tr
+                  key={parcel._id}
+                  className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group text-left"
+                >
+                  <td className="px-6 py-5 rounded-l-[16px]">
+                    <span className="bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-lg font-mono font-black text-gray-500 text-xs tracking-tighter uppercase group-hover:bg-[#02312A]/5 group-hover:text-[#02312A] transition-all">
+                      #{parcel.trackingID}
                     </span>
-                    <span className="text-[9px] uppercase font-black text-gray-400 mt-0.5 tracking-wider">
-                      Dest: {parcel.receiverInfo?.area}
-                    </span>
-                  </div>
-                </td>
+                  </td>
 
-                {/* Sender */}
-                <td className="px-6 py-5 text-xs text-[#02312A]">
-                  <p className="font-black text-[#02312A]">
-                    {parcel.senderInfo?.name}
-                  </p>
-                  <p className="text-[10px] text-gray-400 font-bold mt-0.5 tracking-wide">
-                    {parcel.senderInfo?.phone}
-                  </p>
-                </td>
-
-                <td className="px-6 py-5 text-xs text-[#02312A]">
-                  <div className="flex flex-col items-start gap-1">
-                    <span className="text-[#02312A] font-black bg-[#CAEB66]/10 border border-[#CAEB66]/20 px-1.5 py-0.5 rounded-md text-[9px] w-fit">
-                      {parcel.parcelType}
-                    </span>
-                    <span className="text-xs font-black text-[#02312A]">
-                      {parcel.parcelWeight}{" "}
-                      <span className="text-[9px] text-gray-400 font-bold">
-                        KG
+                  <td className="px-6 py-5 text-xs text-[#02312A]">
+                    <div className="flex flex-col items-start">
+                      <span className="font-black text-sm text-[#02312A]">
+                        {parcel.parcelName.length > 18
+                          ? parcel.parcelName.slice(0, 18) + "..."
+                          : parcel.parcelName}
                       </span>
-                    </span>
-                  </div>
-                </td>
+                      <span className="text-[9px] uppercase font-black text-gray-400 mt-0.5 tracking-wider">
+                        Dest: {parcel.receiverInfo?.area}
+                      </span>
+                    </div>
+                  </td>
 
-                {/* Status */}
-                <td className="px-6 py-5 text-xs text-[#02312A]">
-                  <span
-                    className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wide border inline-block w-fit ${
-                      parcel.deliveryStatus === "parcel-created"
-                        ? "bg-orange-50 text-orange-600 border-orange-100"
+                  {/* Sender */}
+                  <td className="px-6 py-5 text-xs text-[#02312A]">
+                    <p className="font-black text-[#02312A]">
+                      {parcel.senderInfo?.name}
+                    </p>
+                    <p className="text-[10px] text-gray-400 font-bold mt-0.5 tracking-wide">
+                      {parcel.senderInfo?.phone}
+                    </p>
+                  </td>
+
+                  <td className="px-6 py-5 text-xs text-[#02312A]">
+                    <div className="flex flex-col items-start gap-1">
+                      <span className="text-[#02312A] font-black bg-[#CAEB66]/10 border border-[#CAEB66]/20 px-1.5 py-0.5 rounded-md text-[9px] w-fit">
+                        {parcel.parcelType}
+                      </span>
+                      <span className="text-xs font-black text-[#02312A]">
+                        {parcel.parcelWeight}{" "}
+                        <span className="text-[9px] text-gray-400 font-bold">
+                          KG
+                        </span>
+                      </span>
+                    </div>
+                  </td>
+
+                  {/* Status */}
+                  <td className="px-6 py-5 text-xs text-[#02312A]">
+                    <span
+                      className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wide border inline-block w-fit ${
+                        parcel.deliveryStatus === "parcel-created"
+                          ? "bg-orange-50 text-orange-600 border-orange-100"
+                          : parcel.deliveryStatus === "assign-pickup-rider"
+                            ? "bg-indigo-50 text-indigo-600 border-indigo-100"
+                            : "bg-emerald-50 text-emerald-600 border-emerald-100"
+                      }`}
+                    >
+                      {parcel.deliveryStatus === "parcel-created"
+                        ? "Waiting Pickup"
                         : parcel.deliveryStatus === "assign-pickup-rider"
-                          ? "bg-indigo-50 text-indigo-600 border-indigo-100"
-                          : "bg-emerald-50 text-emerald-600 border-emerald-100"
-                    }`}
-                  >
-                    {parcel.deliveryStatus === "parcel-created"
-                      ? "Waiting Pickup"
-                      : parcel.deliveryStatus === "assign-pickup-rider"
-                        ? "Rider On Way"
-                        : "In Transit"}
-                  </span>
-                </td>
+                          ? "Rider On Way"
+                          : "In Transit"}
+                    </span>
+                  </td>
 
-                <td className="px-6 py-5 rounded-r-[16px] pr-6">
-                  <div className="flex justify-end pr-6 w-full">
-                    {managerData?.hubName === parcel.senderInfo?.area ? (
-                      <button
-                        disabled={parcel.deliveryStatus !== "parcel-created"}
-                        className={`w-full max-w-[130px] py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all shadow-sm ${
-                          parcel.deliveryStatus === "parcel-created"
-                            ? "bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 hover:scale-[1.02] active:scale-95 cursor-pointer"
-                            : "bg-gray-50 text-gray-400 border border-gray-100 cursor-not-allowed shadow-none"
-                        }`}
-                        onClick={() => {
-                          setSelectedParcel(parcel);
-                          document.getElementById("rider_modal").showModal();
-                        }}
-                      >
-                        {parcel.deliveryStatus === "parcel-created"
-                          ? "Assign Rider"
-                          : "Assigned"}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleReceiveAtHub(parcel._id)}
-                        className="w-full max-w-[130px] bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider hover:scale-[1.02] active:scale-95 cursor-pointer transition-all"
-                      >
-                        Confirm Receive
-                      </button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  <td className="px-6 py-5 rounded-r-[16px] pr-6">
+                    <div className="flex justify-end pr-6 w-full">
+                      {managerData?.hubName === parcel.senderInfo?.area ? (
+                        <button
+                          disabled={parcel.deliveryStatus !== "parcel-created"}
+                          className={`w-full max-w-[130px] py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all shadow-sm ${
+                            parcel.deliveryStatus === "parcel-created"
+                              ? "bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 hover:scale-[1.02] active:scale-95 cursor-pointer"
+                              : "bg-gray-50 text-gray-400 border border-gray-100 cursor-not-allowed shadow-none"
+                          }`}
+                          onClick={() => {
+                            setSelectedParcel(parcel);
+                            document.getElementById("rider_modal").showModal();
+                          }}
+                        >
+                          {parcel.deliveryStatus === "parcel-created"
+                            ? "Assign Rider"
+                            : "Assigned"}
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleReceiveAtHub(parcel._id)}
+                          className="w-full max-w-[130px] bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-wider hover:scale-[1.02] active:scale-95 cursor-pointer transition-all"
+                        >
+                          Confirm Receive
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ),
+            )}
           </tbody>
         </table>
 

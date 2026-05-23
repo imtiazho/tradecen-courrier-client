@@ -6,18 +6,19 @@ import Swal from "sweetalert2";
 import {
   FaMapMarkerAlt,
   FaShippingFast,
-  FaTimes,
   FaBiking,
   FaBoxOpen,
+  FaPhoneAlt,
 } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa6";
+import { MdPedalBike } from "react-icons/md";
+import { toast } from "react-hot-toast";
 
 const DeliveryParcelLocal = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedParcel, setSelectedParcel] = useState(null);
-  const [chosenRider, setChosenRider] = useState(null);
 
   const { data: managerData = {} } = useQuery({
     queryKey: ["managerData", user?.email],
@@ -45,7 +46,7 @@ const DeliveryParcelLocal = () => {
     enabled: !!managerData?.hubName,
   });
 
-  const { data: riders = [] } = useQuery({
+  const { data: riders = [], refetch: refetchRiders } = useQuery({
     queryKey: ["hubRiders", managerData?.hubName],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -56,15 +57,39 @@ const DeliveryParcelLocal = () => {
     enabled: !!managerData?.hubName,
   });
 
+  const handleCopy = (text) => {
+    navigator.clipboard.writeText(text);
+
+    toast.success("Phone number copied!", {
+      duration: 2000,
+      style: {
+        border: "1px solid rgba(202, 235, 102, 0.2)",
+        padding: "12px 20px",
+        color: "#02312A",
+        background: "#FFFFFF",
+        borderRadius: "14px",
+        fontSize: "12px",
+        fontWeight: "900",
+        textTransform: "uppercase",
+        letterSpacing: "0.05em",
+      },
+      iconTheme: {
+        primary: "#CAEB66",
+        secondary: "#02312A",
+      },
+    });
+  };
+
   const handleReceiveFromTransit = async (id) => {
     try {
       const res = await axiosSecure.patch(`/parcels/hub/received/${id}`);
       if (res.data.success) {
-        Swal.fire(
-          "Received!",
-          "Parcel is now in your hub inventory.",
-          "success",
-        );
+        Swal.fire({
+          title: "Received!",
+          text: "Parcel is now in your hub inventory.",
+          icon: "success",
+          confirmButtonColor: "#02312A",
+        });
         refetch();
       }
     } catch (error) {
@@ -72,18 +97,14 @@ const DeliveryParcelLocal = () => {
     }
   };
 
-  const handleAssignDelivery = async () => {
-    if (!chosenRider) {
-      return Swal.fire("Wait!", "Please select a rider first", "warning");
-    }
-
+  const handleAssignDelivery = async (rider) => {
     try {
       const assignmentData = {
         parcelId: selectedParcel._id,
-        riderId: chosenRider._id,
-        riderName: chosenRider.name,
-        riderEmail: chosenRider.email,
-        riderPhone: chosenRider.phone,
+        riderId: rider._id,
+        riderName: rider.name,
+        riderEmail: rider.email,
+        riderPhone: rider.phone,
         trackingID: selectedParcel.trackingID,
       };
 
@@ -93,19 +114,21 @@ const DeliveryParcelLocal = () => {
       );
 
       if (res.data.success) {
+        document.getElementById("delivery_rider_modal").close();
         Swal.fire({
           title: "Rider Assigned!",
-          text: `${chosenRider.name} is now responsible for this delivery.`,
+          text: `${rider.name} is now responsible for this delivery.`,
           icon: "success",
-          confirmButtonColor: "#002B36",
+          confirmButtonColor: "#02312A",
+          timer: 1500,
+          showConfirmButton: false,
         });
 
-        setIsModalOpen(false);
-        setChosenRider(null);
         refetch();
+        refetchRiders();
       }
     } catch (error) {
-      console.error("Assignment Error:", error);
+      document.getElementById("delivery_rider_modal").close();
       Swal.fire({
         title: "Error",
         text:
@@ -117,138 +140,231 @@ const DeliveryParcelLocal = () => {
   };
 
   return (
-    <div>
-      <table className="w-full text-left rounded-xl border-spacing-y-3">
-        <thead className="bg-[#CAEB66] ">
-          <tr className="text-[#002B36] text-[11px] uppercase font-black tracking-widest">
+    <div className="overflow-x-auto w-full">
+      <table className="w-full text-left border-separate border-spacing-y-3">
+        <thead>
+          <tr className="text-[#ADB5BD] text-[11px] uppercase tracking-widest font-black">
             <th className="px-6 py-3">Parcel Info</th>
             <th className="px-6 py-3">Customer Location</th>
-            <th className="px-6 py-3 text-center">Operation</th>
+            <th className="px-6 py-3">Specs & Billing</th>
+            <th className="px-6 py-3 text-right pr-12">Operation</th>
           </tr>
         </thead>
         <tbody>
           {(inHouse.deliveryList || []).map((parcel) => (
             <tr
               key={parcel._id}
-              className="bg-white transition-all border border-gray-50"
+              className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 transition-all group text-left"
             >
-              <td className="px-6 py-4 rounded-l-2xl">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-bold text-[#002B36] bg-[#CAEB66] px-2 py-0.5 rounded-full w-fit mb-1 font-mono">
-                    {parcel.trackingID}
+              {/* Parcel Info */}
+              <td className="px-6 py-5 rounded-l-[16px]">
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] font-black text-[#02312A] bg-[#CAEB66]/20 border border-[#CAEB66]/30 px-2.5 py-0.5 rounded-md font-mono tracking-tighter uppercase mb-1.5">
+                    #{parcel.trackingID}
                   </span>
-                  <span className="text-sm font-black text-slate-800">
-                    {parcel.receiverInfo.name}
+                  <span className="text-sm font-black text-[#02312A]">
+                    {parcel.receiverInfo?.name}
                   </span>
-                  <span className="text-[10px] text-blue-500 font-bold uppercase">
-                    {parcel.deliveryStatus.replace(/-/g, " ")}
+                  <div
+                    className="flex items-center gap-1.5 mt-1 text-gray-400 group/phone cursor-pointer"
+                    onClick={() => handleCopy(parcel.receiverInfo?.phone)}
+                  >
+                    <FaPhoneAlt size={9} />
+                    <span className="text-[10px] font-bold text-gray-500 hover:text-[#02312A] transition-colors">
+                      {parcel.receiverInfo?.phone}
+                    </span>
+                    <FaCopy
+                      size={8}
+                      className="opacity-0 group-hover/phone:opacity-100 text-gray-400 transition-opacity"
+                    />
+                  </div>
+                </div>
+              </td>
+
+              {/* Customer Location */}
+              <td className="px-6 py-5 text-xs text-[#02312A]">
+                <div className="flex flex-col max-w-xs">
+                  <div className="flex items-start gap-1.5 text-gray-500 font-bold">
+                    <FaMapMarkerAlt
+                      className="text-[#CAEB66] mt-0.5 shrink-0"
+                      size={12}
+                    />
+                    <span className="text-slate-700 line-clamp-1">
+                      {parcel.receiverInfo?.address}
+                    </span>
+                  </div>
+                  <span className="text-[9px] uppercase font-black text-gray-400 mt-1 pl-5 tracking-wider">
+                    Area: {parcel.receiverInfo?.area || "N/A"} •{" "}
+                    {parcel.receiverInfo?.district}
                   </span>
                 </div>
               </td>
-              <td className="px-6 py-4">
-                <div className="flex items-center gap-2 text-[11px] font-bold text-gray-500">
-                  <FaMapMarkerAlt className="text-[#CAEB66]" />
-                  {parcel.receiverInfo.address}, {parcel.receiverInfo.district}
+
+              {/* Specs & Billing */}
+              <td className="px-6 py-5 text-xs text-[#02312A]">
+                <div className="flex flex-col items-start gap-1">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-black text-[#02312A]">
+                      {parcel.parcelWeight}{" "}
+                      <span className="text-[9px] text-gray-400 font-bold">
+                        KG
+                      </span>
+                    </span>
+                    <span className="text-[9px] font-bold bg-gray-50 border border-gray-100 text-gray-500 px-1.5 py-0.2 rounded-md uppercase">
+                      {parcel.parcelType === "Non-Document" ? "Package" : "Doc"}
+                    </span>
+                  </div>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">
+                    Collect:{" "}
+                    <span
+                      className={
+                        parcel.revMethod === "COD"
+                          ? "text-amber-600 font-black"
+                          : "text-[#02312A] font-black"
+                      }
+                    >
+                      {parcel.revMethod === "COD"
+                        ? `৳${parcel.codAmount}`
+                        : "Prepaid"}
+                    </span>
+                  </p>
                 </div>
               </td>
-              <td className="px-6 py-4 rounded-r-2xl text-center">
-                {parcel.deliveryStatus === "in-transit" ? (
-                  <button
-                    onClick={() => handleReceiveFromTransit(parcel._id)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase flex items-center gap-2 mx-auto hover:bg-blue-700 transition-all"
-                  >
-                    <FaBoxOpen /> Confirm Receive
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setSelectedParcel(parcel);
-                      setIsModalOpen(true);
-                    }}
-                    className="bg-[#CAEB66] cursor-pointer text-[#002B36] px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-[#CAEB66] hover:text-[#002B36] transition-all shadow-sm border border-[#CAEB66]/20"
-                  >
-                    Assign Delivery Rider
-                  </button>
-                )}
+
+              {/* Operation Button */}
+              <td className="px-6 py-5 rounded-r-[16px] pr-6">
+                <div className="flex justify-end pr-6 w-full">
+                  {parcel.deliveryStatus === "in-transit" ? (
+                    <button
+                      onClick={() => handleReceiveFromTransit(parcel._id)}
+                      className="w-full max-w-[150px] bg-amber-500 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase flex items-center justify-center gap-2 hover:bg-amber-600 transition-all shadow-sm active:scale-95 cursor-pointer"
+                    >
+                      <FaBoxOpen size={12} /> Receive at Hub
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setSelectedParcel(parcel);
+                        document
+                          .getElementById("delivery_rider_modal")
+                          .showModal();
+                      }}
+                      className="w-full max-w-[150px] bg-[#CAEB66] text-[#02312A] border border-[#CAEB66]/20 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase hover:shadow-md hover:scale-[1.02] active:scale-95 cursor-pointer transition-all tracking-wider text-center"
+                    >
+                      Assign Delivery
+                    </button>
+                  )}
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* --- MODAL SECTION --- */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="bg-white w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden relative border border-gray-100">
-            {/* Modal Header */}
-            <div className="bg-[#002B36] p-8 text-[#CAEB66]">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="absolute top-6 right-6 text-white/30 hover:text-white transition-colors"
-              >
-                <FaTimes size={24} />
+      {/* Empty State */}
+      {(!inHouse.deliveryList || inHouse.deliveryList.length === 0) && (
+        <div className="py-20 text-center bg-white rounded-[24px] border border-dashed border-gray-100 mt-2">
+          <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-lg">
+            📦
+          </div>
+          <p className="text-gray-400 font-black uppercase tracking-widest text-xs">
+            No parcels available in house
+          </p>
+        </div>
+      )}
+
+      {/* --- RIDER ASSIGN MODAL (DaisyUI Dialog Setup) --- */}
+      <dialog
+        id="delivery_rider_modal"
+        className="modal modal-bottom sm:modal-middle backdrop-blur-sm"
+      >
+        <div className="modal-box p-0 rounded-tradecen border-none shadow-tradecen overflow-hidden max-w-lg bg-white">
+          {/* Modal Header */}
+          <div className="bg-primary p-6 text-center relative">
+            <form method="dialog">
+              <button className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-secondary hover:bg-secondary hover:text-primary">
+                ✕
               </button>
-              <h2 className="text-2xl font-black italic uppercase tracking-tighter leading-none">
-                Assign Rider
-              </h2>
-              <p className="text-[11px] mt-2 text-[#CAEB66]/60 font-medium tracking-widest uppercase">
-                Target: {selectedParcel?.receiverInfo.area}
+            </form>
+            <div className="w-16 h-16 bg-secondary rounded-2xl mx-auto flex items-center justify-center text-2xl mb-3 shadow-lg transform rotate-3">
+              <MdPedalBike size={30} className="text-primary" />
+            </div>
+            <h3 className="font-black text-secondary text-xl uppercase tracking-tight flex items-center justify-center gap-2">
+              <FaShippingFast size={20} /> Assign Delivery Task
+            </h3>
+            <p className="text-gray-300 text-xs font-bold uppercase tracking-widest mt-1 text-secondary">
+              Target ID:{" "}
+              <span className="text-secondary">
+                #{selectedParcel?.trackingID}
+              </span>
+            </p>
+            <p className="text-[10px] text-[#CAEB66]/70 uppercase font-black tracking-wider mt-0.5">
+              Destination: {selectedParcel?.receiverInfo?.area || "N/A"}
+            </p>
+          </div>
+
+          {/* Modal Body */}
+          <div className="p-6 space-y-3 bg-white">
+            <div className="flex justify-between items-center mb-1">
+              <p className="text-[10px] uppercase font-black text-gray-400 tracking-widest">
+                Available Delivery Agents ({riders.length})
               </p>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-8">
-              <label className="text-[10px] font-black text-gray-400 uppercase mb-4 block tracking-widest">
-                Available Delivery Agents
-              </label>
-
-              <div className="grid grid-cols-1 gap-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                {riders.map((rider) => (
-                  <div
-                    key={rider._id}
-                    onClick={() => setChosenRider(rider)}
-                    className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between group ${
-                      chosenRider?._id === rider._id
-                        ? "border-[#CAEB66] bg-[#CAEB66]/5 shadow-inner"
-                        : "border-gray-50 bg-gray-50/30 hover:border-gray-200"
-                    }`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`p-3 rounded-xl transition-colors ${chosenRider?._id === rider._id ? "bg-[#002B36] text-[#CAEB66]" : "bg-white text-slate-400"}`}
-                      >
-                        <FaBiking size={18} />
-                      </div>
+            <div className="grid grid-cols-1 gap-2.5 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
+              {riders?.length > 0 ? (
+                riders.map((rider) => {
+                  const isOverloaded = (rider.currentTasks || 0) >= 3;
+                  return (
+                    <div
+                      key={rider._id}
+                      className="flex justify-between items-center p-4 bg-gray-50 rounded-2xl hover:bg-[#CAEB66]/10 transition-all border border-transparent hover:border-[#CAEB66]"
+                    >
                       <div>
-                        <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">
+                        <p className="font-black text-[#02312A] text-sm uppercase tracking-tighter">
                           {rider.name}
-                        </h4>
-                        <p className="text-[10px] text-gray-400 font-bold">
+                        </p>
+                        <p className="text-[10px] text-gray-400 font-bold tracking-wide">
                           {rider.phone}
                         </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span
+                            className={`w-2 h-2 rounded-full ${isOverloaded ? "bg-rose-500" : "bg-emerald-500"}`}
+                          ></span>
+                          <p className="text-[10px] text-gray-500 font-bold uppercase">
+                            Load:{" "}
+                            <span
+                              className={
+                                isOverloaded
+                                  ? "text-rose-600 font-black"
+                                  : "text-[#02312A] font-black"
+                              }
+                            >
+                              {rider.currentTasks || 0} active
+                            </span>
+                          </p>
+                        </div>
                       </div>
+                      <button
+                        onClick={() => handleAssignDelivery(rider)}
+                        className="bg-[#02312A] text-[#CAEB66] px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 cursor-pointer border border-[#02312A]"
+                      >
+                        Select
+                      </button>
                     </div>
-                    <div className="text-right">
-                      <span className="text-[9px] font-black bg-white px-2 py-1 rounded-lg border border-gray-100 text-slate-500 uppercase">
-                        {rider.currentTasks || 0} active
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Footer */}
-              <button
-                onClick={handleAssignDelivery}
-                disabled={!chosenRider}
-                className="w-full mt-8 bg-[#002B36] text-[#CAEB66] py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:shadow-2xl transition-all disabled:opacity-20 flex items-center justify-center gap-3 active:scale-95"
-              >
-                <FaShippingFast size={16} /> Confirm Delivery Task
-              </button>
+                  );
+                })
+              ) : (
+                <div className="text-center py-6">
+                  <p className="text-xs font-bold text-rose-500 uppercase italic tracking-wide">
+                    All delivery agents are offline or busy!
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
+      </dialog>
     </div>
   );
 };

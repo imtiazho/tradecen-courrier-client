@@ -47,6 +47,7 @@ import AccountAndFinance from "../Pages/AccountAndFinance/AccountAndFinance";
 import PayoutReq from "../Pages/PayoutReq/PayoutReq";
 import ParcelDetails from "../Pages/ParcelDetails/ParcelDetails";
 import PickUp from "../Pages/PickUp/PickUp";
+import InHouse from "../Pages/InHouse/InHouse";
 
 export const router = createBrowserRouter([
   {
@@ -211,6 +212,10 @@ export const router = createBrowserRouter([
       {
         path: "incoming",
         element: <Incoming></Incoming>,
+      },
+      {
+        path: "in-house",
+        element: <InHouse></InHouse>,
       },
       {
         path: "track-parcel",

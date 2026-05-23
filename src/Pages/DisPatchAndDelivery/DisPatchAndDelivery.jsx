@@ -34,10 +34,10 @@ const DispatchAndDelivery = () => {
   ];
 
   return (
-    <div className="p-8 bg-[#F9FAFB] min-h-screen">
+    <div className="p-8 bg-[#ffffff] rounded-tradecen shadow-flat min-h-screen">
       {/* Header Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-slate-800 tracking-tight">
+        <h1 className="text-3xl font-black text-secondary tracking-tight">
           Dispatch & Delivery
         </h1>
         <p className="text-sm text-gray-400 mt-1 font-medium italic">
@@ -50,14 +50,14 @@ const DispatchAndDelivery = () => {
       </div>
 
       {/* Modern Tabs Navigation */}
-      <div className="flex gap-2 border-b border-gray-100 mb-8 bg-white/50 p-1.5 rounded-2xl w-fit shadow-[0_2px_1px_rgba(0,0,0,0.05)]">
+      <div className="flex gap-2 border border-gray-100 mb-8 bg-white/50 p-1.5 rounded-xl w-fit">
         {tabs.map((tab) => (
           <NavLink
             key={tab.path}
             to={tab.path}
             end
             className={({ isActive }) => `
-              px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-xl
+              px-6 py-2.5 text-xs font-black uppercase tracking-wider transition-all duration-300 rounded-md
               ${
                 isActive
                   ? "bg-[#CAEB66] text-[#002B36] shadow-sm"
@@ -71,11 +71,11 @@ const DispatchAndDelivery = () => {
       </div>
 
       {/* Contextual Info Note */}
-      <div className="mb-6 px-4 py-3 bg-blue-50 border-l-4 border-blue-400 rounded-r-xl">
-        <p className="text-xs text-blue-700 font-bold uppercase">
+      <div className="mb-6 px-4 py-3 bg-[#F4F9F4] border-l-4 text-green-700 rounded-r-xl">
+        <p className="text-xs text-green-700 font-bold uppercase">
           Operations Guide:
         </p>
-        <p className="text-[11px] text-blue-600 mt-0.5">
+        <p className="text-[11px] text-green-700 mt-0.5">
           Local Delivery targets parcels with receiver city as{" "}
           <span className="font-bold underline">{managerData?.hubName}</span>.
           Dispatch targets all other cities.
@@ -83,7 +83,7 @@ const DispatchAndDelivery = () => {
       </div>
 
       {/* Content Area */}
-      <div className="transition-all duration-500 bg-white p-6 rounded-xl shadow-[0_2px_1px_rgba(0,0,0,0.05)] border border-gray-50">
+      <div className="transition-all duration-500 bg-white p-6 rounded-tradecen border border-gray-50">
         <Outlet context={ managerData?.hubName } />
       </div>
     </div>
