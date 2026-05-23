@@ -52,6 +52,7 @@ import ReturnParcels from "../Pages/ReturnParcels/ReturnParcels";
 import RiderAreaWise from "../Pages/RiderAreaWise/RiderAreaWise";
 import MerchantsAreaWise from "../Pages/MerchantsAreaWise/MerchantsAreaWise";
 import OutForDelivery from "../Pages/OutForDelivery/OutForDelivery";
+import HubDelivered from "../Pages/HubDelivered/HubDelivered";
 
 export const router = createBrowserRouter([
   {
@@ -232,6 +233,10 @@ export const router = createBrowserRouter([
       {
         path: "area-riders",
         Component: RiderAreaWise,
+      },
+      {
+        path: "hub-delivered",
+        Component: HubDelivered,
       },
       {
         path: "area-merchants",

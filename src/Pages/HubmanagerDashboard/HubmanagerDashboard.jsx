@@ -79,6 +79,21 @@ const HubmanagerDashboard = () => {
     enabled: !!managerData?.hubName,
   });
 
+  const {
+    isLoading: hubDeliveredDataLoading,
+    data: hubDeliveredData = [],
+    refetch: deliveredRefetch,
+  } = useQuery({
+    queryKey: ["hubDeliveredData", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/parcels/hub-delivered/${managerData?.hubName}`,
+      );
+      return Array.isArray(res.data) ? res.data : [];
+    },
+    enabled: !!managerData?.hubName,
+  });
+
   const stats = [
     {
       label: "Incoming",
@@ -106,15 +121,21 @@ const HubmanagerDashboard = () => {
     },
     {
       label: "Completed",
-      count: 112,
+      count: hubDeliveredData?.length,
       icon: <RiCheckboxCircleLine />,
       color: "text-green-600",
       bg: "bg-green-50",
-      path: "",
+      path: "/dashboard/hub-delivered",
     },
   ];
 
-  if (managerLoading || incomingLoading || inHouseLoading || outForDeliveryLoading) {
+  if (
+    managerLoading ||
+    incomingLoading ||
+    inHouseLoading ||
+    outForDeliveryLoading ||
+    hubDeliveredDataLoading
+  ) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
 

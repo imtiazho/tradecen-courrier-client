@@ -63,7 +63,6 @@ const OutForDelivery = () => {
 
   return (
     <div className="p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen font-sans">
-      {/* Upper Analytics Header Node */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
           <h2 className="text-3xl font-extrabold text-secondary tracking-wide">
