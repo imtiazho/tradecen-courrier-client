@@ -338,65 +338,92 @@ const HubmanagerDashboard = () => {
               (parcel) => (
                 <div
                   key={parcel._id}
-                  className="flex flex-col md:flex-row items-start md:items-center justify-between p-5 bg-white border border-gray-50 hover:bg-[#F8F9FA]/60 rounded-[15px] transition-all duration-300 gap-4 group"
+                  className="flex flex-col lg:flex-row items-start lg:items-center justify-between p-5 bg-white border border-gray-100/70 hover:border-[#02312A]/10 hover:shadow-sm rounded-[16px] transition-all duration-300 gap-5 group relative overflow-hidden"
                 >
-                  <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-1 w-full">
-                    <div className="font-mono font-black text-gray-400 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-lg text-[10px] tracking-tighter uppercase group-hover:bg-[#02312A]/5 group-hover:text-[#02312A] transition-all shrink-0">
-                      #{parcel.trackingID || "N/A"}
-                    </div>
-
+                  {/* Left Side: Identifiers & Core Logic */}
+                  <div className="flex flex-1 items-start gap-4 min-w-0 w-full">
+                    {/* Primary Info */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <p className="text-sm font-black text-[#02312A] tracking-tight truncate">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <h4 className="text-sm font-black text-[#02312A] tracking-wide truncate group-hover:text-[#02312A]/90">
                           {parcel.parcelName}
-                        </p>
+                        </h4>
+                      </div>
+
+                      {/* Meta Specs Grid (UX Cleaner) */}
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-2.5 text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                        <div className="flex items-center gap-1">
+                          <span>Merchant:</span>
+                          <span className="text-slate-700 font-black normal-case">
+                            {parcel.senderInfo?.name || "Unknown"}
+                          </span>
+                        </div>
+
+                        <div className="w-1 h-1 bg-gray-300 rounded-full shrink-0"></div>
+
+                        <div className="flex items-center gap-1">
+                          <span>Weight:</span>
+                          <span className="text-slate-700 font-black lowercase">
+                            {parcel.parcelWeight || 0}kg
+                          </span>
+                        </div>
+
+                        <div className="w-1 h-1 bg-gray-300 rounded-full shrink-0"></div>
+
+                        <span className="text-[#02312A] font-black bg-[#CAEB66] px-2 py-0.5 rounded-md text-[9px] border border-[#02312A]/5">
+                          {parcel.parcelType || "Document"}
+                        </span>
+
+                        <div className="w-1 h-1 bg-gray-300 rounded-full shrink-0"></div>
+
+                        {/* Route Badge */}
                         {parcel.serviceCenters && (
-                          <span className="text-[9px] font-black bg-gray-50 text-gray-500 border border-gray-200/60 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                            {parcel.serviceCenters.origin} →{" "}
+                          <span className="text-[9px] font-black bg-[#02312A]/5 text-[#02312A] border border-[#02312A]/10 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                            {parcel.serviceCenters.origin} &rarr;{" "}
                             {parcel.serviceCenters.destination}
                           </span>
                         )}
                       </div>
-
-                      <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-wide flex flex-wrap items-center gap-y-1">
-                        Merchant:{" "}
-                        <span className="text-gray-600 font-black ml-0.5">
-                          {parcel.senderInfo?.name || "Unknown"}
-                        </span>
-                        <span className="mx-1.5 text-gray-300">•</span>
-                        Weight:{" "}
-                        <span className="text-gray-600 font-black ml-0.5">
-                          {parcel.parcelWeight || 0}kg
-                        </span>
-                        <span className="mx-1.5 text-gray-300">•</span>
-                        {parcel.revMethod === "COD" && (
-                          <>
-                            COD:{" "}
-                            <span className="text-amber-600 font-black ml-0.5">
-                              ৳{parcel.codAmount}
-                            </span>
-                            <span className="mx-1.5 text-gray-300">•</span>
-                          </>
-                        )}
-                        <span className="text-[#02312A] font-black bg-[#CAEB66]/10 border border-[#CAEB66]/20 px-1.5 py-0.5 rounded-md text-[9px]">
-                          {parcel.parcelType || "Standard"}
-                        </span>
-                      </p>
                     </div>
                   </div>
 
-                  <div className="w-full md:w-auto border-t md:border-t-0 border-gray-50 pt-3 md:pt-0 shrink-0 text-left md:text-right">
-                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
-                      Booked At
-                    </p>
-                    <p className="text-[10px] font-black text-gray-500 mt-0.5">
-                      {parcel.createdAt
-                        ? new Date(parcel.createdAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })
-                        : "Just Now"}
-                    </p>
+                  {/* Right Side: Financial Status & Timeline */}
+                  <div className="w-full lg:w-auto flex lg:flex-col sm:flex-row flex-col justify-between items-start lg:items-end gap-3 lg:gap-1.5 border-t lg:border-t-0 border-gray-100 pt-4 lg:pt-0 shrink-0">
+                    {/* COD Section (If Applicable) */}
+                    {parcel.revMethod === "COD" ? (
+                      <div className="lg:text-right">
+                        <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                          Collect Amount
+                        </p>
+                        <p className="text-sm font-black text-amber-600 mt-0.5">
+                          ৳{parcel.codAmount}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="lg:text-right">
+                        <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                          Payment Method
+                        </p>
+                        <p className="text-[10px] font-black text-slate-700 uppercase tracking-wider mt-0.5">
+                          {parcel.revMethod || "Prepaid"}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Booking Time */}
+                    <div className="lg:text-right">
+                      <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                        Booked At
+                      </p>
+                      <p className="text-[10px] font-black text-slate-500 mt-0.5">
+                        {parcel.createdAt
+                          ? new Date(parcel.createdAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                          : "Just Now"}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ),
