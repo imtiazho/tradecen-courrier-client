@@ -133,6 +133,21 @@ const HubmanagerDashboard = () => {
     enabled: !!managerData?.hubName,
   });
 
+  const {
+    isLoading: hubEffDataLoading,
+    data: hubEffData = {},
+    refetch: hubEffDataRefetch,
+  } = useQuery({
+    queryKey: ["hubEffData", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/hub-efficiency-flow/${managerData?.hubName}`,
+      );
+      return res.data ? res.data : {};
+    },
+    enabled: !!managerData?.hubName,
+  });
+
   const stats = [
     {
       label: "Incoming",
@@ -175,7 +190,8 @@ const HubmanagerDashboard = () => {
     outForDeliveryLoading ||
     hubDeliveredDataLoading ||
     ridersLoading ||
-    agingStatusDataLoading
+    agingStatusDataLoading ||
+    hubEffDataLoading
   ) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
@@ -486,27 +502,27 @@ const HubmanagerDashboard = () => {
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-slate-50 rounded-2xl border border-gray-100 flex items-center justify-center font-bold text-xs uppercase">
-                    {rider.name[0]}
+                    {rider?.name[0]}
                   </div>
                   <div>
                     <p className="text-[13px] font-black text-secondary mb-1">
                       {" "}
-                      {rider.name}{" "}
+                      {rider?.name}{" "}
                     </p>
                     <p
                       className={`text-[8px] w-fit font-black uppercase tracking-wider ${
-                        rider.workStatus === "available"
+                        rider?.workStatus === "available"
                           ? "text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200"
                           : "text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200"
                       }`}
                     >
-                      {rider.workStatus}
+                      {rider?.workStatus}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="font-black text-xs text-slate-800">
-                    {rider.currentTasks}
+                    {rider?.currentTasks}
                   </p>
                   <p className="text-[8px] uppercase font-bold text-gray-300">
                     Jobs
@@ -520,6 +536,7 @@ const HubmanagerDashboard = () => {
 
       {/* BOTTOM SECTION: Full Width Efficiency Flow */}
       <div className="bg-white p-8 rounded-tradecen border border-gray-100 shadow-flat">
+        {/* Top Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h3 className="font-black text-[#02312A] text-sm tracking-tight flex items-center gap-2">
@@ -530,7 +547,7 @@ const HubmanagerDashboard = () => {
               Hub Efficiency Flow
             </h3>
             <p className="text-[10px] font-bold text-gray-400 mt-0.5 uppercase tracking-wider">
-              Live Logistics Metrics
+              Live Logistics Metrics ({hubEffData.totalActive} Active)
             </p>
           </div>
           <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-md">
@@ -538,43 +555,59 @@ const HubmanagerDashboard = () => {
           </p>
         </div>
 
+        {/* Stacked Progress Bar */}
         <div className="h-3.5 w-full bg-gray-100/70 rounded-full overflow-hidden flex shadow-inner">
+          {/* Sorting Segment */}
           <div
-            title="Incoming / Sorting — 30%"
-            className="h-full bg-[#02312A]/30 border-r border-white/40 transition-all duration-500 hover:opacity-90 cursor-pointer"
-            style={{ width: "30%" }}
+            title={`In House / Sorting — ${hubEffData.sorting}%`}
+            className="h-full bg-amber-500 border-r border-white/40 transition-all duration-500 hover:opacity-90 cursor-pointer"
+            style={{ width: `${hubEffData.sorting}%` }}
           ></div>
+
+          {/* Transit Segment */}
           <div
-            title="In Transit / Dispatch — 45%"
-            className="h-full bg-[#02312A]/30 border-r border-white/40 transition-all duration-500 hover:opacity-90 cursor-pointer"
-            style={{ width: "45%" }}
+            title={`In Transit / Dispatch — ${hubEffData.transit}%`}
+            className="h-full bg-blue-600 border-r border-white/40 transition-all duration-500 hover:opacity-90 cursor-pointer"
+            style={{ width: `${hubEffData.transit}%` }}
           ></div>
+
+          {/* Delivered Segment */}
           <div
-            title="Successfully Delivered — 25%"
+            title={`Successfully Delivered — ${hubEffData.delivered}%`}
             className="h-full bg-[#CAEB66] transition-all duration-500 hover:opacity-90 cursor-pointer"
-            style={{ width: "25%" }}
+            style={{ width: `${hubEffData.delivered}%` }}
           ></div>
         </div>
 
+        {/* Bottom Labels & Percentages */}
         <div className="grid grid-cols-3 gap-2 mt-6 pt-4 border-t border-gray-50">
+          {/* Sorting */}
           <div>
             <div className="flex items-center gap-1.5 text-gray-400">
-              <span className="w-2 h-2 rounded-full bg-[#02312A]/30 shrink-0"></span>
+              <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
               <span className="text-[9px] font-black uppercase tracking-wider truncate">
                 Sorting
               </span>
             </div>
-            <p className="text-sm font-black text-[#02312A] mt-0.5">30%</p>
+            <p className="text-sm font-black text-[#02312A] mt-0.5">
+              {hubEffData.sorting}%
+            </p>
           </div>
+
+          {/* Transit */}
           <div>
             <div className="flex items-center gap-1.5 text-gray-400">
-              <span className="w-2 h-2 rounded-full bg-[#02312A] shrink-0"></span>
+              <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
               <span className="text-[9px] font-black uppercase tracking-wider truncate">
                 Transit
               </span>
             </div>
-            <p className="text-sm font-black text-[#02312A] mt-0.5">45%</p>
+            <p className="text-sm font-black text-[#02312A] mt-0.5">
+              {hubEffData.transit}%
+            </p>
           </div>
+
+          {/* Delivered */}
           <div>
             <div className="flex items-center gap-1.5 text-gray-400">
               <span className="w-2 h-2 rounded-full bg-[#CAEB66] shrink-0"></span>
@@ -582,7 +615,9 @@ const HubmanagerDashboard = () => {
                 Delivered
               </span>
             </div>
-            <p className="text-sm font-black text-[#02312A] mt-0.5">25%</p>
+            <p className="text-sm font-black text-[#02312A] mt-0.5">
+              {hubEffData.delivered}%
+            </p>
           </div>
         </div>
       </div>
