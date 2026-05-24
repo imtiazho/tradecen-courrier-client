@@ -108,6 +108,31 @@ const HubmanagerDashboard = () => {
     enabled: !!managerData?.hubName,
   });
 
+  const { isLoading: agingStatusDataLoading, data: agingStatusData = {} } =
+    useQuery({
+      queryKey: ["agingStatusData", managerData?.hubName],
+      queryFn: async () => {
+        const res = await axiosSecure.get(
+          `/hub-aging-status/${managerData?.hubName}`,
+        );
+        return res.data || {};
+      },
+      enabled: !!managerData?.hubName,
+    });
+
+  const {
+    isLoading: ridersLoading,
+    data: riders = [],
+    refetch,
+  } = useQuery({
+    queryKey: ["ridersAreaWise", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/riders?area=${managerData?.hubName}`);
+      return Array.isArray(res.data) ? res.data : [];
+    },
+    enabled: !!managerData?.hubName,
+  });
+
   const stats = [
     {
       label: "Incoming",
@@ -148,11 +173,13 @@ const HubmanagerDashboard = () => {
     incomingLoading ||
     inHouseLoading ||
     outForDeliveryLoading ||
-    hubDeliveredDataLoading
+    hubDeliveredDataLoading ||
+    ridersLoading ||
+    agingStatusDataLoading
   ) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
-
+  console.log(riders);
   return (
     <div className="px-8 bg-[#ffffff] rounded-tradecen shadow-flat py-5 space-y-8 min-h-screen font-sans">
       {/* HEADER SECTION */}
@@ -273,7 +300,7 @@ const HubmanagerDashboard = () => {
         </div>
       </div>
 
-      {/* NEW SINGLE FULL-WIDTH ROW FOR INCOMING SHIPMENTS */}
+      {/* FULL-WIDTH ROW FOR INCOMING SHIPMENTS */}
       <div className="w-full">
         <div className="bg-white p-8 rounded-tradecen border border-gray-100 shadow-flat">
           <div className="flex justify-between items-center mb-6">
@@ -426,19 +453,25 @@ const HubmanagerDashboard = () => {
               <span className="text-[9px] font-black text-green-600 block">
                 24H
               </span>
-              <span className="text-lg font-black text-green-800">85</span>
+              <span className="text-lg font-black text-green-800">
+                {agingStatusData?.age24H}
+              </span>
             </div>
             <div className="text-center p-3 bg-yellow-50 rounded-[15px] border border-yellow-100">
               <span className="text-[9px] font-black text-yellow-600 block">
                 48H
               </span>
-              <span className="text-lg font-black text-yellow-800">12</span>
+              <span className="text-lg font-black text-yellow-800">
+                {agingStatusData?.age48H}
+              </span>
             </div>
             <div className="text-center p-3 bg-red-50 rounded-[15px] border border-red-100">
               <span className="text-[9px] font-black text-red-600 block">
                 72H+
               </span>
-              <span className="text-lg font-black text-red-800">04</span>
+              <span className="text-lg font-black text-red-800">
+                {agingStatusData?.age72HPlus}
+              </span>
             </div>
           </div>
         </div>
@@ -449,41 +482,31 @@ const HubmanagerDashboard = () => {
             On-Duty Riders
           </h3>
           <div className="space-y-4">
-            {[
-              {
-                name: "Sabbir",
-                status: "Busy",
-                count: 12,
-                color: "text-orange-500",
-              },
-              {
-                name: "Rakib",
-                status: "Idle",
-                count: 0,
-                color: "text-green-500",
-              },
-            ].map((rider, i) => (
+            {riders.map((rider, i) => (
               <div key={i} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-slate-50 rounded-2xl border border-gray-100 flex items-center justify-center font-bold text-xs">
+                  <div className="w-10 h-10 bg-slate-50 rounded-2xl border border-gray-100 flex items-center justify-center font-bold text-xs uppercase">
                     {rider.name[0]}
                   </div>
                   <div>
-                    <p className="text-xs font-black text-slate-700">
+                    <p className="text-[13px] font-black text-secondary mb-1">
                       {" "}
                       {rider.name}{" "}
                     </p>
                     <p
-                      className={`text-[9px] font-black uppercase ${rider.color}`}
+                      className={`text-[8px] w-fit font-black uppercase tracking-wider ${
+                        rider.workStatus === "available"
+                          ? "text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200"
+                          : "text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200"
+                      }`}
                     >
-                      {" "}
-                      {rider.status}{" "}
+                      {rider.workStatus}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="font-black text-xs text-slate-800">
-                    {rider.count}
+                    {rider.currentTasks}
                   </p>
                   <p className="text-[8px] uppercase font-bold text-gray-300">
                     Jobs
