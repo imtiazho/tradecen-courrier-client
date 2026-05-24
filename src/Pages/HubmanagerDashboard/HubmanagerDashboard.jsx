@@ -593,9 +593,9 @@ const HubmanagerDashboard = () => {
 
           {/* Transit Segment */}
           <div
-            title={`In Transit / Dispatch — ${hubEffData.transit}%`}
+            title={`Out For Delivery — ${hubEffData.outDelivery}%`}
             className="h-full bg-blue-600 border-r border-white/40 transition-all duration-500 hover:opacity-90 cursor-pointer"
-            style={{ width: `${hubEffData.transit}%` }}
+            style={{ width: `${hubEffData.outDelivery}%` }}
           ></div>
 
           {/* Delivered Segment */}
@@ -630,7 +630,7 @@ const HubmanagerDashboard = () => {
               </span>
             </div>
             <p className="text-sm font-black text-[#02312A] mt-0.5">
-              {hubEffData.transit}%
+              {hubEffData.outDelivery}%
             </p>
           </div>
 
