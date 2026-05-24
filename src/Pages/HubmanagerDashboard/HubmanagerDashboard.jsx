@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { LucideWarehouse } from "lucide-react";
 import { Link } from "react-router";
+import { BiLineChart } from "react-icons/bi";
 
 const HubmanagerDashboard = () => {
   const { user } = useAuth();
@@ -94,6 +95,33 @@ const HubmanagerDashboard = () => {
     enabled: !!managerData?.hubName,
   });
 
+  const { isLoading: handCashDataLoading, data: handCashData = {} } = useQuery({
+    queryKey: ["hubHandCash", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/hub-hand-cash/${managerData?.hubName}`,
+      );
+      return res.data || {};
+    },
+
+    enabled: !!managerData?.hubName,
+  });
+
+  const {
+    isLoading: hqPayableProfitDataLoading,
+    data: hqPayableProfitData = {},
+  } = useQuery({
+    queryKey: ["hqPayableProfitData", managerData?.hubName],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/hub-profit-metrics/${managerData?.hubName}`,
+      );
+      return res.data || {};
+    },
+
+    enabled: !!managerData?.hubName,
+  });
+
   const stats = [
     {
       label: "Incoming",
@@ -138,7 +166,7 @@ const HubmanagerDashboard = () => {
   ) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
-
+  console.log(hqPayableProfitData);
   return (
     <div className="px-8 bg-[#ffffff] rounded-tradecen py-5 space-y-8 min-h-screen font-sans">
       <div className="flex justify-between items-end">
@@ -330,18 +358,80 @@ const HubmanagerDashboard = () => {
         </div>
 
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-secondary p-8 rounded-tradecen text-white shadow-flat relative overflow-hidden">
-            <div className="relative z-10">
-              <p className="text-[10px] font-black text-white/40 uppercase tracking-[2px]">
-                Total Hand Cash
-              </p>
-              <h2 className="text-4xl font-black mt-2">৳ 45,670</h2>
-              <div className="h-[1px] w-full bg-white/10 my-6"></div>
-              <button className="w-full py-4 bg-[#CAEB66] text-[#002B36] rounded-2xl text-[11px] font-black uppercase tracking-wider hover:scale-[1.02] transition-transform cursor-pointer">
-                Deposit to HQ
-              </button>
+          {/* CARD 1: Total Hand Cash */}
+          <div className="bg-secondary p-8 rounded-tradecen text-white shadow-flat relative overflow-hidden border border-white/5 w-full max-w-sm">
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></span>
+                    <p className="text-[10px] font-black text-white/40 uppercase tracking-[2px]">
+                      Total Hand Cash
+                    </p>
+                  </div>
+                  {handCashData.totalParcelCount > 0 && (
+                    <span className="text-[9px] font-black bg-amber-400/10 text-amber-400 px-2 py-0.5 rounded-md border border-amber-400/20 uppercase tracking-wider">
+                      {handCashData.totalParcelCount}{" "}
+                      {handCashData.totalParcelCount === 1
+                        ? "Parcel"
+                        : "Parcels"}
+                    </span>
+                  )}
+                </div>
+
+                <h2 className="text-4xl font-black mt-3 text-white font-mono">
+                  ৳ {handCashData.totalHandCash.toLocaleString("en-IN")}
+                </h2>
+
+                <p className="text-[11px] text-white/30 mt-1 font-medium">
+                  {handCashData.totalHandCash > 0
+                    ? `Live box cash generated from ${handCashData.totalParcelCount} delivered operations.`
+                    : "Safe & clear! No pending cash in the vault right now."}
+                </p>
+              </div>
+
+              <div>
+                <div className="h-[1px] w-full bg-white/10 my-6"></div>
+                <div className="text-center text-[10px] text-white/40 font-bold uppercase tracking-wider py-1.5 bg-white/5 rounded-xl border border-white/5 flex items-center justify-center gap-1.5">
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${handCashData.totalHandCash > 0 ? "bg-emerald-500" : "bg-white/20"}`}
+                  ></span>
+                  {handCashData.totalHandCash > 0
+                    ? "Active Asset Managed"
+                    : "Vault Empty & Secured"}
+                </div>
+              </div>
             </div>
+
             <RiWallet3Line className="absolute -bottom-4 -right-4 text-white/5 size-32 rotate-12" />
+          </div>
+
+          <div className="bg-[#022A24] p-8 rounded-tradecen text-white shadow-flat relative overflow-hidden border border-[#CAEB66]/10">
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
+                  <p className="text-[10px] font-black text-[#CAEB66]/60 uppercase tracking-[2px]">
+                    HQ Payable Cash (Earnings)
+                  </p>
+                </div>
+
+                <h2 className="text-4xl font-black mt-3 text-[#CAEB66] font-mono">
+                  ৳ {hqPayableProfitData?.hqPayableProfit.toLocaleString("en-IN")}
+                </h2>
+                <p className="text-[11px] text-[#CAEB66]/40 mt-1 font-medium">
+                  Pure accumulated delivery charges owed to HQ.
+                </p>
+              </div>
+
+              <div>
+                <div className="h-[1px] w-full bg-white/5 my-6"></div>
+                <button className="w-full py-4 bg-[#CAEB66] text-[#002B36] rounded-2xl text-[11px] font-black uppercase tracking-wider hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer shadow-md shadow-[#CAEB66]/5">
+                  Deposit Profits to HQ
+                </button>
+              </div>
+            </div>
+            <BiLineChart className="absolute -bottom-4 -right-4 text-[#CAEB66]/5 size-32 rotate-6" />
           </div>
 
           <div className="bg-white p-6 rounded-tradecen border border-gray-100 shadow-flat">
