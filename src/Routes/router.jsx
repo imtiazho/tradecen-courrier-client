@@ -54,6 +54,7 @@ import MerchantsAreaWise from "../Pages/MerchantsAreaWise/MerchantsAreaWise";
 import OutForDelivery from "../Pages/OutForDelivery/OutForDelivery";
 import HubDelivered from "../Pages/HubDelivered/HubDelivered";
 import HubDepositToHQ from "../Pages/HubDepositToHQ/HubDepositToHQ";
+import FinanceAndReport from "../Pages/FinanceAndReport/FinanceAndReport";
 
 export const router = createBrowserRouter([
   {
@@ -218,6 +219,10 @@ export const router = createBrowserRouter([
             element: <RiderRequest></RiderRequest>,
           },
         ],
+      },
+      {
+        path: "finance-reports",
+        Component: FinanceAndReport,
       },
       {
         path: "incoming",

@@ -63,7 +63,7 @@ const roleMenuItems = {
     {
       name: "Financial Reports",
       icon: <RiFileChartLine size={22} />,
-      path: "/admin/finance",
+      path: "/dashboard/finance-reports",
     },
     {
       name: "System Settings",

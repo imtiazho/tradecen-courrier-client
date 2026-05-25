@@ -32,7 +32,7 @@ const HubDepositToHQ = () => {
     queryKey: ["depositHistory", managerData?.hubName],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/hub-deposit-history/${managerData?.hubName}`,
+        `/hub-deposit-history?hubName=${managerData?.hubName}`,
       );
       return res.data;
     },
