@@ -53,6 +53,7 @@ import RiderAreaWise from "../Pages/RiderAreaWise/RiderAreaWise";
 import MerchantsAreaWise from "../Pages/MerchantsAreaWise/MerchantsAreaWise";
 import OutForDelivery from "../Pages/OutForDelivery/OutForDelivery";
 import HubDelivered from "../Pages/HubDelivered/HubDelivered";
+import HubDepositToHQ from "../Pages/HubDepositToHQ/HubDepositToHQ";
 
 export const router = createBrowserRouter([
   {
@@ -282,12 +283,16 @@ export const router = createBrowserRouter([
       {
         path: "account-finance",
         element: <AccountAndFinance></AccountAndFinance>,
-        // children: [
-        //   {
-        //     index: true,
-        //     element: <PayoutReq />,
-        //   }
-        // ],
+        children: [
+          {
+            index: true,
+            element: <PayoutReq />,
+          },
+          {
+            path: "deposits-hq",
+            Component: HubDepositToHQ,
+          },
+        ],
       },
       {
         path: "dispatch-delivery",

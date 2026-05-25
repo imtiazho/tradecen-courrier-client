@@ -19,6 +19,7 @@ import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { LucideWarehouse } from "lucide-react";
 import { Link } from "react-router";
 import { BiLineChart } from "react-icons/bi";
+import Swal from "sweetalert2";
 
 const HubmanagerDashboard = () => {
   const { user } = useAuth();
@@ -83,7 +84,11 @@ const HubmanagerDashboard = () => {
       enabled: !!managerData?.hubName,
     });
 
-  const { isLoading: handCashDataLoading, data: handCashData = {} } = useQuery({
+  const {
+    isLoading: handCashDataLoading,
+    data: handCashData = {},
+    refetch: handCashRefetch,
+  } = useQuery({
     queryKey: ["hubHandCash", managerData?.hubName],
     queryFn: async () => {
       const res = await axiosSecure.get(
@@ -97,6 +102,7 @@ const HubmanagerDashboard = () => {
   const {
     isLoading: hqPayableProfitDataLoading,
     data: hqPayableProfitData = {},
+    refetch: hqPayableProfitDataRefetch,
   } = useQuery({
     queryKey: ["hqPayableProfitData", managerData?.hubName],
     queryFn: async () => {
@@ -148,6 +154,87 @@ const HubmanagerDashboard = () => {
     enabled: !!managerData?.hubName,
   });
 
+  const handleDepositToHQ = async () => {
+    const parcelIds = handCashData?.parcels?.map((parcel) => parcel._id);
+
+    const { value: trxID } = await Swal.fire({
+      title: "Enter bKash TrxID",
+      input: "text",
+      inputPlaceholder: "e.g. BK2026M789X",
+      showCancelButton: true,
+      confirmButtonColor: "#CAEB66",
+      cancelButtonColor: "#d33",
+
+      confirmButtonText:
+        '<span style="color: #02312A; font-weight: bold;">Confirm Deposit</span>',
+
+      inputValidator: (value) => {
+        if (!value) return "You must enter a Transaction ID!";
+      },
+    });
+
+    if (!trxID) return;
+
+    const reqInfo = {
+      depositedAmount: handCashData?.totalHandCash || 0,
+      parcelIds: parcelIds,
+      paymentMethod: "Bkash",
+      submittedBy: `Hub Manager ${managerData?.hubName}`,
+      transactionDetails: {
+        slipNo: trxID,
+        note: "Weekly deposit from Raipur Hub",
+      },
+    };
+    try {
+      const response = await axiosSecure.post(
+        `/deposit-HQ/${handCashData?.hubName}`,
+        reqInfo,
+      );
+
+      if (response.data.success) {
+        handCashRefetch();
+        hqPayableProfitDataRefetch();
+
+        Swal.fire({
+          icon: "success",
+          title:
+            '<span style="color: #02312A; font-weight: 900;">Request Submitted!</span>',
+          html: `<p style="color: #4A5568; font-size: 14px; font-weight: 600;">
+              Deposit request of <span style="color: #02312A; font-weight: 900;">৳${reqInfo.depositedAmount}</span> 
+              for ${reqInfo.parcelIds.length} parcels has been sent to HQ Pending Ledger.
+             </p>`,
+          iconColor: "#02312A",
+          confirmButtonColor: "#CAEB66",
+          confirmButtonText:
+            '<span style="color: #02312A; font-weight: bold;">Great, Got It!</span>',
+          background: "#FFFFFF",
+          customClass: {
+            popup: "rounded-[20px]",
+          },
+        });
+      }
+    } catch (error) {
+      const errMsg =
+        error.response?.data?.message ||
+        "Connection timeout or internal failure.";
+
+      Swal.fire({
+        icon: "error",
+        title:
+          '<span style="color: #E53E3E; font-weight: 900;">Submission Failed</span>',
+        html: `<p style="color: #4A5568; font-size: 14px; font-weight: 600;">${errMsg}</p>`,
+        iconColor: "#E53E3E",
+        confirmButtonColor: "#02312A",
+        confirmButtonText:
+          '<span style="color: #CAEB66; font-weight: bold;">Try Again</span>',
+        background: "#FFFFFF",
+        customClass: {
+          popup: "rounded-[20px]",
+        },
+      });
+    }
+  };
+  
   const stats = [
     {
       label: "Incoming",
@@ -195,7 +282,6 @@ const HubmanagerDashboard = () => {
   ) {
     return <LoadingModal isLoading={true}></LoadingModal>;
   }
-  console.log(riders);
   return (
     <div className="px-8 bg-[#ffffff] rounded-tradecen shadow-flat py-5 space-y-8 min-h-screen font-sans">
       {/* HEADER SECTION */}
@@ -307,7 +393,10 @@ const HubmanagerDashboard = () => {
             </div>
             <div>
               <div className="h-[1px] w-full bg-white/5 my-6"></div>
-              <button className="w-full py-4 bg-[#CAEB66] text-[#002B36] rounded-2xl text-[11px] font-black uppercase tracking-wider hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer shadow-md shadow-[#CAEB66]/5">
+              <button
+                onClick={handleDepositToHQ}
+                className="w-full py-4 bg-[#CAEB66] text-[#002B36] rounded-2xl text-[11px] font-black uppercase tracking-wider hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer shadow-md shadow-[#CAEB66]/5"
+              >
                 Deposit Profits to HQ
               </button>
             </div>
@@ -626,7 +715,7 @@ const HubmanagerDashboard = () => {
             <div className="flex items-center gap-1.5 text-gray-400">
               <span className="w-2 h-2 rounded-full bg-blue-600 shrink-0"></span>
               <span className="text-[9px] font-black uppercase tracking-wider truncate">
-                Transit
+                Out for Delivery
               </span>
             </div>
             <p className="text-sm font-black text-[#02312A] mt-0.5">
