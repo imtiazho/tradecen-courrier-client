@@ -282,12 +282,12 @@ export const router = createBrowserRouter([
       {
         path: "account-finance",
         element: <AccountAndFinance></AccountAndFinance>,
-        children: [
-          {
-            index: true,
-            element: <PayoutReq />,
-          },
-        ],
+        // children: [
+        //   {
+        //     index: true,
+        //     element: <PayoutReq />,
+        //   }
+        // ],
       },
       {
         path: "dispatch-delivery",

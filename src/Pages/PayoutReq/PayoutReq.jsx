@@ -25,7 +25,7 @@ const PayoutReq = () => {
       return res.data.data || [];
     },
   });
-
+  
   const handleAction = async (id, status) => {
     let trxID = null;
 

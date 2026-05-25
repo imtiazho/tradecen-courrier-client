@@ -115,8 +115,9 @@ const SendParcel = () => {
       deliveryChargeStatus: "unpaid",
       currentLocation: "merchant-location",
       revMethod: selectedMethodRev ? "COD" : "Online",
-      merchantRevenueStatus: null,
+      merchantRevenueStatus: false,
       isDepositedToHQ: false,
+      deliveryChargeOnlinePaymentStatus: false,
 
       // 👤 Sender (Merchant) Details
       senderInfo: {
