@@ -17,11 +17,11 @@ const SupportClaim = () => {
     setIsChatOpen(true);
 
     Swal.fire({
-      title: "TradeCen AI Coming Soon!",
-      text: "We are building an intelligent AI assistant to help you manage and track shipments effortlessly. Stay tuned!",
+      title: "Logistics on Autopilot. Powered by AI. 🚀",
+      text: "Get ready for a smarter way to manage shipments. Our upcoming next-gen AI Assistant will handle everything from live tracking to smart analytics effortlessly. Next chapter is arriving soon!",
       icon: "info",
       confirmButtonColor: "#02312A",
-      timer: 3500,
+      timer: 5000,
       showConfirmButton: true,
       confirmButtonText: "Got It!",
       customClass: {

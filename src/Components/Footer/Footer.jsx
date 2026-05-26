@@ -6,6 +6,7 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 import { FaXTwitter } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
@@ -34,20 +35,20 @@ const Footer = () => {
         <nav className="py-8">
           <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-gray-300 text-sm md:text-base font-medium">
             {[
-              "Services",
-              "Coverage",
-              "About Us",
-              "Pricing",
-              "Blog",
-              "Contact",
+              { title: "Services", link: "/" },
+              { title: "Coverage", link: "/" },
+              { title: "About Us", link: "/about-us" },
+              { title: "Pricing", link: "/pricing" },
+              { title: "Blog", link: "/" },
+              { title: "Contact", link: "/contact" },
             ].map((link) => (
               <li key={link}>
-                <a
-                  href={`#${link.toLowerCase().replace(" ", "")}`}
+                <Link
+                  to={link?.link}
                   className="hover:text-[#CAEB66] transition-colors"
                 >
-                  {link}
-                </a>
+                  {link?.title}
+                </Link>
               </li>
             ))}
           </ul>
