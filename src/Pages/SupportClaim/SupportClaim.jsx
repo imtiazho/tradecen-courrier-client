@@ -25,7 +25,7 @@ const SupportClaim = () => {
       showConfirmButton: true,
       confirmButtonText: "Got It!",
       customClass: {
-        popup: "rounded-[24px]",
+        popup: "rounded-[20px]",
       },
     });
   };
@@ -45,8 +45,8 @@ const SupportClaim = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Contact Cards (Email & Phone) */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="p-6 bg-[#F8F9FA] rounded-[30px] border border-transparent hover:border-[#CAEB66] transition-all group">
-            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm group-hover:bg-[#CAEB66]">
+          <div className="p-6 bg-[#F8F9FA] rounded-tradecen border border-transparent hover:border-[#CAEB66] transition-all group">
+            <div className="w-12 h-12 bg-white rounded-[10px] flex items-center justify-center mb-4 shadow-flat group-hover:bg-[#CAEB66]">
               <FaPhoneAlt className="text-[#02312A]" size={20} />
             </div>
             <h4 className="font-black text-[#02312A] mb-1">Call Us</h4>
@@ -58,8 +58,8 @@ const SupportClaim = () => {
             </a>
           </div>
 
-          <div className="p-6 bg-[#F8F9FA] rounded-[30px] border border-transparent hover:border-[#CAEB66] transition-all group">
-            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-sm group-hover:bg-[#CAEB66]">
+          <div className="p-6 bg-[#F8F9FA] rounded-tradecen border border-transparent hover:border-[#CAEB66] transition-all group">
+            <div className="w-12 h-12 bg-white rounded-[10px] flex items-center justify-center mb-4 shadow-flat group-hover:bg-[#CAEB66]">
               <FaEnvelope className="text-[#02312A]" size={20} />
             </div>
             <h4 className="font-black text-[#02312A] mb-1">Email Support</h4>
@@ -104,7 +104,7 @@ const SupportClaim = () => {
 
       {/* --- LIVE CHAT INBOX POPUP --- */}
       {isChatOpen && (
-        <div className="fixed bottom-6 right-6 w-80 md:w-96 bg-white shadow-flat rounded-tradecen border border-gray-100 overflow-hidden z-50 animate-in slide-in-from-bottom-10 duration-300">
+        <div className="fixed bottom-6 right-6 w-80 md:w-96 bg-white rounded-tradecen overflow-hidden z-50 animate-in slide-in-from-bottom-10 duration-300">
           {/* Chat Header */}
           <div className="bg-[#02312A] p-4 flex justify-between items-center text-white">
             <div className="flex items-center gap-3">
