@@ -22,7 +22,7 @@ import {
   RiGovernmentFill,
 } from "react-icons/ri";
 import { TbUserQuestion } from "react-icons/tb";
-import { IoBagCheckOutline  } from "react-icons/io5";
+import { IoBagCheckOutline } from "react-icons/io5";
 import { Link } from "react-router";
 
 const RiderState = () => {
@@ -57,7 +57,7 @@ const RiderState = () => {
   // 📦 Active Delivery Manifest (Important Operational Items Only)
   const [assignedParcels, setAssignedParcels] = useState([
     {
-      id: "ZS-90821",
+      id: "TC-90821",
       name: "Abir Rahman",
       phone: "01712345678",
       area: "Dhanmondi 27",
@@ -67,7 +67,7 @@ const RiderState = () => {
       status: "pending",
     },
     {
-      id: "ZS-90822",
+      id: "TC-90822",
       name: "Karim Ullah",
       phone: "01898765432",
       area: "Sobhanbag",
@@ -77,7 +77,7 @@ const RiderState = () => {
       status: "pending",
     },
     {
-      id: "ZS-90823",
+      id: "TC-90823",
       name: "Nusrat Jahan",
       phone: "01555443322",
       area: "Kalabagan",
@@ -140,7 +140,7 @@ const RiderState = () => {
                   {riderData.vehicleType} Fleet
                 </span>
                 <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/70">
-                  ID: ZS-R-442
+                  ID: TC-R-442
                 </span>
               </div>
             </div>
@@ -187,7 +187,7 @@ const RiderState = () => {
             {
               label: "Hold",
               val: stats.pendingDelivery,
-              icon: <IoBagCheckOutline  />,
+              icon: <IoBagCheckOutline />,
               col: "text-amber-500",
             },
             {
@@ -206,7 +206,7 @@ const RiderState = () => {
               label: "Due to Hub",
               val: `৳${stats.codPendingSubmit}`,
               icon: <RiAlertLine />,
-              col:"text-rose-600",
+              col: "text-rose-600",
             },
           ].map((card, idx) => (
             <div
@@ -217,75 +217,56 @@ const RiderState = () => {
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                   {card.label}
                 </span>
-                <div className={`text-base ${card?.col}`}>
-                  {card.icon}
-                </div>
+                <div className={`text-base ${card?.col}`}>{card.icon}</div>
               </div>
-              <h3 className="text-xl font-black mt-3">
-                {card.val}
-              </h3>
+              <h3 className="text-xl font-black mt-3">{card.val}</h3>
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
           {/* LEFT: ACTIVE DELIVERY MANIFEST TERMINAL */}
-          <div className="lg:col-span-2 bg-white border border-gray-100 rounded-[24px] shadow-sm overflow-hidden">
-            {/* =========================================================================
-      CARD HEADER WITH "SEE ALL" ROUTE LINK
-      ========================================================================= */}
-            <div className="p-5 border-b border-gray-50 flex justify-between items-center">
+          <div className="lg:col-span-2 bg-white rounded-tradecen shadow-flat overflow-hidden">
+            <div className="p-6 border-b border-gray-50 flex justify-between items-center">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-black tracking-tight">
+                  <h3 className="font-black text-secondary text-base tracking-wide flex items-center gap-1">
+                    <div className="w-[5px] h-5 bg-[#CAEB66] rounded-[20px]"></div>
                     Active Delivery Manifest
                   </h3>
-                  <span className="text-[10px] bg-amber-500/10 text-amber-700 font-extrabold px-2 py-0.5 rounded-md uppercase tracking-wider">
-                    Top 5 Today
-                  </span>
                 </div>
-                <p className="text-[11px] text-gray-400 font-medium">
+                <p className="text-[10px] text-gray-400 mt-1">
                   Quick access to your immediate pending dispatches
                 </p>
               </div>
 
-              {/* 🔗 এখানে ক্লিক করলে সরাসরি অল টাস্ক পেজে নিয়ে যাবে */}
               <Link
-                to="/rider/all-manifest" // তোমার কাঙ্ক্ষিত রাউট পাথটি এখানে বসাও ভাই
-                className="text-xs font-black text-[#02312A] hover:text-[#CAEB66] bg-gray-50 hover:bg-[#02312A] px-3 py-1.5 rounded-xl transition-all duration-200 border border-gray-100 flex items-center gap-1 shadow-sm"
+                to=""
+                className="text-[10px] font-black uppercase text-gray-400 hover:text-[#02312A] tracking-widest transition-colors cursor-pointer"
               >
-                See All ({assignedParcels.length}) →
+                See All
               </Link>
             </div>
 
-            {/* =========================================================================
-      PARCEL LIST (STRICTLY SLICED TO TOP 5)
-      ========================================================================= */}
-            <div className="divide-y divide-gray-50">
-              {/* 💡 .slice(0, 5) দিয়ে লিস্টকে সবসময় ড্যাশবোর্ডে ৫ টায় লক করে রাখা হয়েছে */}
+            <div className="">
               {assignedParcels.slice(0, 5).map((parcel) => (
                 <div
                   key={parcel.id}
-                  className={`p-5 transition-all ${parcel.priority === "high" ? "bg-amber-50/15" : ""}`}
+                  className={`p-6 transition-all`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     {/* Package Info */}
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-mono font-bold text-gray-400">
-                          {parcel.id}
+                          # {parcel.id}
                         </span>
-                        {parcel.priority === "high" && (
-                          <span className="bg-rose-100 text-rose-700 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider">
-                            {parcel.type}
-                          </span>
-                        )}
                       </div>
                       <h4 className="text-sm font-black text-[#02312A]">
                         {parcel.name}
                       </h4>
-                      <p className="text-xs text-gray-500 flex items-center gap-1">
-                        <RiMapPin2Line size={13} className="text-gray-400" />{" "}
+                      <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                        <RiMapPin2Line size={11} className="text-gray-400" />{" "}
                         {parcel.area}
                       </p>
                     </div>
@@ -304,35 +285,29 @@ const RiderState = () => {
                     <div className="flex items-center gap-1.5 self-end sm:self-center">
                       <a
                         href={`tel:${parcel.phone}`}
-                        className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-xl transition-all"
+                        className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
                       >
                         <RiPhoneLine size={15} />
                       </a>
-                      <button className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-xl transition-all">
+                      <button className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer">
                         <RiMap2Line size={15} />
                       </button>
 
                       {parcel.status === "pending" ? (
                         <div className="flex items-center gap-1.5 pl-1">
                           <button
-                            onClick={() =>
-                              alert(`Parcel ${parcel.id} marked as HOLD`)
-                            }
-                            className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-xl transition-all"
+                            className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
                           >
                             Hold
                           </button>
                           <button
-                            onClick={() =>
-                              alert(`Parcel ${parcel.id} marked as DELIVERED`)
-                            }
-                            className="bg-[#02312A] hover:bg-[#03443a] text-white text-xs font-bold px-3.5 py-2 rounded-xl transition-all"
+                            className="bg-[#02312A] hover:bg-[#03443a] text-white text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer"
                           >
                             Complete
                           </button>
                         </div>
                       ) : (
-                        <span className="bg-emerald-50 text-emerald-700 text-xs font-black px-3 py-2 rounded-xl flex items-center gap-1">
+                        <span className="bg-emerald-50 text-emerald-700 text-xs font-black px-3 py-2 rounded-md flex items-center gap-1">
                           <RiCheckDoubleLine /> Delivered
                         </span>
                       )}
