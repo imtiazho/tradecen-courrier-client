@@ -20,6 +20,7 @@ import {
   RiCustomerService2Fill,
   RiPhoneFill,
   RiGovernmentFill,
+  RiMapPinRangeLine,
 } from "react-icons/ri";
 import { TbUserQuestion } from "react-icons/tb";
 import { IoBagCheckOutline } from "react-icons/io5";
@@ -101,7 +102,7 @@ const RiderState = () => {
         {/* Name Card  */}
         <div className="bg-[#CAEB66] p-6 rounded-tradecen shadow-flat flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300">
           {/* Left Side: Avatar and Identity Details */}
-          <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row z-10">
+          <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
             <div className="relative">
               <img
                 src={riderData.photoURL}
@@ -147,7 +148,7 @@ const RiderState = () => {
           </div>
 
           {/* Right Side: Telemetry Link & Action Trigger */}
-          <div className="flex flex-col items-center md:items-end gap-2.5 w-full md:w-auto border-t border-[#02312A]/10 pt-4 md:pt-0 md:border-none z-10">
+          <div className="flex flex-col items-center md:items-end gap-2.5 w-full md:w-auto border-t border-[#02312A]/10 pt-4 md:pt-0 md:border-none">
             <span className="text-[10px] text-[#02312A]/60 uppercase tracking-widest font-black flex items-center gap-1">
               <RiSignalTowerLine
                 className={
@@ -235,7 +236,7 @@ const RiderState = () => {
                     Active Delivery Manifest
                   </h3>
                 </div>
-                <p className="text-[10px] text-gray-400 mt-1">
+                <p className="text-[11px] font-medium text-gray-400 mt-1">
                   Quick access to your immediate pending dispatches
                 </p>
               </div>
@@ -250,10 +251,7 @@ const RiderState = () => {
 
             <div className="">
               {assignedParcels.slice(0, 5).map((parcel) => (
-                <div
-                  key={parcel.id}
-                  className={`p-6 transition-all`}
-                >
+                <div key={parcel.id} className={`p-6 transition-all`}>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     {/* Package Info */}
                     <div className="space-y-1">
@@ -295,14 +293,10 @@ const RiderState = () => {
 
                       {parcel.status === "pending" ? (
                         <div className="flex items-center gap-1.5 pl-1">
-                          <button
-                            className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
-                          >
+                          <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer">
                             Hold
                           </button>
-                          <button
-                            className="bg-[#02312A] hover:bg-[#03443a] text-white text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer"
-                          >
+                          <button className="bg-[#02312A] hover:bg-[#03443a] text-white text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
                             Complete
                           </button>
                         </div>
@@ -334,11 +328,11 @@ const RiderState = () => {
           </div>
 
           <div className="space-y-4 w-full">
-            {/* Terminal Actions Panel */}
-            <div className="bg-[#02312A] text-white p-5 rounded-[24px] shadow-sm space-y-4">
+            {/* Actions Panel */}
+            <div className="bg-[#02312A] text-white p-5 rounded-tradecen shadow-flat space-y-4">
               <div>
-                <h3 className="text-sm font-black tracking-tight text-[#CAEB66]">
-                  Terminal Actions
+                <h3 className="text-sm font-black tracking-wider text-[#CAEB66]">
+                  Field Operations
                 </h3>
                 <p className="text-[11px] text-gray-300 font-medium mt-0.5">
                   Quick access triggers for on-field operations
@@ -346,14 +340,14 @@ const RiderState = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-2.5">
-                <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group">
+                <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
                   <RiQrScanLine
                     size={18}
                     className="text-[#CAEB66] group-hover:scale-110 transition-transform"
                   />
                   <span className="text-xs font-bold">Scan Inbound</span>
                 </button>
-                <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group">
+                <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
                   <RiHandCoinLine
                     size={18}
                     className="text-[#CAEB66] group-hover:scale-110 transition-transform"
@@ -361,10 +355,20 @@ const RiderState = () => {
                   <span className="text-xs font-bold">Submit COD</span>
                 </button>
               </div>
+
+              <button
+                className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-black text-xs text-[#CAEB66] tracking-wider uppercase group cursor-pointer"
+              >
+                <RiMapPinRangeLine
+                  size={15}
+                  className="text-[#CAEB66] group-hover:animate-bounce"
+                />{" "}
+                Optimize Today's Route
+              </button>
             </div>
 
             {/* Live Performance / Rank Snapshot */}
-            <div className="bg-white border border-gray-100 p-5 rounded-[24px] shadow-sm space-y-3.5">
+            <div className="bg-white border border-gray-100 p-5 rounded-tradecen shadow-flat space-y-3.5">
               <h3 className="text-xs font-black text-gray-400 uppercase tracking-wider">
                 Shift Metrics Dock
               </h3>
@@ -397,7 +401,7 @@ const RiderState = () => {
         </div>
 
         {/* EMERGENCY SOS & RIDER SUPPORT DISPATCH CENTER (FULL WIDTH) */}
-        <div className="w-full bg-white border border-rose-100 rounded-[24px] shadow-sm overflow-hidden mt-6 animate-pulse-subtle">
+        <div className="w-full bg-white border border-rose-100 rounded-tradecen shadow-flat overflow-hidden mt-6 animate-pulse-subtle">
           {/* Header Section (Emergency Theme) */}
           <div className="p-5 border-b border-rose-50 flex justify-between items-center bg-rose-50/20">
             <div>
@@ -415,22 +419,18 @@ const RiderState = () => {
               </p>
             </div>
 
-            <span className="text-[10px] font-black text-white bg-rose-600 px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-sm animate-bounce-slow">
+            <span className="text-[10px] font-black text-white bg-rose-600 px-2.5 py-1 rounded-sm uppercase tracking-wider shadow-sm animate-bounce-slow">
               Critical Unit
             </span>
           </div>
 
           <div className="p-5 space-y-5">
-            {/* ⚡ INSTANT TRIGGER TRIPLE BUTTONS */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               {/* Report Accident */}
               <button
-                onClick={() =>
-                  alert("Initiating Accident Protocol... Hub Manager notified.")
-                }
-                className="p-4 bg-rose-50 hover:bg-rose-100/70 border border-rose-100 rounded-2xl flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01]"
+                className="p-4 bg-rose-50 hover:bg-rose-100/70 border border-rose-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer"
               >
-                <div className="p-3 bg-rose-600 text-white rounded-xl shadow-md group-hover:bg-rose-700 transition-colors">
+                <div className="p-3 bg-rose-600 text-white rounded-sm shadow-md group-hover:bg-rose-700 transition-colors">
                   <RiAlertFill size={20} />
                 </div>
                 <div>
@@ -445,12 +445,9 @@ const RiderState = () => {
 
               {/* Vehicle Breakdown */}
               <button
-                onClick={() =>
-                  alert("Dispatching technical backup or relief rider query...")
-                }
-                className="p-4 bg-amber-50/60 hover:bg-amber-100/50 border border-amber-100 rounded-2xl flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01]"
+                className="p-4 bg-amber-50/60 hover:bg-amber-100/50 border border-amber-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer"
               >
-                <div className="p-3 bg-amber-500 text-white rounded-xl shadow-md group-hover:bg-amber-600 transition-colors">
+                <div className="p-3 bg-amber-500 text-white rounded-sm shadow-md group-hover:bg-amber-600 transition-colors">
                   <RiToolsFill size={20} />
                 </div>
                 <div>
@@ -465,12 +462,9 @@ const RiderState = () => {
 
               {/* Customer Dispute */}
               <button
-                onClick={() =>
-                  alert("Connecting to Dispute Escalation Desk...")
-                }
-                className="p-4 bg-blue-50/60 hover:bg-blue-100/50 border border-blue-100 rounded-2xl flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01]"
+                className="p-4 bg-blue-50/60 hover:bg-blue-100/50 border border-blue-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer"
               >
-                <div className="p-3 bg-blue-600 text-white rounded-xl shadow-md group-hover:bg-blue-700 transition-colors">
+                <div className="p-3 bg-blue-600 text-white rounded-sm shadow-md group-hover:bg-blue-700 transition-colors">
                   <TbUserQuestion size={20} />
                 </div>
                 <div>
@@ -491,7 +485,7 @@ const RiderState = () => {
                 {/* Hub Manager Phone */}
                 <a
                   href="tel:+8801700000000"
-                  className="w-full sm:w-auto text-center text-[11px] font-bold text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-3 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                  className="w-full sm:w-auto text-center text-[11px] font-bold text-gray-600 hover:text-gray-900 bg-gray-50 hover:bg-gray-100 border border-gray-100 px-3 py-2 rounded-sm transition-all flex items-center justify-center gap-1.5"
                 >
                   <RiPhoneFill size={13} className="text-gray-400" /> Hub
                   Manager
@@ -500,7 +494,7 @@ const RiderState = () => {
                 {/* National Emergency 999 */}
                 <a
                   href="tel:999"
-                  className="w-full sm:w-auto text-center text-[11px] font-black text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-100 px-3 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5"
+                  className="w-full sm:w-auto text-center text-[11px] font-black text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-100 px-3 py-2 rounded-sm transition-all flex items-center justify-center gap-1.5"
                 >
                   <RiGovernmentFill size={13} /> Police / Ambulance (999)
                 </a>
