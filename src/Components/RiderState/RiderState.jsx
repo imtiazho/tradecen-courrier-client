@@ -95,11 +95,9 @@ const RiderState = () => {
   };
 
   return (
-    <div className="min-h-screen text-[#02312A] font-sans antialiased selection:bg-[#CAEB66]/30">
-      <div className="max-w-[1400px] mx-auto space-y-6">
-        <div className="bg-[#CAEB66] p-6 rounded-[28px] border border-[#02312A]/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300">
-          {/* ⚡ Subtle background glow pattern tuned for light contrast */}
-          <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/40 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="min-h-screen text-[#02312A] font-sans antialiased">
+      <div className="space-y-6">
+        <div className="bg-[#CAEB66] p-6 rounded-tradecen shadow-flat flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300">
 
           {/* Left Side: Avatar and Identity Details */}
           <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row z-10">
@@ -107,7 +105,7 @@ const RiderState = () => {
               <img
                 src={riderData.photoURL}
                 alt={riderData.displayName}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover border-2 border-[#02312A]/10 shadow-md"
+                className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border-2 border-[#02312A]/10 shadow-sm"
               />
               {/* Status Dot */}
               <span
@@ -120,12 +118,12 @@ const RiderState = () => {
             </div>
 
             <div className="space-y-1">
-              <div className="flex flex-col md:flex-row items-center gap-2">
-                <h1 className="text-xl md:text-2xl font-black tracking-tight text-[#02312A]">
+              <div className="flex flex-col md:flex-row items-baseline gap-2">
+                <h1 className="text-xl md:text-2xl font-black text-[#02312A]">
                   {riderData.displayName}
                 </h1>
-                <span className="text-[10px] font-black tracking-wider text-white bg-[#02312A] px-2 py-0.5 rounded-md uppercase shadow-sm">
-                  {riderData.role} center
+                <span className="text-[10px] font-black tracking-wider text-white bg-[#02312A] px-2 py-0.5 rounded-md uppercase">
+                  {riderData.role}
                 </span>
               </div>
 
@@ -162,7 +160,7 @@ const RiderState = () => {
 
             <button
               onClick={toggleStatus}
-              className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 shadow-md flex items-center justify-center gap-2 border hover:scale-[1.02] ${
+              className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
                 riderData.workStatus === "available"
                   ? "bg-[#02312A] text-[#CAEB66] border-[#02312A] hover:bg-[#03443a]"
                   : "bg-white text-rose-600 border-white hover:bg-gray-50 hover:text-rose-700"
