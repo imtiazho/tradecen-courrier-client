@@ -368,7 +368,7 @@ const RiderState = () => {
             </div>
 
             {/* Live Performance / Rank Snapshot */}
-            <div className="bg-white border border-gray-100 p-5 rounded-tradecen shadow-flat space-y-3.5">
+            <div className="bg-white p-5 rounded-tradecen shadow-flat space-y-3.5">
               <h3 className="text-xs font-black text-gray-400 uppercase tracking-wider">
                 Shift Metrics Dock
               </h3>
@@ -504,12 +504,12 @@ const RiderState = () => {
         </div>
 
         {/* Delivery Completion Run */}
-        <div className="bg-white border border-gray-100 p-5 rounded-[24px] shadow-sm">
+        <div className="bg-white p-5 rounded-[15px] shadow-flat">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-black tracking-tight text-[#02312A]">
+            <span className="text-xs font-black text-[#02312A]">
               Delivery Completion Run
             </span>
-            <span className="text-xs font-black text-[#02312A] bg-[#CAEB66] px-2.5 py-1 rounded-lg">
+            <span className="text-[10px] font-black text-[#02312A] bg-[#CAEB66] px-2.5 py-1 rounded-sm">
               {Math.round((stats.deliveredToday / stats.totalAssigned) * 100)}%
               Done
             </span>
