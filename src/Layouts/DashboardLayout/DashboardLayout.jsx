@@ -115,6 +115,11 @@ const roleMenuItems = {
   ],
   rider: [
     {
+      name: "Dashboard",
+      icon: <RiDashboardFill size={22} />,
+      path: "/dashboard",
+    },
+    {
       name: "My Task List",
       icon: <RiListCheck2 size={22} />,
       path: "/dashboard/my-task",
@@ -263,7 +268,7 @@ const DashboardLayout = () => {
                   key={item.path}
                   to={item.path}
                   className={linkClass}
-                  end={item.path === "/dashboard"}
+                  end
                 >
                   {({ isActive }) => (
                     <>
