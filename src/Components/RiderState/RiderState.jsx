@@ -22,6 +22,7 @@ import {
   RiGovernmentFill,
 } from "react-icons/ri";
 import { TbUserQuestion } from "react-icons/tb";
+import { IoBagCheckOutline  } from "react-icons/io5";
 import { Link } from "react-router";
 
 const RiderState = () => {
@@ -96,9 +97,9 @@ const RiderState = () => {
 
   return (
     <div className="min-h-screen text-[#02312A] font-sans antialiased">
-      <div className="space-y-6">
+      <div className="space-y-4">
+        {/* Name Card  */}
         <div className="bg-[#CAEB66] p-6 rounded-tradecen shadow-flat flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300">
-
           {/* Left Side: Avatar and Identity Details */}
           <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row z-10">
             <div className="relative">
@@ -134,11 +135,11 @@ const RiderState = () => {
 
               {/* Badge Tags Container */}
               <div className="mt-3 flex gap-2 justify-center md:justify-start pt-1">
-                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A] flex items-center gap-1.5 shadow-sm/5">
+                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A] flex items-center gap-1.5">
                   <Bike className="w-3.5 h-3.5 text-[#02312A]" />{" "}
                   {riderData.vehicleType} Fleet
                 </span>
-                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/60">
+                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/70">
                   ID: ZS-R-442
                 </span>
               </div>
@@ -175,7 +176,7 @@ const RiderState = () => {
         </div>
 
         {/* CORE SUMMARY MATRICES */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-5 gap-4">
           {[
             {
               label: "Assigned",
@@ -184,9 +185,9 @@ const RiderState = () => {
               col: "text-[#02312A]",
             },
             {
-              label: "Pending",
+              label: "Hold",
               val: stats.pendingDelivery,
-              icon: <RiCompass3Line />,
+              icon: <IoBagCheckOutline  />,
               col: "text-amber-500",
             },
             {
@@ -205,22 +206,22 @@ const RiderState = () => {
               label: "Due to Hub",
               val: `৳${stats.codPendingSubmit}`,
               icon: <RiAlertLine />,
-              col: "text-rose-600 bg-rose-50/40 border-rose-100",
+              col:"text-rose-600",
             },
           ].map((card, idx) => (
             <div
               key={idx}
-              className={`bg-white border border-gray-100 p-4 rounded-[20px] shadow-sm flex flex-col justify-between transition-all hover:border-[#CAEB66] ${card.col.includes("bg-rose-50") ? "border-rose-100 bg-rose-50/30" : ""} ${idx === 4 ? "col-span-2 md:col-span-1" : ""}`}
+              className={`bg-white border border-gray-100 p-5 rounded-[12px] shadow-flat flex flex-col justify-between transition-all hover:border-[#CAEB66]`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                   {card.label}
                 </span>
-                <div className={`text-base ${card.col.split(" ")[0]}`}>
+                <div className={`text-base ${card?.col}`}>
                   {card.icon}
                 </div>
               </div>
-              <h3 className="text-xl font-black mt-3 tracking-tight">
+              <h3 className="text-xl font-black mt-3">
                 {card.val}
               </h3>
             </div>
