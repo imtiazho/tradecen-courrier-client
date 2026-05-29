@@ -25,26 +25,43 @@ import {
 import { TbUserQuestion } from "react-icons/tb";
 import { IoBagCheckOutline } from "react-icons/io5";
 import { Link } from "react-router";
+import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const RiderState = () => {
-  const [isOnline, setIsOnline] = useState(true); // 🔘 Rider Status Controls
-  const [riderData, setRiderData] = useState({
-    displayName: "Rahat Hasan",
-    email: "rahat.rider@TradeCen.com",
-    photoURL:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-    role: "rider",
-    contact: "+8801712345678",
-    region: "Dhaka",
-    district: "Dhaka",
-    area: "Dhanmondi",
-    vehicleType: "Bike",
-    workStatus: "available", // available, offline
-    currentTasks: 2,
-    successRate: 96.5,
-    rating: 4.8,
-    totalEarnings: 4520,
+  const [isOnline, setIsOnline] = useState(true);
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  const { isLoading: riderLoading, data: riderData = {} } = useQuery({
+    queryKey: ["riderData", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/rider/${user.email}`);
+      return Array.isArray(res.data) && res.data.length > 0
+        ? res.data[0]
+        : res.data;
+    },
+    enabled: !!user?.email,
   });
+  console.log(riderData);
+  // const [riderData, setRiderData] = useState({
+  //   displayName: "Rahat Hasan",
+  //   email: "rahat.rider@TradeCen.com",
+  //   photoURL:
+  //     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+  //   role: "rider",
+  //   contact: "+8801712345678",
+  //   region: "Dhaka",
+  //   district: "Dhaka",
+  //   area: "Dhanmondi",
+  //   vehicleType: "Bike",
+  //   workStatus: "available", // available, offline
+  //   currentTasks: 2,
+  //   successRate: 96.5,
+  //   rating: 4.8,
+  //   totalEarnings: 4520,
+  // });
 
   // 📝 Core Logistic Stats Only
   const [stats] = useState({
@@ -90,10 +107,7 @@ const RiderState = () => {
   ]);
 
   const toggleStatus = () => {
-    setRiderData((prev) => ({
-      ...prev,
-      workStatus: prev.workStatus === "available" ? "offline" : "available",
-    }));
+    console.log("Clicked");
   };
 
   return (
@@ -105,8 +119,7 @@ const RiderState = () => {
           <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
             <div className="relative">
               <img
-                src={riderData.photoURL}
-                alt={riderData.displayName}
+                src={riderData?.photoURL}
                 className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border-2 border-[#02312A]/10 shadow-sm"
               />
               {/* Status Dot */}
@@ -122,10 +135,10 @@ const RiderState = () => {
             <div className="space-y-1">
               <div className="flex flex-col md:flex-row items-baseline gap-2">
                 <h1 className="text-xl md:text-2xl font-black text-[#02312A]">
-                  {riderData.displayName}
+                  {riderData.name}
                 </h1>
                 <span className="text-[10px] font-black tracking-wider text-white bg-[#02312A] px-2 py-0.5 rounded-md uppercase">
-                  {riderData.role}
+                  Rider
                 </span>
               </div>
 
@@ -138,10 +151,10 @@ const RiderState = () => {
               <div className="mt-3 flex gap-2 justify-center md:justify-start pt-1">
                 <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A] flex items-center gap-1.5">
                   <Bike className="w-3.5 h-3.5 text-[#02312A]" />{" "}
-                  {riderData.vehicleType} Fleet
+                  {riderData?.vehicle} Fleet
                 </span>
-                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/70">
-                  ID: TC-R-442
+                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/70 uppercase">
+                  ID: {riderData._id.slice(18, 24)}
                 </span>
               </div>
             </div>
@@ -356,9 +369,7 @@ const RiderState = () => {
                 </button>
               </div>
 
-              <button
-                className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-black text-xs text-[#CAEB66] tracking-wider uppercase group cursor-pointer"
-              >
+              <button className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-black text-xs text-[#CAEB66] tracking-wider uppercase group cursor-pointer">
                 <RiMapPinRangeLine
                   size={15}
                   className="text-[#CAEB66] group-hover:animate-bounce"
@@ -427,9 +438,7 @@ const RiderState = () => {
           <div className="p-5 space-y-5">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               {/* Report Accident */}
-              <button
-                className="p-4 bg-rose-50 hover:bg-rose-100/70 border border-rose-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer"
-              >
+              <button className="p-4 bg-rose-50 hover:bg-rose-100/70 border border-rose-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer">
                 <div className="p-3 bg-rose-600 text-white rounded-sm shadow-md group-hover:bg-rose-700 transition-colors">
                   <RiAlertFill size={20} />
                 </div>
@@ -444,9 +453,7 @@ const RiderState = () => {
               </button>
 
               {/* Vehicle Breakdown */}
-              <button
-                className="p-4 bg-amber-50/60 hover:bg-amber-100/50 border border-amber-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer"
-              >
+              <button className="p-4 bg-amber-50/60 hover:bg-amber-100/50 border border-amber-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer">
                 <div className="p-3 bg-amber-500 text-white rounded-sm shadow-md group-hover:bg-amber-600 transition-colors">
                   <RiToolsFill size={20} />
                 </div>
@@ -461,9 +468,7 @@ const RiderState = () => {
               </button>
 
               {/* Customer Dispute */}
-              <button
-                className="p-4 bg-blue-50/60 hover:bg-blue-100/50 border border-blue-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer"
-              >
+              <button className="p-4 bg-blue-50/60 hover:bg-blue-100/50 border border-blue-100 rounded-[10px] flex items-center gap-3.5 text-left transition-all group hover:scale-[1.01] cursor-pointer">
                 <div className="p-3 bg-blue-600 text-white rounded-sm shadow-md group-hover:bg-blue-700 transition-colors">
                   <TbUserQuestion size={20} />
                 </div>
