@@ -344,7 +344,7 @@ const DashboardLayout = () => {
 
             <div className="flex items-center gap-3 pl-2">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-black text-[#002B36]">
+                <p className="text-sm font-black text-[#002B36] capitalize">
                   {dbUser.displayName}
                 </p>
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">

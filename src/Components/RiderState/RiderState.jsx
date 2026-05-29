@@ -21,6 +21,9 @@ import {
   RiPhoneFill,
   RiGovernmentFill,
   RiMapPinRangeLine,
+  RiCloseLine,
+  RiNavigationFill,
+  RiMap2Fill,
 } from "react-icons/ri";
 import { TbUserQuestion } from "react-icons/tb";
 import { IoBagCheckOutline } from "react-icons/io5";
@@ -31,6 +34,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../LoadingModal/LoadingModal";
 
 const RiderState = () => {
+  const [selectedMapLocation, setSelectedMapLocation] = useState(null);
   const [isOnline, setIsOnline] = useState(true);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -122,8 +126,7 @@ const RiderState = () => {
               className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:scale-[1.02] ${
                 riderAllData?.riderData?.workStatus === "available"
                   ? "bg-[#02312A] text-[#CAEB66] border border-[#02312A] hover:bg-[#03443a]"
-                  :
-                    "bg-rose-500/10 text-rose-800 border-2 border-rose-600/20 hover:bg-rose-500/20 hover:border-rose-600/40"
+                  : "bg-rose-500/10 text-rose-800 border-2 border-rose-600/20 hover:bg-rose-500/20 hover:border-rose-600/40"
               }`}
             >
               <Power className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -183,159 +186,172 @@ const RiderState = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
-          {/* LEFT: ACTIVE DELIVERY MANIFEST TERMINAL */}
-          <div className="lg:col-span-2 bg-white rounded-tradecen shadow-flat overflow-hidden">
-            <div className="p-6 border-b border-gray-50 flex justify-between items-center">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="font-black text-secondary text-base tracking-wide flex items-center gap-1">
-                    <div className="w-[5px] h-5 bg-[#CAEB66] rounded-[20px]"></div>
-                    Active Delivery Manifest
-                  </h3>
-                </div>
-                <p className="text-[11px] font-medium text-gray-400 mt-1">
-                  Quick access to your immediate pending dispatches
-                </p>
+        <div className="bg-white rounded-tradecen shadow-flat overflow-hidden">
+          <div className="p-6 border-b border-gray-50 flex justify-between items-center">
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-black text-secondary text-base tracking-wide flex items-center gap-2">
+                  <div className="w-[4px] h-5 bg-[#CAEB66] rounded-[15px]"></div>
+                  Pick Up & Delivery Manifest
+                </h3>
               </div>
-
-              <Link
-                to=""
-                className="text-[10px] font-black uppercase text-gray-400 hover:text-[#02312A] tracking-widest transition-colors cursor-pointer"
-              >
-                See All
-              </Link>
+              <p className="text-[11px] font-medium text-gray-400 mt-1">
+                Quick access to your immediate pending dispatches
+              </p>
             </div>
 
-            <div className="">
-              {riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
-                <div key={parcel.id} className={`p-6 transition-all`}>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    {/* Package Info */}
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono font-bold text-gray-400">
-                          # {parcel.id}
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-[#02312A]">
-                        {parcel.name}
-                      </h4>
-                      <p className="text-[10px] text-gray-500 flex items-center gap-1">
-                        <RiMapPin2Line size={11} className="text-gray-400" />{" "}
-                        {parcel.area}
-                      </p>
+            <Link
+              to=""
+              className="text-[10px] font-black uppercase text-gray-400 hover:text-[#02312A] tracking-widest transition-colors cursor-pointer"
+            >
+              See All
+            </Link>
+          </div>
+
+          <div className="">
+            {riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
+              <div
+                key={parcel._id}
+                className={`m-6 p-5 transition-all bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 rounded-2xl`}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  {/* Package Info */}
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono font-bold text-gray-400">
+                        # {parcel.trackingID}
+                      </span>
                     </div>
+                    <h4 className="text-[12px] font-medium text-[#02312A] capitalize">
+                      {parcel.parcelName.length >= 18
+                        ? parcel.parcelName.slice(0, 18) + "..."
+                        : parcel.parcelName}
+                    </h4>
+                    <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                      <RiMapPin2Line size={11} className="text-gray-400" />{" "}
+                      {parcel.deliveryLocation}
+                    </p>
+                  </div>
 
-                    {/* COD amount */}
-                    <div className="sm:text-right">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                        COD to Collect
-                      </p>
-                      <h4 className="text-base font-black text-[#02312A]">
-                        ৳{parcel.cod}
-                      </h4>
-                    </div>
+                  {/* COD amount */}
+                  <div className="">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                      COD to Collect
+                    </p>
+                    <h4 className="text-base font-black text-[#02312A]">
+                      ৳ {parcel.codAmount}
+                    </h4>
+                  </div>
 
-                    {/* Action Terminal Buttons */}
-                    <div className="flex items-center gap-1.5 self-end sm:self-center">
-                      <a
-                        href={`tel:${parcel.phone}`}
-                        className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
-                      >
-                        <RiPhoneLine size={15} />
-                      </a>
-                      <button className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer">
-                        <RiMap2Line size={15} />
-                      </button>
+                  {/* Action Terminal Buttons */}
+                  <div className="flex items-center gap-1.5 self-end sm:self-center">
+                    <a
+                      href={`tel:${parcel.consumerPhone || parcel.merchantPhone}`}
+                      className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
+                    >
+                      <RiPhoneLine size={15} />
+                    </a>
+                    <button
+                      onClick={() =>
+                        setSelectedMapLocation(
+                          parcel.deliveryLocation || parcel.pickupLocation,
+                        )
+                      }
+                      className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
+                    >
+                      <RiMap2Line size={15} />
+                    </button>
 
-                      {/* {parcel.status === "pending" ? (
-                        <div className="flex items-center gap-1.5 pl-1">
+                    <div className="flex items-center gap-1.5 pl-1">
+                      {parcel.taskType === "delivery" &&
+                        parcel.isHold === false && (
                           <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer">
                             Hold
                           </button>
-                          <button className="bg-[#02312A] hover:bg-[#03443a] text-white text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
-                            Complete
-                          </button>
-                        </div>
+                        )}
+
+                      {parcel.taskType === "delivery" ? (
+                        <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
+                          Delivered
+                        </button>
                       ) : (
-                        <span className="bg-emerald-50 text-emerald-700 text-xs font-black px-3 py-2 rounded-md flex items-center gap-1">
-                          <RiCheckDoubleLine /> Delivered
-                        </span>
-                      )} */}
+                        <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
+                          Picked
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
+        </div>
 
-          <div className="space-y-4 w-full">
-            {/* Actions Panel */}
-            <div className="bg-[#02312A] text-white p-5 rounded-tradecen shadow-flat space-y-4">
-              <div>
-                <h3 className="text-sm font-black tracking-wider text-[#CAEB66]">
-                  Field Operations
-                </h3>
-                <p className="text-[11px] text-gray-300 font-medium mt-0.5">
-                  Quick access triggers for on-field operations
-                </p>
-              </div>
+        <div className="grid grid-cols-2 w-full gap-4">
+          {/* Actions Panel */}
+          <div className="bg-[#02312A] text-white p-5 rounded-tradecen shadow-flat space-y-4">
+            <div>
+              <h3 className="text-sm font-black tracking-wider text-[#CAEB66]">
+                Field Operations
+              </h3>
+              <p className="text-[11px] text-gray-300 font-medium mt-0.5">
+                Quick access triggers for on-field operations
+              </p>
+            </div>
 
-              <div className="grid grid-cols-2 gap-2.5">
-                <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
-                  <RiQrScanLine
-                    size={18}
-                    className="text-[#CAEB66] group-hover:scale-110 transition-transform"
-                  />
-                  <span className="text-xs font-bold">Scan Inbound</span>
-                </button>
-                <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
-                  <RiHandCoinLine
-                    size={18}
-                    className="text-[#CAEB66] group-hover:scale-110 transition-transform"
-                  />
-                  <span className="text-xs font-bold">Submit COD</span>
-                </button>
-              </div>
-
-              <button className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-black text-xs text-[#CAEB66] tracking-wider uppercase group cursor-pointer">
-                <RiMapPinRangeLine
-                  size={15}
-                  className="text-[#CAEB66] group-hover:animate-bounce"
-                />{" "}
-                Optimize Today's Route
+            <div className="grid grid-cols-2 gap-2.5">
+              <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
+                <RiQrScanLine
+                  size={18}
+                  className="text-[#CAEB66] group-hover:scale-110 transition-transform"
+                />
+                <span className="text-xs font-bold">Scan Inbound</span>
+              </button>
+              <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
+                <RiHandCoinLine
+                  size={18}
+                  className="text-[#CAEB66] group-hover:scale-110 transition-transform"
+                />
+                <span className="text-xs font-bold">Submit COD</span>
               </button>
             </div>
 
-            {/* Live Performance / Rank Snapshot */}
-            <div className="bg-white p-5 rounded-tradecen shadow-flat space-y-3.5">
-              <h3 className="text-xs font-black text-gray-400 uppercase tracking-wider">
-                Shift Metrics Dock
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
-                  <span className="text-[10px] font-bold text-gray-400 block uppercase">
-                    Conversion Rate
-                  </span>
-                  <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
-                    <RiCheckboxCircleLine className="text-emerald-500" />{" "}
-                    {riderAllData.successRate}%
-                  </div>
-                </div>
-                <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
-                  <span className="text-[10px] font-bold text-gray-400 block uppercase">
-                    Rider Rating
-                  </span>
-                  <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
-                    <RiStarFill className="text-amber-500" /> 2.0 / 5.0
-                  </div>
+            <button className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-black text-xs text-[#CAEB66] tracking-wider uppercase group cursor-pointer">
+              <RiMapPinRangeLine
+                size={15}
+                className="text-[#CAEB66] group-hover:animate-bounce"
+              />{" "}
+              Optimize Today's Route
+            </button>
+          </div>
+
+          {/* Live Performance / Rank Snapshot */}
+          <div className="bg-white p-5 rounded-tradecen shadow-flat space-y-3.5">
+            <h3 className="text-xs font-black text-gray-400 uppercase tracking-wider">
+              Shift Metrics Dock
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
+                <span className="text-[10px] font-bold text-gray-400 block uppercase">
+                  Conversion Rate
+                </span>
+                <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
+                  <RiCheckboxCircleLine className="text-emerald-500" />{" "}
+                  {riderAllData.successRate}%
                 </div>
               </div>
-              <div className="bg-[#CAEB66]/10 border border-[#CAEB66]/30 p-3 rounded-xl flex justify-between items-center text-xs font-bold text-[#02312A]">
-                <span>Today's Incentives:</span>
-                <span className="font-black">৳ 10</span>
+              <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
+                <span className="text-[10px] font-bold text-gray-400 block uppercase">
+                  Rider Rating
+                </span>
+                <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
+                  <RiStarFill className="text-amber-500" /> 2.0 / 5.0
+                </div>
               </div>
+            </div>
+            <div className="bg-[#CAEB66]/10 border border-[#CAEB66]/30 p-3 rounded-xl flex justify-between items-center text-xs font-bold text-[#02312A]">
+              <span>Today's Incentives:</span>
+              <span className="font-black">৳ 10</span>
             </div>
           </div>
         </div>
@@ -458,6 +474,72 @@ const RiderState = () => {
             ></div>
           </div>
         </div>
+
+        {/* Map  */}
+        {selectedMapLocation && (
+          <div className="fixed right-4 bottom-4 z-50 w-[92%] sm:w-[500px] bg-white border-2 border-[#02312A]/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fade-in">
+            {/* 🗺️ Header / Radar Track Bar */}
+            <div className="px-4 py-3 bg-[#02312A] text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-[#CAEB66]/10 rounded-lg">
+                  <RiMap2Fill size={15} className="text-[#CAEB66]" />
+                </div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[11px] font-black tracking-wider text-[#CAEB66] uppercase">
+                    Rider Radar:
+                  </span>
+                  <span className="text-xs font-bold text-gray-200 max-w-[220px] sm:max-w-[280px] truncate">
+                    {selectedMapLocation}
+                  </span>
+                </div>
+              </div>
+
+              {/* Minimize Action */}
+              <button
+                onClick={() => setSelectedMapLocation(null)}
+                className="p-1 hover:bg-white/10 text-gray-300 hover:text-white rounded-md transition-all cursor-pointer"
+                title="Close View"
+              >
+                <RiCloseLine size={18} />
+              </button>
+            </div>
+
+            {/* 🌐 WIDE LIVE MAP IFRAME CONTAINER */}
+            <div className="w-full h-[260px] bg-gray-100 relative border-b border-gray-100">
+              <iframe
+                title="ZapShift Cockpit Navigation"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(
+                  selectedMapLocation + ", Dhaka, Bangladesh",
+                )}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
+              ></iframe>
+            </div>
+
+            {/* 🚀 Split Action Footer */}
+            <div className="p-2.5 bg-gray-50 flex items-center justify-between gap-3">
+              <div className="text-[10px] text-gray-400 font-bold pl-1.5 uppercase tracking-wide hidden sm:block">
+                TradeCen Routing Engine v1.0
+              </div>
+
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  selectedMapLocation + ", Dhaka, Bangladesh",
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="ml-auto bg-white hover:bg-gray-100 text-[#02312A] border border-gray-200 font-black text-[10px] px-4 py-2 rounded-lg tracking-wider uppercase shadow-sm transition-all flex items-center gap-1.5"
+              >
+                <RiNavigationFill size={11} className="text-[#02312A]" /> Launch
+                External Navigation
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
