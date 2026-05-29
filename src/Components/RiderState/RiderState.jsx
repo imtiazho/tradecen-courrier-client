@@ -24,6 +24,10 @@ import {
   RiCloseLine,
   RiNavigationFill,
   RiMap2Fill,
+  RiMoneyDollarCircleLine,
+  RiTimeLine,
+  RiListCheck2,
+  RiSettings3Line,
 } from "react-icons/ri";
 import { TbUserQuestion } from "react-icons/tb";
 import { IoBagCheckOutline } from "react-icons/io5";
@@ -209,149 +213,189 @@ const RiderState = () => {
           </div>
 
           <div className="">
-            {riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
-              <div
-                key={parcel._id}
-                className={`m-6 p-5 transition-all bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 rounded-2xl`}
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  {/* Package Info */}
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-gray-400">
-                        # {parcel.trackingID}
-                      </span>
+            {riderAllData?.assignedParcels.length > 0 ? (
+              riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
+                <div
+                  key={parcel._id}
+                  className={`m-6 p-5 transition-all bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 rounded-2xl relative border border-gray-100`}
+                >
+                  <span
+                    className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-bl-xl rounded-tr-sm absolute top-0 right-0 ${
+                      parcel.taskType === "delivery"
+                        ? "bg-[#02312A]/10 text-[#02312A]"
+                        : "bg-purple-500/10 text-purple-700"
+                    }`}
+                  >
+                    {parcel.taskType}
+                  </span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    {/* Package Info */}
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-mono font-bold text-gray-400">
+                          # {parcel.trackingID}
+                        </span>
+                      </div>
+                      <h4 className="text-[12px] font-medium text-[#02312A] capitalize">
+                        {parcel.parcelName.length >= 18
+                          ? parcel.parcelName.slice(0, 18) + "..."
+                          : parcel.parcelName}
+                      </h4>
+                      <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                        <RiMapPin2Line size={11} className="text-gray-400" />{" "}
+                        {parcel.deliveryLocation}
+                      </p>
                     </div>
-                    <h4 className="text-[12px] font-medium text-[#02312A] capitalize">
-                      {parcel.parcelName.length >= 18
-                        ? parcel.parcelName.slice(0, 18) + "..."
-                        : parcel.parcelName}
-                    </h4>
-                    <p className="text-[10px] text-gray-500 flex items-center gap-1">
-                      <RiMapPin2Line size={11} className="text-gray-400" />{" "}
-                      {parcel.deliveryLocation}
-                    </p>
-                  </div>
 
-                  {/* COD amount */}
-                  <div className="">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                      COD to Collect
-                    </p>
-                    <h4 className="text-base font-black text-[#02312A]">
-                      ৳ {parcel.codAmount}
-                    </h4>
-                  </div>
+                    {/* COD amount */}
+                    <div className="">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                        COD to Collect
+                      </p>
+                      <h4 className="text-base font-black text-[#02312A]">
+                        ৳ {parcel.codAmount}
+                      </h4>
+                    </div>
 
-                  {/* Action Terminal Buttons */}
-                  <div className="flex items-center gap-1.5 self-end sm:self-center">
-                    <a
-                      href={`tel:${parcel.consumerPhone || parcel.merchantPhone}`}
-                      className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
-                    >
-                      <RiPhoneLine size={15} />
-                    </a>
-                    <button
-                      onClick={() =>
-                        setSelectedMapLocation(
-                          parcel.deliveryLocation || parcel.pickupLocation,
-                        )
-                      }
-                      className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
-                    >
-                      <RiMap2Line size={15} />
-                    </button>
+                    {/* Action Terminal Buttons */}
+                    <div className="flex items-center gap-1.5 self-end sm:self-center">
+                      <a
+                        href={`tel:${parcel.consumerPhone || parcel.merchantPhone}`}
+                        className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
+                      >
+                        <RiPhoneLine size={15} />
+                      </a>
+                      <button
+                        onClick={() =>
+                          setSelectedMapLocation(
+                            parcel.deliveryLocation || parcel.pickupLocation,
+                          )
+                        }
+                        className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
+                      >
+                        <RiMap2Line size={15} />
+                      </button>
 
-                    <div className="flex items-center gap-1.5 pl-1">
-                      {parcel.taskType === "delivery" &&
-                        parcel.isHold === false && (
-                          <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer">
-                            Hold
+                      <div className="flex items-center gap-1.5 pl-1">
+                        {parcel.taskType === "delivery" &&
+                          parcel.isHold === false && (
+                            <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer">
+                              Hold
+                            </button>
+                          )}
+
+                        {parcel.taskType === "delivery" ? (
+                          <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
+                            Delivered
+                          </button>
+                        ) : (
+                          <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
+                            Picked
                           </button>
                         )}
-
-                      {parcel.taskType === "delivery" ? (
-                        <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
-                          Delivered
-                        </button>
-                      ) : (
-                        <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
-                          Picked
-                        </button>
-                      )}
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="m-6 py-20 text-center bg-white rounded-tradecen border border-dashed border-gray-100 mt-6">
+                <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-lg">
+                  📦
+                </div>
+                <p className="text-gray-400 font-black uppercase tracking-widest text-xs">
+                  No parcels found
+                </p>
               </div>
-            ))}
+            )}
           </div>
         </div>
 
-        <div className="grid grid-cols-2 w-full gap-4">
-          {/* Actions Panel */}
-          <div className="bg-[#02312A] text-white p-5 rounded-tradecen shadow-flat space-y-4">
-            <div>
-              <h3 className="text-sm font-black tracking-wider text-[#CAEB66]">
-                Field Operations
-              </h3>
-              <p className="text-[11px] text-gray-300 font-medium mt-0.5">
-                Quick access triggers for on-field operations
-              </p>
+        <div className="bg-[#02312A] text-white p-5 rounded-tradecen shadow-flat space-y-3.5">
+          {/* Header Title */}
+          <h3 className="text-sm font-black tracking-wider text-[#CAEB66]">
+            Shift Metrics Dock
+          </h3>
+
+          <div className="grid grid-cols-3 gap-3">
+            {/* Metric 1: Conversion Rate */}
+            <div className="p-3.5 bg-white/5 rounded-xl border border-white/5 flex flex-col justify-between">
+              <span className="text-[10px] font-bold text-gray-400 block uppercase tracking-wide">
+                Conversion Rate
+              </span>
+              <div className="flex items-center gap-1.5 mt-1.5 font-black text-sm text-white">
+                <RiCheckboxCircleLine className="text-[#CAEB66]" />{" "}
+                {Math.round(riderAllData?.conversionRate) || 0}%
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2.5">
-              <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
-                <RiQrScanLine
-                  size={18}
-                  className="text-[#CAEB66] group-hover:scale-110 transition-transform"
-                />
-                <span className="text-xs font-bold">Scan Inbound</span>
-              </button>
-              <button className="bg-white/10 hover:bg-white/15 border border-white/5 p-4 rounded-xl flex flex-col items-center justify-center gap-2 transition-all group cursor-pointer">
-                <RiHandCoinLine
-                  size={18}
-                  className="text-[#CAEB66] group-hover:scale-110 transition-transform"
-                />
-                <span className="text-xs font-bold">Submit COD</span>
-              </button>
+            {/* Metric 2: Rider Rating */}
+            <div className="p-3.5 bg-white/5 rounded-xl border border-white/5 flex flex-col justify-between">
+              <span className="text-[10px] font-bold text-gray-400 block uppercase tracking-wide">
+                Rider Rating
+              </span>
+              <div className="flex items-center gap-1.5 mt-1.5 font-black text-sm text-white">
+                <RiStarFill className="text-amber-400" />{" "}
+                {riderAllData?.riderData?.rating}
+              </div>
             </div>
 
-            <button className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-3 rounded-xl flex items-center justify-center gap-2 transition-all font-black text-xs text-[#CAEB66] tracking-wider uppercase group cursor-pointer">
-              <RiMapPinRangeLine
-                size={15}
-                className="text-[#CAEB66] group-hover:animate-bounce"
-              />{" "}
-              Optimize Today's Route
-            </button>
+            {/* Load Handled  */}
+            <div className="p-3.5 bg-white/5 rounded-xl border border-white/5 flex flex-col justify-between">
+              <span className="text-[10px] font-bold text-gray-400 block uppercase tracking-wide">
+                Load Handled
+              </span>
+              <div className="flex items-center gap-1.5 mt-1.5 font-black text-sm text-white">
+                <RiSettings3Line className="text-sky-400" />{" "}
+                {riderAllData?.loadHandled || 0} KG
+              </div>
+            </div>
           </div>
 
-          {/* Live Performance / Rank Snapshot */}
-          <div className="bg-white p-5 rounded-tradecen shadow-flat space-y-3.5">
-            <h3 className="text-xs font-black text-gray-400 uppercase tracking-wider">
-              Shift Metrics Dock
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
-                <span className="text-[10px] font-bold text-gray-400 block uppercase">
-                  Conversion Rate
+          {/* Todays work progress */}
+          <div className="bg-[#CAEB66]/10 border border-[#CAEB66]/20 p-4 rounded-xl space-y-2.5">
+            {/* Top Labels */}
+            <div className="flex justify-between items-center text-xs font-bold text-white tracking-wide">
+              <div className="flex flex-col">
+                <span className="text-gray-300 font-medium">
+                  Today's Progress
                 </span>
-                <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
-                  <RiCheckboxCircleLine className="text-emerald-500" />{" "}
-                  {riderAllData.successRate}%
-                </div>
-              </div>
-              <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
-                <span className="text-[10px] font-bold text-gray-400 block uppercase">
-                  Rider Rating
+                <span className="text-[10px] text-gray-400 mt-0.5">
+                  {riderAllData?.todaysCompleteTotal || 0} /{" "}
+                  {riderAllData?.todaysParcelCount || 0} Tasks Done
                 </span>
-                <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
-                  <RiStarFill className="text-amber-500" /> 2.0 / 5.0
-                </div>
               </div>
+
+              <span className="font-black text-[#02312A] bg-[#CAEB66] text-[11px] px-2.5 py-1 rounded-md tracking-wider shadow-sm">
+                {riderAllData?.todaysParcelCount > 0
+                  ? Math.round(
+                      (riderAllData?.todaysCompleteTotal /
+                        riderAllData?.todaysParcelCount) *
+                        100,
+                    )
+                  : 0}
+                % Done
+              </span>
             </div>
-            <div className="bg-[#CAEB66]/10 border border-[#CAEB66]/30 p-3 rounded-xl flex justify-between items-center text-xs font-bold text-[#02312A]">
-              <span>Today's Incentives:</span>
-              <span className="font-black">৳ 10</span>
+
+            <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden border border-white/5">
+              <div
+                className="bg-[#CAEB66] h-full rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(202,235,102,0.4)]"
+                style={{
+                  width: `${
+                    riderAllData?.todaysParcelCount > 0
+                      ? Math.min(
+                          Math.round(
+                            (riderAllData?.todaysCompleteTotal /
+                              riderAllData?.todaysParcelCount) *
+                              100,
+                          ),
+                          100,
+                        )
+                      : 0
+                  }%`,
+                }}
+              ></div>
             </div>
           </div>
         </div>
@@ -450,28 +494,6 @@ const RiderState = () => {
                 </a>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Delivery Completion Run */}
-        <div className="bg-white p-5 rounded-[15px] shadow-flat">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-xs font-black text-[#02312A]">
-              Delivery Completion Run
-            </span>
-            <span className="text-[10px] font-black text-[#02312A] bg-[#CAEB66] px-2.5 py-1 rounded-sm">
-              {/* {Math.round((stats.deliveredToday / stats.totalAssigned) * 100)}% */}
-              10 % Done
-            </span>
-          </div>
-          <div className="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden mt-2">
-            <div
-              className="bg-[#02312A] h-full rounded-full transition-all duration-500"
-              style={{
-                // width: `${(stats.deliveredToday / stats.totalAssigned) * 100}%`,
-                width: `10%`,
-              }}
-            ></div>
           </div>
         </div>
 

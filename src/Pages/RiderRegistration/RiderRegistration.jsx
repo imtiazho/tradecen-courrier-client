@@ -117,6 +117,8 @@ const RiderRegistration = () => {
       rating: 0,
       totalEarnings: 0,
       currentTasks: 0,
+      totalAssign: 0,
+      successfullyComplete: 0,
     };
 
     axiosSecure
