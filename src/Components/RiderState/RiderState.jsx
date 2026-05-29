@@ -28,13 +28,14 @@ import { Link } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import LoadingModal from "../LoadingModal/LoadingModal";
 
 const RiderState = () => {
   const [isOnline, setIsOnline] = useState(true);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { isLoading: riderLoading, data: riderData = {} } = useQuery({
+  const { isLoading: riderLoading, data: riderAllData = {} } = useQuery({
     queryKey: ["riderData", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/rider/${user.email}`);
@@ -44,71 +45,13 @@ const RiderState = () => {
     },
     enabled: !!user?.email,
   });
-  console.log(riderData);
-  // const [riderData, setRiderData] = useState({
-  //   displayName: "Rahat Hasan",
-  //   email: "rahat.rider@TradeCen.com",
-  //   photoURL:
-  //     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-  //   role: "rider",
-  //   contact: "+8801712345678",
-  //   region: "Dhaka",
-  //   district: "Dhaka",
-  //   area: "Dhanmondi",
-  //   vehicleType: "Bike",
-  //   workStatus: "available", // available, offline
-  //   currentTasks: 2,
-  //   successRate: 96.5,
-  //   rating: 4.8,
-  //   totalEarnings: 4520,
-  // });
-
-  // 📝 Core Logistic Stats Only
-  const [stats] = useState({
-    totalAssigned: 25,
-    pendingDelivery: 7,
-    deliveredToday: 18,
-    cashCollected: 16400,
-    codPendingSubmit: 12000,
-  });
-
-  // 📦 Active Delivery Manifest (Important Operational Items Only)
-  const [assignedParcels, setAssignedParcels] = useState([
-    {
-      id: "TC-90821",
-      name: "Abir Rahman",
-      phone: "01712345678",
-      area: "Dhanmondi 27",
-      cod: 4500,
-      type: "Same Day",
-      priority: "high",
-      status: "pending",
-    },
-    {
-      id: "TC-90822",
-      name: "Karim Ullah",
-      phone: "01898765432",
-      area: "Sobhanbag",
-      cod: 3200,
-      type: "Express",
-      priority: "high",
-      status: "pending",
-    },
-    {
-      id: "TC-90823",
-      name: "Nusrat Jahan",
-      phone: "01555443322",
-      area: "Kalabagan",
-      cod: 1200,
-      type: "Regular",
-      priority: "normal",
-      status: "delivered",
-    },
-  ]);
+  console.log(riderAllData);
 
   const toggleStatus = () => {
     console.log("Clicked");
   };
+
+  if (riderLoading) return <LoadingModal isLoading={true}></LoadingModal>;
 
   return (
     <div className="min-h-screen text-[#02312A] font-sans antialiased">
@@ -119,23 +62,23 @@ const RiderState = () => {
           <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
             <div className="relative">
               <img
-                src={riderData?.photoURL}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover border-2 border-[#02312A]/10 shadow-sm"
+                src={riderAllData?.riderData?.photoURL}
+                className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
               />
               {/* Status Dot */}
               <span
                 className={`absolute -bottom-1 -right-1 w-4 h-4 md:w-5 md:h-5 rounded-full border-4 border-[#CAEB66] shadow-sm ${
-                  riderData.workStatus === "available"
+                  riderAllData?.riderData?.workStatus === "available"
                     ? "bg-[#02312A]"
-                    : "bg-rose-500"
+                    : "bg-rose-700/60"
                 }`}
               ></span>
             </div>
 
             <div className="space-y-1">
               <div className="flex flex-col md:flex-row items-baseline gap-2">
-                <h1 className="text-xl md:text-2xl font-black text-[#02312A]">
-                  {riderData.name}
+                <h1 className="text-xl md:text-2xl font-black text-[#02312A] capitalize">
+                  {riderAllData?.riderData?.name}
                 </h1>
                 <span className="text-[10px] font-black tracking-wider text-white bg-[#02312A] px-2 py-0.5 rounded-md uppercase">
                   Rider
@@ -143,18 +86,19 @@ const RiderState = () => {
               </div>
 
               <p className="text-[#02312A]/70 text-xs flex items-center justify-center md:justify-start gap-1.5 font-bold">
-                <MapPin className="w-3.5 h-3.5 text-[#02312A]" />{" "}
-                {riderData.area}, {riderData.district}
+                <MapPin className="w-3 h-3 text-[#02312A]" />{" "}
+                {riderAllData.riderData?.area},{" "}
+                {riderAllData.riderData?.district}
               </p>
 
               {/* Badge Tags Container */}
               <div className="mt-3 flex gap-2 justify-center md:justify-start pt-1">
                 <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A] flex items-center gap-1.5">
                   <Bike className="w-3.5 h-3.5 text-[#02312A]" />{" "}
-                  {riderData?.vehicle} Fleet
+                  {riderAllData?.riderData?.vehicle} Fleet
                 </span>
                 <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/70 uppercase">
-                  ID: {riderData._id.slice(18, 24)}
+                  ID: {riderAllData?.riderData?._id.slice(18, 24)}
                 </span>
               </div>
             </div>
@@ -165,9 +109,9 @@ const RiderState = () => {
             <span className="text-[10px] text-[#02312A]/60 uppercase tracking-widest font-black flex items-center gap-1">
               <RiSignalTowerLine
                 className={
-                  riderData.workStatus === "available"
+                  riderAllData?.riderData?.workStatus === "available"
                     ? "text-[#02312A] animate-pulse"
-                    : "text-gray-400"
+                    : "text-rose-700/60"
                 }
               />
               Telemetry Link
@@ -175,14 +119,15 @@ const RiderState = () => {
 
             <button
               onClick={toggleStatus}
-              className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                riderData.workStatus === "available"
-                  ? "bg-[#02312A] text-[#CAEB66] border-[#02312A] hover:bg-[#03443a]"
-                  : "bg-white text-rose-600 border-white hover:bg-gray-50 hover:text-rose-700"
+              className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:scale-[1.02] ${
+                riderAllData?.riderData?.workStatus === "available"
+                  ? "bg-[#02312A] text-[#CAEB66] border border-[#02312A] hover:bg-[#03443a]"
+                  :
+                    "bg-rose-500/10 text-rose-800 border-2 border-rose-600/20 hover:bg-rose-500/20 hover:border-rose-600/40"
               }`}
             >
               <Power className="w-3.5 h-3.5 stroke-[2.5]" />
-              {riderData.workStatus === "available"
+              {riderAllData?.riderData?.workStatus === "available"
                 ? "GO OFFLINE"
                 : "GO ONLINE"}
             </button>
@@ -190,38 +135,38 @@ const RiderState = () => {
         </div>
 
         {/* CORE SUMMARY MATRICES */}
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           {[
             {
               label: "Assigned",
-              val: stats.totalAssigned,
+              val: riderAllData?.assignedParcels?.length,
               icon: <RiTruckLine />,
               col: "text-[#02312A]",
             },
             {
               label: "Hold",
-              val: stats.pendingDelivery,
+              val: riderAllData?.holdUpParcels?.length,
               icon: <IoBagCheckOutline />,
               col: "text-amber-500",
             },
             {
               label: "Delivered",
-              val: stats.deliveredToday,
+              val: riderAllData?.deliveredParcels?.length,
               icon: <RiCheckboxCircleLine />,
               col: "text-emerald-500",
             },
             {
               label: "Collected Cash",
-              val: `৳${stats.cashCollected}`,
+              val: riderAllData?.totalCollectedAmount,
               icon: <RiHandCoinLine />,
               col: "text-emerald-600",
             },
-            {
-              label: "Due to Hub",
-              val: `৳${stats.codPendingSubmit}`,
-              icon: <RiAlertLine />,
-              col: "text-rose-600",
-            },
+            // {
+            //   label: "Due to Hub",
+            //   val: `৳ 200`,
+            //   icon: <RiAlertLine />,
+            //   col: "text-rose-600",
+            // },
           ].map((card, idx) => (
             <div
               key={idx}
@@ -263,7 +208,7 @@ const RiderState = () => {
             </div>
 
             <div className="">
-              {assignedParcels.slice(0, 5).map((parcel) => (
+              {riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
                 <div key={parcel.id} className={`p-6 transition-all`}>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     {/* Package Info */}
@@ -288,7 +233,7 @@ const RiderState = () => {
                         COD to Collect
                       </p>
                       <h4 className="text-base font-black text-[#02312A]">
-                        ৳{parcel.cod.toLocaleString()}
+                        ৳{parcel.cod}
                       </h4>
                     </div>
 
@@ -304,7 +249,7 @@ const RiderState = () => {
                         <RiMap2Line size={15} />
                       </button>
 
-                      {parcel.status === "pending" ? (
+                      {/* {parcel.status === "pending" ? (
                         <div className="flex items-center gap-1.5 pl-1">
                           <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer">
                             Hold
@@ -317,27 +262,12 @@ const RiderState = () => {
                         <span className="bg-emerald-50 text-emerald-700 text-xs font-black px-3 py-2 rounded-md flex items-center gap-1">
                           <RiCheckDoubleLine /> Delivered
                         </span>
-                      )}
+                      )} */}
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* =========================================================================
-      BOTTOM QUICK FOOTER HINT
-      ========================================================================= */}
-            {assignedParcels.length > 5 && (
-              <div className="p-3.5 bg-gray-50/50 border-t border-gray-50 text-center">
-                <p className="text-[11px] text-gray-400 font-medium">
-                  You have{" "}
-                  <span className="font-bold text-[#02312A]">
-                    {assignedParcels.length - 5} more
-                  </span>{" "}
-                  assigned parcels in your wallet.
-                </p>
-              </div>
-            )}
           </div>
 
           <div className="space-y-4 w-full">
@@ -390,7 +320,7 @@ const RiderState = () => {
                   </span>
                   <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
                     <RiCheckboxCircleLine className="text-emerald-500" />{" "}
-                    {riderData.successRate}%
+                    {riderAllData.successRate}%
                   </div>
                 </div>
                 <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100/60">
@@ -398,14 +328,13 @@ const RiderState = () => {
                     Rider Rating
                   </span>
                   <div className="flex items-center gap-1 mt-1 font-black text-sm text-[#02312A]">
-                    <RiStarFill className="text-amber-500" /> {riderData.rating}{" "}
-                    / 5.0
+                    <RiStarFill className="text-amber-500" /> 2.0 / 5.0
                   </div>
                 </div>
               </div>
               <div className="bg-[#CAEB66]/10 border border-[#CAEB66]/30 p-3 rounded-xl flex justify-between items-center text-xs font-bold text-[#02312A]">
                 <span>Today's Incentives:</span>
-                <span className="font-black">৳{riderData.totalEarnings}</span>
+                <span className="font-black">৳ 10</span>
               </div>
             </div>
           </div>
@@ -515,15 +444,16 @@ const RiderState = () => {
               Delivery Completion Run
             </span>
             <span className="text-[10px] font-black text-[#02312A] bg-[#CAEB66] px-2.5 py-1 rounded-sm">
-              {Math.round((stats.deliveredToday / stats.totalAssigned) * 100)}%
-              Done
+              {/* {Math.round((stats.deliveredToday / stats.totalAssigned) * 100)}% */}
+              10 % Done
             </span>
           </div>
           <div className="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden mt-2">
             <div
               className="bg-[#02312A] h-full rounded-full transition-all duration-500"
               style={{
-                width: `${(stats.deliveredToday / stats.totalAssigned) * 100}%`,
+                // width: `${(stats.deliveredToday / stats.totalAssigned) * 100}%`,
+                width: `10%`,
               }}
             ></div>
           </div>
