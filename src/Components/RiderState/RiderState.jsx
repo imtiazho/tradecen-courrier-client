@@ -53,7 +53,6 @@ const RiderState = () => {
     },
     enabled: !!user?.email,
   });
-  console.log(riderAllData);
 
   const toggleStatus = () => {
     console.log("Clicked");
@@ -65,79 +64,101 @@ const RiderState = () => {
     <div className="min-h-screen text-[#02312A] font-sans antialiased">
       <div className="space-y-4">
         {/* Name Card  */}
-        <div className="bg-[#CAEB66] p-6 rounded-tradecen shadow-flat flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden transition-all duration-300">
-          {/* Left Side: Avatar and Identity Details */}
-          <div className="flex items-center gap-5 text-center md:text-left flex-col md:flex-row">
-            <div className="relative">
-              <img
-                src={riderAllData?.riderData?.photoURL}
-                className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover"
-              />
-              {/* Status Dot */}
-              <span
-                className={`absolute -bottom-1 -right-1 w-4 h-4 md:w-5 md:h-5 rounded-full border-4 border-[#CAEB66] shadow-sm ${
+        <div className="relative overflow-hidden p-6 rounded-tradecen bg-gradient-to-br from-[#CAEB66] via-[#d4f273] to-[#b9da55] shadow-flat transition-all duration-300 group">
+          <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full bg-white/40 blur-[60px] pointer-events-none group-hover:scale-110 transition-all duration-500"></div>
+          <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-[#02312A]/5 blur-[60px] pointer-events-none"></div>
+
+          <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
+            {/* 👤 LEFT SIDE: AVATAR AND IDENTITY DETAILS */}
+            <div className="flex items-center gap-6 text-center md:text-left flex-col md:flex-row w-full md:w-auto">
+              <div className="relative">
+                <div
+                  className={`p-1 rounded-2xl border-2 transition-colors duration-300 bg-white/30 backdrop-blur-sm ${
+                    riderAllData?.riderData?.workStatus === "available"
+                      ? "border-[#02312A]"
+                      : "border-rose-700/40"
+                  }`}
+                >
+                  <img
+                    src={riderAllData?.riderData?.photoURL}
+                    className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover shadow-sm"
+                    alt="Rider Avatar"
+                  />
+                </div>
+
+                <span className="absolute -bottom-1 -right-1 flex h-4 w-4 md:h-5 md:w-5">
+                  {riderAllData?.riderData?.workStatus === "available" && (
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#02312A] opacity-30"></span>
+                  )}
+                  <span
+                    className={`relative inline-flex rounded-full border-2 border-[#CAEB66] h-full w-full shadow-sm ${
+                      riderAllData?.riderData?.workStatus === "available"
+                        ? "bg-[#02312A]"
+                        : "bg-rose-600"
+                    }`}
+                  ></span>
+                </span>
+              </div>
+
+              <div className="space-y-1.5">
+                <div className="flex flex-col md:flex-row items-center md:items-baseline gap-2.5">
+                  <h1 className="text-xl md:text-2xl font-black text-[#02312A] tracking-tight capitalize">
+                    {riderAllData?.riderData?.name}
+                  </h1>
+                  <span className="text-[9px] font-extrabold tracking-widest text-[#CAEB66] bg-[#02312A] px-2.5 py-0.5 rounded-md uppercase shadow-sm">
+                    RIDER
+                  </span>
+                </div>
+
+                <p className="text-[#02312A]/70 text-xs flex items-center justify-center md:justify-start gap-1.5 font-bold">
+                  <MapPin className="w-3.5 h-3.5 text-[#02312A]" />
+                  <span>
+                    {riderAllData.riderData?.area},{" "}
+                    {riderAllData.riderData?.district}
+                  </span>
+                </p>
+
+                <div className="mt-3 flex gap-2 justify-center md:justify-start pt-1">
+                  <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A] flex items-center gap-1.5">
+                    <Bike className="w-3.5 h-3.5 text-[#02312A]" />
+                    {riderAllData?.riderData?.vehicle} Fleet
+                  </span>
+                  <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-extrabold text-[#02312A]/70 uppercase tracking-wider">
+                    ID: {riderAllData?.riderData?._id.slice(18, 24)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 🛰️ RIGHT SIDE: TELEMETRY & ONLINE/OFFLINE ACTION */}
+            <div className="flex flex-col items-center md:items-end gap-3 w-full md:w-auto border-t border-[#02312A]/10 pt-5 md:pt-0 md:border-none">
+              <div className="flex items-center gap-1.5">
+                <RiSignalTowerLine
+                  className={`text-xs ${
+                    riderAllData?.riderData?.workStatus === "available"
+                      ? "text-[#02312A] animate-pulse"
+                      : "text-rose-700"
+                  }`}
+                />
+                <span className="text-[10px] text-[#02312A]/70 uppercase tracking-widest font-black">
+                  Telemetry Link
+                </span>
+              </div>
+
+              <button
+                onClick={toggleStatus}
+                className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-95 ${
                   riderAllData?.riderData?.workStatus === "available"
-                    ? "bg-[#02312A]"
-                    : "bg-rose-700/60"
+                    ? "bg-[#02312A] text-[#CAEB66] hover:bg-[#03443a] hover:shadow-[0_4px_15px_rgba(2,49,42,0.2)]"
+                    : "bg-rose-600 text-white hover:bg-rose-700 hover:shadow-[0_4px_15px_rgba(225,29,72,0.2)]"
                 }`}
-              ></span>
+              >
+                <Power className="w-3.5 h-3.5 stroke-[2.5]" />
+                {riderAllData?.riderData?.workStatus === "available"
+                  ? "GO OFFLINE"
+                  : "GO ONLINE"}
+              </button>
             </div>
-
-            <div className="space-y-1">
-              <div className="flex flex-col md:flex-row items-baseline gap-2">
-                <h1 className="text-xl md:text-2xl font-black text-[#02312A] capitalize">
-                  {riderAllData?.riderData?.name}
-                </h1>
-                <span className="text-[10px] font-black tracking-wider text-white bg-[#02312A] px-2 py-0.5 rounded-md uppercase">
-                  Rider
-                </span>
-              </div>
-
-              <p className="text-[#02312A]/70 text-xs flex items-center justify-center md:justify-start gap-1.5 font-bold">
-                <MapPin className="w-3 h-3 text-[#02312A]" />{" "}
-                {riderAllData.riderData?.area},{" "}
-                {riderAllData.riderData?.district}
-              </p>
-
-              {/* Badge Tags Container */}
-              <div className="mt-3 flex gap-2 justify-center md:justify-start pt-1">
-                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A] flex items-center gap-1.5">
-                  <Bike className="w-3.5 h-3.5 text-[#02312A]" />{" "}
-                  {riderAllData?.riderData?.vehicle} Fleet
-                </span>
-                <span className="bg-[#02312A]/5 border border-[#02312A]/10 px-3 py-1 rounded-xl text-[11px] font-black text-[#02312A]/70 uppercase">
-                  ID: {riderAllData?.riderData?._id.slice(18, 24)}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side: Telemetry Link & Action Trigger */}
-          <div className="flex flex-col items-center md:items-end gap-2.5 w-full md:w-auto border-t border-[#02312A]/10 pt-4 md:pt-0 md:border-none">
-            <span className="text-[10px] text-[#02312A]/60 uppercase tracking-widest font-black flex items-center gap-1">
-              <RiSignalTowerLine
-                className={
-                  riderAllData?.riderData?.workStatus === "available"
-                    ? "text-[#02312A] animate-pulse"
-                    : "text-rose-700/60"
-                }
-              />
-              Telemetry Link
-            </span>
-
-            <button
-              onClick={toggleStatus}
-              className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:scale-[1.02] ${
-                riderAllData?.riderData?.workStatus === "available"
-                  ? "bg-[#02312A] text-[#CAEB66] border border-[#02312A] hover:bg-[#03443a]"
-                  : "bg-rose-500/10 text-rose-800 border-2 border-rose-600/20 hover:bg-rose-500/20 hover:border-rose-600/40"
-              }`}
-            >
-              <Power className="w-3.5 h-3.5 stroke-[2.5]" />
-              {riderAllData?.riderData?.workStatus === "available"
-                ? "GO OFFLINE"
-                : "GO ONLINE"}
-            </button>
           </div>
         </div>
 
@@ -278,11 +299,21 @@ const RiderState = () => {
 
                       <div className="flex items-center gap-1.5 pl-1">
                         {parcel.taskType === "delivery" &&
-                          parcel.isHold === false && (
-                            <button className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer">
+                          (parcel.isHold ? (
+                            <span
+                              className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
+                              title="Put on Hold"
+                            >
+                              Holded Up
+                            </span>
+                          ) : (
+                            <button
+                              className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
+                              title="Put on Hold"
+                            >
                               Hold
                             </button>
-                          )}
+                          ))}
 
                         {parcel.taskType === "delivery" ? (
                           <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
