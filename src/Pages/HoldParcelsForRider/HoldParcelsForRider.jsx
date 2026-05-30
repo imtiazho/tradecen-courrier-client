@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import Swal from "sweetalert2";
 
-// 🎯 প্রয়োজনীয় আইকন ইমপোর্ট (তোমার ডিজাইন অনুযায়ী)
 import {
   FaBarcode,
   FaClock,
@@ -28,7 +27,6 @@ const HoldParcelsForRider = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedMapLocation, setSelectedMapLocation] = useState(null);
 
-  // ১. রাইডার ডাটা ফেচিং ট্যানস্ট্যাক কুয়েরি
   const {
     isLoading: riderLoading,
     data: riderAllData = {},
@@ -192,7 +190,6 @@ const HoldParcelsForRider = () => {
           </tbody>
         </table>
 
-        {/* 📭 এম্পটি স্টেট লজিক (হোল্ড পার্সেল না থাকলে) */}
         {holdUpParcels.length === 0 && (
           <div className="py-20 text-center bg-white rounded-2xl border border-dashed border-gray-200 mt-2">
             <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-[#02312A]/30">

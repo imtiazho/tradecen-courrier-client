@@ -184,11 +184,11 @@ const RiderState = () => {
               val: riderAllData?.deliveredParcels?.length,
               icon: <RiCheckboxCircleLine />,
               col: "text-emerald-500",
-              link: "",
+              link: "/dashboard/delivered-parcels",
             },
             {
               label: "Collected Cash",
-              val: riderAllData?.totalCollectedAmount,
+              val: `৳ ${riderAllData?.totalCollectedAmount}`,
               icon: <RiHandCoinLine />,
               col: "text-emerald-600",
               link: "",
