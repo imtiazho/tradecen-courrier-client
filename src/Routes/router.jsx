@@ -55,6 +55,8 @@ import OutForDelivery from "../Pages/OutForDelivery/OutForDelivery";
 import HubDelivered from "../Pages/HubDelivered/HubDelivered";
 import HubDepositToHQ from "../Pages/HubDepositToHQ/HubDepositToHQ";
 import FinanceAndReport from "../Pages/FinanceAndReport/FinanceAndReport";
+import RiderState from "../Components/RiderState/RiderState";
+import HoldParcelsForRider from "../Pages/HoldParcelsForRider/HoldParcelsForRider";
 
 export const router = createBrowserRouter([
   {
@@ -162,6 +164,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Dashboard,
+      },
+      {
+        path: "hold-parcels",
+        Component: HoldParcelsForRider,
       },
       {
         path: "all-parcels/parcel-detail/:parcelId",

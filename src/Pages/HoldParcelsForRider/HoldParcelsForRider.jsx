@@ -1,64 +1,55 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import Swal from "sweetalert2";
-import {
-  FaBarcode,
-  FaUserCircle,
-  FaPhoneAlt,
-  FaBoxOpen,
-  FaMapMarkerAlt,
-  FaClock,
-  FaCheckCircle,
-} from "react-icons/fa";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import Swal from "sweetalert2";
+
+// 🎯 প্রয়োজনীয় আইকন ইমপোর্ট (তোমার ডিজাইন অনুযায়ী)
 import {
-  RiCloseLine,
-  RiMap2Fill,
+  FaBarcode,
+  FaClock,
+  FaUserCircle,
+  FaMapMarkerAlt,
+  FaBoxOpen,
+  FaPhoneAlt,
+  FaCheckCircle,
+} from "react-icons/fa";
+import {
   RiMap2Line,
+  RiMap2Fill,
+  RiCloseLine,
   RiNavigationFill,
+  RiArrowGoBackLine,
 } from "react-icons/ri";
 
-const MyTaskRider = () => {
+const HoldParcelsForRider = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const [activeTab, setActiveTab] = useState("pickup");
   const [selectedMapLocation, setSelectedMapLocation] = useState(null);
 
+  // ১. রাইডার ডাটা ফেচিং ট্যানস্ট্যাক কুয়েরি
   const {
-    data: riderData = {},
+    isLoading: riderLoading,
+    data: riderAllData = {},
     refetch,
-    isLoading,
   } = useQuery({
-    queryKey: ["riderTasks", user?.email],
+    queryKey: ["riderAllData", user?.email],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/riders?email=${user?.email}`);
-      return res.data[0];
+      const res = await axiosSecure.get(`/rider/${user.email}`);
+      return Array.isArray(res.data) && res.data.length > 0
+        ? res.data[0]
+        : res.data;
     },
+    enabled: !!user?.email,
   });
 
-  const handlePickedUp = async (parcelId, trackingID) => {
-    try {
-      const res = await axiosSecure.patch("/riders/complete-pickup/update", {
-        riderId: riderData._id,
-        parcelId,
-        trackingID,
-      });
-
-      if (res.data.success) {
-        Swal.fire("Success", "Parcel picked up and status updated!", "success");
-        refetch();
-      }
-    } catch (error) {
-      Swal.fire("Error", "Something went wrong!", "error");
-    }
-  };
+  const holdUpParcels = riderAllData?.holdUpParcels || [];
 
   const handleDelivered = async (parcelId, trackingID) => {
     try {
       const res = await axiosSecure.patch("/riders/complete-delivered/update", {
-        riderId: riderData._id,
+        riderId: riderAllData?.riderData._id,
         parcelId,
         trackingID,
       });
@@ -72,115 +63,18 @@ const MyTaskRider = () => {
     }
   };
 
-  const handleHoldUp = async (parcelId) => {
-    Swal.fire({
-      title:
-        "<span class='text-[#02312A] font-black text-xl tracking-tight'>Are you sure?</span>",
-      html: "<p class='text-gray-500 text-sm font-medium'>You want to put this parcel on Hold.</p>",
-      icon: "warning",
-      iconColor: "#02312A",
-      showCancelButton: true,
-      buttonsStyling: false,
-      customClass: {
-        popup: "rounded-2xl border border-gray-100 p-6 shadow-xl bg-white",
-        confirmButton:
-          "px-6 py-2.5 bg-[#CAEB66] text-[#02312A] border border-gray-200 font-black text-xs tracking-wider rounded-[7px] transition-all uppercase mx-2 cursor-pointer",
-        cancelButton:
-          "px-6 py-2.5 bg-gray-150 text-[#02312A]/80 border border-gray-200 font-black text-xs tracking-wider rounded-[7px] transition-all uppercase mx-2 cursor-pointer",
-      },
-      confirmButtonText: "Yes, Hold it!",
-      cancelButtonText: "Cancel",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await axiosSecure.patch("/riders/hold-parcel/update", {
-            riderId: riderData._id,
-            parcelId,
-          });
-
-          if (res.data.success) {
-            Swal.fire({
-              title:
-                "<span class='text-[#02312A] font-black text-xl tracking-tight'>Pipeline Shifted!</span>",
-              html: "<p class='text-gray-500 text-sm font-medium'>Parcel status successfully shifted to hold.</p>",
-              icon: "success",
-              iconColor: "#CAEB66",
-              buttonsStyling: false,
-              customClass: {
-                popup:
-                  "rounded-2xl border border-gray-100 p-6 shadow-xl bg-white",
-                confirmButton:
-                  "px-6 py-2.5 bg-[#02312A] text-[#CAEB66] font-black text-xs tracking-wider rounded-xl hover:bg-[#03443a] transition-all uppercase cursor-pointer",
-              },
-              confirmButtonText: "Acknowledged",
-            });
-
-            refetch();
-          }
-        } catch (error) {
-          Swal.fire({
-            title:
-              "<span class='text-rose-700 font-black text-xl tracking-tight'>Execution Failed</span>",
-            html: "<p class='text-gray-500 text-sm font-medium'>Could not hold the parcel. Please try again.</p>",
-            icon: "error",
-            iconColor: "#f43f5e",
-            buttonsStyling: false,
-            customClass: {
-              popup:
-                "rounded-2xl border border-gray-100 p-6 shadow-xl bg-white",
-              confirmButton:
-                "px-6 py-2.5 bg-rose-600 text-white font-black text-xs tracking-wider rounded-xl hover:bg-rose-700 transition-all uppercase shadow-md cursor-pointer",
-            },
-            confirmButtonText: "Try Again",
-          });
-        }
-      }
-    });
-  };
-
-  if (isLoading) return <LoadingModal isLoading={true}></LoadingModal>;
-
-  const activeTasks = riderData?.activeTasks || [];
-  const pickupTasks = activeTasks.filter((task) => task.taskType === "pickup");
-  const deliveryTasks = activeTasks.filter(
-    (task) => task.taskType === "delivery",
-  );
-
-  const currentTabTasks = activeTab === "pickup" ? pickupTasks : deliveryTasks;
+  if (riderLoading) return <LoadingModal isLoading={true}></LoadingModal>;
 
   return (
     <div className="py-8 px-6 md:px-12 bg-[#ffffff] rounded-tradecen shadow-flat min-h-screen font-sans">
       <div>
-        <div className="mb-10 ">
-          <h2 className="text-3xl font-black text-secondary mb-2 flex items-center gap-3">
-            Rider Terminal
+        <div className="mb-10">
+          <h2 className="text-3xl font-black text-[#02312A] mb-2 flex items-center gap-3">
+            Rider Hold Ledger
           </h2>
           <p className="text-gray-500 text-sm">
-            Manage and track your active pipeline tasks in real-time.
+            Review and deliver shipments currently put on temporary hold status.
           </p>
-        </div>
-
-        <div className="flex gap-2 border border-gray-100 mb-8 bg-white/50 p-1.5 rounded-xl w-fit">
-          <button
-            onClick={() => setActiveTab("pickup")}
-            className={`flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-black tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-              activeTab === "pickup"
-                ? "bg-[#CAEB66] text-[#02312A] shadow-sm"
-                : "text-gray-500 hover:text-gray-800"
-            }`}
-          >
-            Pickups ({pickupTasks.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("delivery")}
-            className={`flex-1 md:flex-none px-6 py-2.5 rounded-lg text-xs font-black tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-              activeTab === "delivery"
-                ? "bg-[#CAEB66] text-[#02312A] shadow-sm"
-                : "text-gray-500 hover:text-gray-800"
-            }`}
-          >
-            Deliveries ({deliveryTasks.length})
-          </button>
         </div>
       </div>
 
@@ -196,12 +90,11 @@ const MyTaskRider = () => {
             </tr>
           </thead>
           <tbody>
-            {currentTabTasks.map((task) => (
+            {holdUpParcels.map((task) => (
               <tr
                 key={task.parcelId}
                 className="bg-[#FFFFFF] hover:bg-[#F8F9FA]/80 border border-gray-100 transition-all rounded-xl group shadow-[0_2px_8px_rgba(0,0,0,0.01)]"
               >
-                {/* COLUMN 1: TRACKING & NAME */}
                 <td className="px-6 py-4 rounded-l-xl text-xs text-[#02312A]">
                   <div className="space-y-1">
                     <div className="flex items-center gap-1.5">
@@ -227,10 +120,9 @@ const MyTaskRider = () => {
                   </div>
                 </td>
 
-                {/* COLUMN 2: CLIENT INFO */}
                 <td className="px-6 py-4 text-xs text-[#02312A]">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-[#02312A]/3 text-[#02312A] rounded-xl flex items-center justify-center  transition-all">
+                    <div className="w-9 h-9 bg-[#02312A]/3 text-[#02312A] rounded-xl flex items-center justify-center transition-all">
                       <FaUserCircle size={20} />
                     </div>
                     <div>
@@ -243,7 +135,6 @@ const MyTaskRider = () => {
                   </div>
                 </td>
 
-                {/* COLUMN 3: LOCATION DETAILS */}
                 <td className="px-6 py-4 text-xs text-[#02312A] max-w-[220px]">
                   <div className="flex items-center gap-1.5">
                     <FaMapMarkerAlt
@@ -251,26 +142,21 @@ const MyTaskRider = () => {
                       size={13}
                     />
                     <p className="text-xs text-gray-600 font-medium leading-tight line-clamp-2">
-                      {task.pickupLocation ||
-                        task.deliveryLocation ||
+                      {task.deliveryLocation ||
+                        task.pickupLocation ||
                         "Hub Office"}
                     </p>
                   </div>
                 </td>
 
-                {/* COLUMN 4: COD AMOUNT */}
                 <td className="px-6 py-4 text-sm font-black text-[#02312A]">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-black text-[#02312A]">
-                      ৳ {task.codAmount || 0}
-                    </span>
-                  </div>
+                  <span className="text-sm font-black text-[#02312A]">
+                    ৳ {task.codAmount || 0}
+                  </span>
                 </td>
 
-                {/* COLUMN 5: LIVE ACTIONS INTERFACE */}
                 <td className="px-6 py-4 rounded-r-xl">
                   <div className="flex items-center justify-center gap-2">
-                    {/* 📞 Quick Call */}
                     <a
                       href={`tel:${task.merchantPhone || task.consumerPhone}`}
                       className="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded-md transition-all cursor-pointer"
@@ -279,7 +165,6 @@ const MyTaskRider = () => {
                       <FaPhoneAlt size={12} />
                     </a>
 
-                    {/* 🗺️ Live Navigation Map */}
                     <button
                       onClick={() =>
                         setSelectedMapLocation(
@@ -291,35 +176,14 @@ const MyTaskRider = () => {
                       <RiMap2Line size={15} />
                     </button>
 
-                    {activeTab === "delivery" &&
-                      (task.isHold ? (
-                        <span
-                          className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
-                          title="Put on Hold"
-                        >
-                          Holded Up
-                        </span>
-                      ) : (
-                        <button
-                          onClick={() => handleHoldUp(task.parcelId)}
-                          className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
-                          title="Put on Hold"
-                        >
-                          Hold
-                        </button>
-                      ))}
-
-                    {/* Action Button */}
                     <button
                       onClick={() =>
-                        activeTab === "pickup"
-                          ? handlePickedUp(task.parcelId, task.trackingID)
-                          : handleDelivered(task.parcelId, task.trackingID)
+                        handleDelivered(task.parcelId, task.trackingID)
                       }
                       className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer flex items-center gap-2"
                     >
                       <FaCheckCircle size={12} />
-                      {activeTab === "pickup" ? "Picked" : "Delivered"}
+                      Delivered
                     </button>
                   </div>
                 </td>
@@ -328,27 +192,26 @@ const MyTaskRider = () => {
           </tbody>
         </table>
 
-        {/* EMPTY STATE LOGIC */}
-        {currentTabTasks.length === 0 && (
+        {/* 📭 এম্পটি স্টেট লজিক (হোল্ড পার্সেল না থাকলে) */}
+        {holdUpParcels.length === 0 && (
           <div className="py-20 text-center bg-white rounded-2xl border border-dashed border-gray-200 mt-2">
             <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-gray-100 text-[#02312A]/30">
               <FaBoxOpen size={26} />
             </div>
             <h3 className="text-[#02312A] font-black text-lg tracking-tight">
-              No active {activeTab}s queued
+              Hold ledger is completely empty
             </h3>
             <p className="text-gray-400 text-xs font-bold max-w-[320px] mx-auto mt-1.5 leading-relaxed">
-              All caught up! When new {activeTab} orders are assigned by the
-              TradeCen hub manager, they'll dispatch here live.
+              Excellent! No parcels are currently on hold. All shipments are
+              either routing active or successfully completed.
             </p>
           </div>
         )}
       </div>
 
-      {/* Map  */}
+      {/* Map */}
       {selectedMapLocation && (
         <div className="fixed right-4 bottom-4 z-50 w-[92%] sm:w-[500px] bg-white border-2 border-[#02312A]/10 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fade-in">
-          {/* 🗺️ Header / Radar Track Bar */}
           <div className="px-4 py-3 bg-[#02312A] text-white flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="p-1.5 bg-[#CAEB66]/10 rounded-lg">
@@ -356,7 +219,7 @@ const MyTaskRider = () => {
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-[11px] font-black tracking-wider text-[#CAEB66] uppercase">
-                  Rider Radar:
+                  Hold Location:
                 </span>
                 <span className="text-xs font-bold text-gray-200 max-w-[220px] sm:max-w-[280px] truncate">
                   {selectedMapLocation}
@@ -364,17 +227,14 @@ const MyTaskRider = () => {
               </div>
             </div>
 
-            {/* Minimize Action */}
             <button
               onClick={() => setSelectedMapLocation(null)}
               className="p-1 hover:bg-white/10 text-gray-300 hover:text-white rounded-md transition-all cursor-pointer"
-              title="Close View"
             >
               <RiCloseLine size={18} />
             </button>
           </div>
 
-          {/* 🌐 WIDE LIVE MAP IFRAME CONTAINER */}
           <div className="w-full h-[260px] bg-gray-100 relative border-b border-gray-100">
             <iframe
               title="ZapShift Cockpit Navigation"
@@ -390,12 +250,10 @@ const MyTaskRider = () => {
             ></iframe>
           </div>
 
-          {/* 🚀 Split Action Footer */}
           <div className="p-2.5 bg-gray-50 flex items-center justify-between gap-3">
             <div className="text-[10px] text-gray-400 font-bold pl-1.5 uppercase tracking-wide hidden sm:block">
               TradeCen Routing Engine v1.0
             </div>
-
             <a
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
                 selectedMapLocation + ", Dhaka, Bangladesh",
@@ -414,4 +272,4 @@ const MyTaskRider = () => {
   );
 };
 
-export default MyTaskRider;
+export default HoldParcelsForRider;

@@ -170,24 +170,28 @@ const RiderState = () => {
               val: riderAllData?.assignedParcels?.length,
               icon: <RiTruckLine />,
               col: "text-[#02312A]",
+              link: "/dashboard/my-task",
             },
             {
               label: "Hold",
               val: riderAllData?.holdUpParcels?.length,
               icon: <IoBagCheckOutline />,
               col: "text-amber-500",
+              link: "/dashboard/hold-parcels",
             },
             {
               label: "Delivered",
               val: riderAllData?.deliveredParcels?.length,
               icon: <RiCheckboxCircleLine />,
               col: "text-emerald-500",
+              link: "",
             },
             {
               label: "Collected Cash",
               val: riderAllData?.totalCollectedAmount,
               icon: <RiHandCoinLine />,
               col: "text-emerald-600",
+              link: "",
             },
             // {
             //   label: "Due to Hub",
@@ -196,7 +200,8 @@ const RiderState = () => {
             //   col: "text-rose-600",
             // },
           ].map((card, idx) => (
-            <div
+            <Link
+              to={card.link}
               key={idx}
               className={`bg-white border border-gray-100 p-5 rounded-[12px] shadow-flat flex flex-col justify-between transition-all hover:border-[#CAEB66]`}
             >
@@ -207,7 +212,7 @@ const RiderState = () => {
                 <div className={`text-base ${card?.col}`}>{card.icon}</div>
               </div>
               <h3 className="text-xl font-black mt-3">{card.val}</h3>
-            </div>
+            </Link>
           ))}
         </div>
 
