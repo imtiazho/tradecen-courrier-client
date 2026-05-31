@@ -124,16 +124,10 @@ const roleMenuItems = {
       icon: <RiListCheck2 size={22} />,
       path: "/dashboard/my-task",
     },
-    { name: "Live Map", icon: <RiMap2Line size={22} />, path: "/rider/map" },
-    {
-      name: "Delivery Status",
-      icon: <RiCheckboxCircleLine size={22} />,
-      path: "/rider/status",
-    },
     {
       name: "COD Collection",
       icon: <RiMoneyDollarCircleLine size={22} />,
-      path: "/rider/cod",
+      path: "/dashboard/cod-collection",
     },
     {
       name: "My Earnings",

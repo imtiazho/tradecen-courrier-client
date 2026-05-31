@@ -58,6 +58,7 @@ import FinanceAndReport from "../Pages/FinanceAndReport/FinanceAndReport";
 import RiderState from "../Components/RiderState/RiderState";
 import HoldParcelsForRider from "../Pages/HoldParcelsForRider/HoldParcelsForRider";
 import DeliveredParcelsTodayForRider from "../Pages/DeliveredParcelsTodayForRider/DeliveredParcelsTodayForRider";
+import CODCollection from "../Pages/CODCollection/CODCollection";
 
 export const router = createBrowserRouter([
   {
@@ -173,6 +174,10 @@ export const router = createBrowserRouter([
       {
         path: "delivered-parcels",
         Component: DeliveredParcelsTodayForRider,
+      },
+      {
+        path: "cod-collection",
+        Component: CODCollection,
       },
       {
         path: "all-parcels/parcel-detail/:parcelId",

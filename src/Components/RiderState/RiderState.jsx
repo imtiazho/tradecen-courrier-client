@@ -49,7 +49,7 @@ const RiderState = () => {
     data: riderAllData = {},
     refetch,
   } = useQuery({
-    queryKey: ["riderData", user?.email],
+    queryKey: ["riderAllData", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/rider/${user.email}`);
       return Array.isArray(res.data) && res.data.length > 0
