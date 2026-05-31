@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, Link, Outlet } from "react-router";
 import { FaMoneyCheckAlt, FaUsers, FaBiking, FaWallet } from "react-icons/fa";
 import { RiLuggageDepositFill } from "react-icons/ri";
+import FinanceAlert from "../FinanceAlert/FinanceAlert";
 
 const AccountAndFinance = () => {
   const location = useLocation();
@@ -45,6 +46,8 @@ const AccountAndFinance = () => {
           </p>
         </div>
       </div>
+
+      <FinanceAlert></FinanceAlert>
 
       {/* 2. Professional Navigation Tabs */}
       <div className="flex gap-2 border border-gray-100 mb-8 bg-white/50 p-1.5 rounded-xl w-fit">

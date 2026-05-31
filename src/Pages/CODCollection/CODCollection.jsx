@@ -78,7 +78,6 @@ const CODCollection = () => {
 
       <FinanceAlert></FinanceAlert>
 
-      {/* 📈 সামারি কার্ডস */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         <div className="bg-[#02312A] p-8 rounded-2xl text-white relative overflow-hidden group flex flex-col justify-between border border-[#02312A] shadow-lg shadow-[#02312A]/10 min-h-[220px]">
           <Wallet className="absolute -right-4 -bottom-4 text-white/5 size-28 pointer-events-none group-hover:scale-110 transition-transform duration-500" />
@@ -159,7 +158,6 @@ const CODCollection = () => {
         </div>
       </div>
 
-      {/* 📝 লাইভ ট্রানজেকশন হিস্ট্রি লিস্ট */}
       <div className="bg-white border border-gray-100 rounded-tradecen shadow-flat overflow-hidden">
         <div className="p-4 border-b border-gray-50">
           <h2 className="text-xs font-black text-[#02312A] uppercase tracking-wider">

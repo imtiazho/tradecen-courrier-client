@@ -11,13 +11,10 @@ const FinanceAlert = () => {
             Workflow Simulation Mode
           </h4>
           <p className="text-[11px] text-amber-800 font-medium mt-0.5 leading-relaxed">
-            This module serves as a temporary workflow simulation and is not a
-            complete or production-ready system; as such, financial calculations
-            and cash flows may contain bugs. Our current focus was strictly on
-            completing the core delivery workflow. Since cash management is
-            highly sensitive, full implementation is planned for the
-            future—please do not rely on this module's data for actual
-            processing.
+            This is a temporary simulation focused solely on core delivery
+            workflows. Financial modules are highly sensitive, currently
+            incomplete, and may contain bugs; full implementation is planned for
+            the future. Please do not rely on this data.
           </p>
         </div>
       </div>

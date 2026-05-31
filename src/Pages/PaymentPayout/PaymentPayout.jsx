@@ -18,6 +18,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import Swal from "sweetalert2";
+import FinanceAlert from "../FinanceAlert/FinanceAlert";
 
 const PaymentPayout = () => {
   const { user } = useAuth();
@@ -110,6 +111,8 @@ const PaymentPayout = () => {
           Track your earnings and manage your withdrawal methods.
         </p>
       </div>
+
+      <FinanceAlert></FinanceAlert>
 
       {/* 1. Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">

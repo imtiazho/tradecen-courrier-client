@@ -132,7 +132,7 @@ const roleMenuItems = {
     {
       name: "My Earnings",
       icon: <RiFileTextLine size={22} />,
-      path: "/rider/earnings",
+      path: "/dashboard/my-earnings",
     },
     {
       name: "Profile / Wallet",
