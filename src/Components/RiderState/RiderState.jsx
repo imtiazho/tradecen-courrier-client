@@ -1,5 +1,5 @@
 import { Bike, MapPin, Power } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   RiTruckLine,
   RiCheckboxCircleLine,
@@ -38,12 +38,17 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../LoadingModal/LoadingModal";
 
 const RiderState = () => {
+  const [localWorkStatus, setLocalWorkStatus] = useState(null);
   const [selectedMapLocation, setSelectedMapLocation] = useState(null);
   const [isOnline, setIsOnline] = useState(true);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { isLoading: riderLoading, data: riderAllData = {} } = useQuery({
+  const {
+    isLoading: riderLoading,
+    data: riderAllData = {},
+    refetch,
+  } = useQuery({
     queryKey: ["riderData", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/rider/${user.email}`);
@@ -54,10 +59,46 @@ const RiderState = () => {
     enabled: !!user?.email,
   });
 
+  useEffect(() => {
+    if (
+      localWorkStatus === null ||
+      localWorkStatus === riderAllData?.riderData?.workStatus
+    )
+      return;
+
+    const delayDebounceFn = setTimeout(async () => {
+      try {
+        await axiosSecure.patch(`/rider/status/${user.email}`, {
+          workStatus: localWorkStatus,
+        });
+
+        refetch();
+      } catch (error) {
+        console.error("Status update failed", error);
+        setLocalWorkStatus(riderAllData?.riderData?.workStatus);
+      }
+    }, 700);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [
+    localWorkStatus,
+    riderAllData?.riderData?.workStatus,
+    user?.email,
+    refetch,
+    axiosSecure,
+  ]);
+
   const toggleStatus = () => {
-    console.log("Clicked");
+    setLocalWorkStatus((prev) =>
+      prev === "available" ? "offline" : "available",
+    );
   };
 
+  const currentStatus = localWorkStatus || riderAllData?.riderData?.workStatus;
+  const isSyncing =
+    localWorkStatus !== null &&
+    localWorkStatus !== riderAllData?.riderData?.workStatus;
+    
   if (riderLoading) return <LoadingModal isLoading={true}></LoadingModal>;
 
   return (
@@ -74,7 +115,7 @@ const RiderState = () => {
               <div className="relative">
                 <div
                   className={`p-1 rounded-2xl border-2 transition-colors duration-300 bg-white/30 backdrop-blur-sm ${
-                    riderAllData?.riderData?.workStatus === "available"
+                    currentStatus === "available"
                       ? "border-[#02312A]"
                       : "border-rose-700/40"
                   }`}
@@ -87,12 +128,12 @@ const RiderState = () => {
                 </div>
 
                 <span className="absolute -bottom-1 -right-1 flex h-4 w-4 md:h-5 md:w-5">
-                  {riderAllData?.riderData?.workStatus === "available" && (
+                  {currentStatus === "available" && (
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#02312A] opacity-30"></span>
                   )}
                   <span
                     className={`relative inline-flex rounded-full border-2 border-[#CAEB66] h-full w-full shadow-sm ${
-                      riderAllData?.riderData?.workStatus === "available"
+                      currentStatus === "available"
                         ? "bg-[#02312A]"
                         : "bg-rose-600"
                     }`}
@@ -135,28 +176,35 @@ const RiderState = () => {
               <div className="flex items-center gap-1.5">
                 <RiSignalTowerLine
                   className={`text-xs ${
-                    riderAllData?.riderData?.workStatus === "available"
+                    currentStatus === "available"
                       ? "text-[#02312A] animate-pulse"
                       : "text-rose-700"
-                  }`}
+                  } ${isSyncing ? "opacity-50 animate-bounce" : ""}`}
                 />
                 <span className="text-[10px] text-[#02312A]/70 uppercase tracking-widest font-black">
-                  Telemetry Link
+                  {isSyncing ? "Syncing Telemetry..." : "Telemetry Link"}
                 </span>
               </div>
 
               <button
                 onClick={toggleStatus}
+                disabled={isSyncing}
                 className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-95 ${
-                  riderAllData?.riderData?.workStatus === "available"
-                    ? "bg-[#02312A] text-[#CAEB66] hover:bg-[#03443a] hover:shadow-[0_4px_15px_rgba(2,49,42,0.2)]"
-                    : "bg-rose-600 text-white hover:bg-rose-700 hover:shadow-[0_4px_15px_rgba(225,29,72,0.2)]"
+                  isSyncing
+                    ? "bg-amber-500 text-white animate-pulse shadow-none cursor-wait" 
+                    : currentStatus === "available"
+                      ? "bg-[#02312A] text-[#CAEB66] hover:bg-[#03443a] hover:shadow-[0_4px_15px_rgba(2,49,42,0.2)]"
+                      : "bg-rose-600 text-white hover:bg-rose-700 hover:shadow-[0_4px_15px_rgba(225,29,72,0.2)]"
                 }`}
               >
-                <Power className="w-3.5 h-3.5 stroke-[2.5]" />
-                {riderAllData?.riderData?.workStatus === "available"
-                  ? "GO OFFLINE"
-                  : "GO ONLINE"}
+                <Power
+                  className={`w-3.5 h-3.5 stroke-[2.5] ${isSyncing ? "animate-spin" : ""}`}
+                />{" "}
+                {isSyncing
+                  ? "UPDATING..."
+                  : currentStatus === "available"
+                    ? "GO OFFLINE"
+                    : "GO ONLINE"}
               </button>
             </div>
           </div>
@@ -191,14 +239,8 @@ const RiderState = () => {
               val: `৳ ${riderAllData?.totalCollectedAmount}`,
               icon: <RiHandCoinLine />,
               col: "text-emerald-600",
-              link: "",
+              link: "/dashboard",
             },
-            // {
-            //   label: "Due to Hub",
-            //   val: `৳ 200`,
-            //   icon: <RiAlertLine />,
-            //   col: "text-rose-600",
-            // },
           ].map((card, idx) => (
             <Link
               to={card.link}
