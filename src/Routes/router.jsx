@@ -60,6 +60,7 @@ import HoldParcelsForRider from "../Pages/HoldParcelsForRider/HoldParcelsForRide
 import DeliveredParcelsTodayForRider from "../Pages/DeliveredParcelsTodayForRider/DeliveredParcelsTodayForRider";
 import CODCollection from "../Pages/CODCollection/CODCollection";
 import RiderMyEarning from "../Pages/RiderMyEarning/RiderMyEarning";
+import ProfileWallet from "../Pages/ProfileWallet/ProfileWallet";
 
 export const router = createBrowserRouter([
   {
@@ -179,6 +180,10 @@ export const router = createBrowserRouter([
       {
         path: "cod-collection",
         Component: CODCollection,
+      },
+      {
+        path: "profile-wallet",
+        Component: ProfileWallet,
       },
       {
         path: "my-earnings",

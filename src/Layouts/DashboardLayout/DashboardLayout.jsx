@@ -137,7 +137,7 @@ const roleMenuItems = {
     {
       name: "Profile / Wallet",
       icon: <RiWallet3Line size={22} />,
-      path: "/rider/wallet",
+      path: "/dashboard/profile-wallet",
     },
   ],
   merchant: [

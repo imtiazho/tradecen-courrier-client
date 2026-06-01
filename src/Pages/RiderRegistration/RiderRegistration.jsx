@@ -119,6 +119,7 @@ const RiderRegistration = () => {
       currentTasks: 0,
       totalAssign: 0,
       successfullyComplete: 0,
+      bloodGroup: "A+",
     };
 
     axiosSecure
