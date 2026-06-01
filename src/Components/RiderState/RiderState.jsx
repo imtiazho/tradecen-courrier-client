@@ -36,6 +36,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../LoadingModal/LoadingModal";
+import Swal from "sweetalert2";
 
 const RiderState = () => {
   const [localWorkStatus, setLocalWorkStatus] = useState(null);
@@ -58,6 +59,106 @@ const RiderState = () => {
     },
     enabled: !!user?.email,
   });
+
+  const handlePickedUp = async (parcelId, trackingID) => {
+    try {
+      const res = await axiosSecure.patch("/riders/complete-pickup/update", {
+        riderId: riderAllData.riderData._id,
+        parcelId,
+        trackingID,
+      });
+
+      if (res.data.success) {
+        Swal.fire("Success", "Parcel picked up and status updated!", "success");
+        refetch();
+      }
+    } catch (error) {
+      Swal.fire("Error", "Something went wrong!", "error");
+    }
+  };
+
+  const handleDelivered = async (parcelId, trackingID) => {
+    try {
+      const res = await axiosSecure.patch("/riders/complete-delivered/update", {
+        riderId: riderAllData.riderData._id,
+        parcelId,
+        trackingID,
+      });
+
+      if (res.data.success) {
+        Swal.fire("Success", "Parcel Delivered and status updated!", "success");
+        refetch();
+      }
+    } catch (error) {
+      Swal.fire("Error", "Something went wrong!", "error");
+    }
+  };
+
+  const handleHoldUp = async (parcelId) => {
+    Swal.fire({
+      title:
+        "<span class='text-[#02312A] font-black text-xl tracking-tight'>Are you sure?</span>",
+      html: "<p class='text-gray-500 text-sm font-medium'>You want to put this parcel on Hold.</p>",
+      icon: "warning",
+      iconColor: "#02312A",
+      showCancelButton: true,
+      buttonsStyling: false,
+      customClass: {
+        popup: "rounded-2xl border border-gray-100 p-6 shadow-xl bg-white",
+        confirmButton:
+          "px-6 py-2.5 bg-[#CAEB66] text-[#02312A] border border-gray-200 font-black text-xs tracking-wider rounded-[7px] transition-all uppercase mx-2 cursor-pointer",
+        cancelButton:
+          "px-6 py-2.5 bg-gray-150 text-[#02312A]/80 border border-gray-200 font-black text-xs tracking-wider rounded-[7px] transition-all uppercase mx-2 cursor-pointer",
+      },
+      confirmButtonText: "Yes, Hold it!",
+      cancelButtonText: "Cancel",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await axiosSecure.patch("/riders/hold-parcel/update", {
+            riderId: riderAllData.riderData._id,
+            parcelId,
+          });
+
+          if (res.data.success) {
+            Swal.fire({
+              title:
+                "<span class='text-[#02312A] font-black text-xl tracking-tight'>Pipeline Shifted!</span>",
+              html: "<p class='text-gray-500 text-sm font-medium'>Parcel status successfully shifted to hold.</p>",
+              icon: "success",
+              iconColor: "#CAEB66",
+              buttonsStyling: false,
+              customClass: {
+                popup:
+                  "rounded-2xl border border-gray-100 p-6 shadow-xl bg-white",
+                confirmButton:
+                  "px-6 py-2.5 bg-[#02312A] text-[#CAEB66] font-black text-xs tracking-wider rounded-xl hover:bg-[#03443a] transition-all uppercase cursor-pointer",
+              },
+              confirmButtonText: "Acknowledged",
+            });
+
+            refetch();
+          }
+        } catch (error) {
+          Swal.fire({
+            title:
+              "<span class='text-rose-700 font-black text-xl tracking-tight'>Execution Failed</span>",
+            html: "<p class='text-gray-500 text-sm font-medium'>Could not hold the parcel. Please try again.</p>",
+            icon: "error",
+            iconColor: "#f43f5e",
+            buttonsStyling: false,
+            customClass: {
+              popup:
+                "rounded-2xl border border-gray-100 p-6 shadow-xl bg-white",
+              confirmButton:
+                "px-6 py-2.5 bg-rose-600 text-white font-black text-xs tracking-wider rounded-xl hover:bg-rose-700 transition-all uppercase shadow-md cursor-pointer",
+            },
+            confirmButtonText: "Try Again",
+          });
+        }
+      }
+    });
+  };
 
   useEffect(() => {
     if (
@@ -98,7 +199,7 @@ const RiderState = () => {
   const isSyncing =
     localWorkStatus !== null &&
     localWorkStatus !== riderAllData?.riderData?.workStatus;
-    
+
   if (riderLoading) return <LoadingModal isLoading={true}></LoadingModal>;
 
   return (
@@ -191,7 +292,7 @@ const RiderState = () => {
                 disabled={isSyncing}
                 className={`w-full md:w-auto px-6 py-2.5 rounded-xl font-black text-xs tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-95 ${
                   isSyncing
-                    ? "bg-amber-500 text-white animate-pulse shadow-none cursor-wait" 
+                    ? "bg-amber-500 text-white animate-pulse shadow-none cursor-wait"
                     : currentStatus === "available"
                       ? "bg-[#02312A] text-[#CAEB66] hover:bg-[#03443a] hover:shadow-[0_4px_15px_rgba(2,49,42,0.2)]"
                       : "bg-rose-600 text-white hover:bg-rose-700 hover:shadow-[0_4px_15px_rgba(225,29,72,0.2)]"
@@ -284,7 +385,7 @@ const RiderState = () => {
             {riderAllData?.assignedParcels.length > 0 ? (
               riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
                 <div
-                  key={parcel._id}
+                  key={parcel.parcelId}
                   className={`m-6 p-5 transition-all bg-[#FFFFFF] hover:bg-[#F8F9FA]/60 rounded-2xl relative border border-gray-100`}
                 >
                   <span
@@ -355,6 +456,7 @@ const RiderState = () => {
                             </span>
                           ) : (
                             <button
+                              onClick={() => handleHoldUp(parcel.parcelId)}
                               className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 text-xs font-bold px-3 py-2 rounded-md transition-all cursor-pointer"
                               title="Put on Hold"
                             >
@@ -363,11 +465,21 @@ const RiderState = () => {
                           ))}
 
                         {parcel.taskType === "delivery" ? (
-                          <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
+                          <button
+                            onClick={() =>
+                              handleDelivered(parcel.parcelId, parcel.trackingID)
+                            }
+                            className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer"
+                          >
                             Delivered
                           </button>
                         ) : (
-                          <button className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer">
+                          <button
+                            onClick={() =>
+                              handlePickedUp(parcel.parcelId, parcel.trackingID)
+                            }
+                            className="bg-primary text-secondary text-xs font-bold px-3.5 py-2 rounded-md transition-all cursor-pointer"
+                          >
                             Picked
                           </button>
                         )}
