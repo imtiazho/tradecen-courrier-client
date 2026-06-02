@@ -14,9 +14,10 @@ import {
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 
-const AdminState = () => {
+const MasterAdminDashboard = () => {
   const axiosSecure = useAxiosSecure();
 
+  // 🔄 রিয়েল ডাটা ফেচিং (টোটাল সিস্টেমের ডাটা অ্যানালিটিক্স)
   const { data: adminStats = {}, isLoading } = useQuery({
     queryKey: ["adminDashboardStats"],
     queryFn: async () => {
@@ -58,13 +59,14 @@ const AdminState = () => {
     },
   ];
 
-//   if (isLoading) {
-//     return (
-//       <div className="w-full min-h-[60vh] flex items-center justify-center">
-//         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#02312A]"></div>
-//       </div>
-//     );
-//   }
+  if (isLoading) {
+    return (
+      <div className="w-full min-h-[60vh] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#02312A]"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full min-h-screen bg-[#ffffff] rounded-tradecen shadow-flat p-4 md:p-8 font-sans">
       {/* 🔝 হেডার সেকশন */}
@@ -289,4 +291,4 @@ const AdminState = () => {
   );
 };
 
-export default AdminState;
+export default MasterAdminDashboard;

@@ -374,7 +374,7 @@ const RiderState = () => {
             </div>
 
             <Link
-              to=""
+              to="/dashboard/my-task"
               className="text-[10px] font-black uppercase text-gray-400 hover:text-[#02312A] tracking-widest transition-colors cursor-pointer"
             >
               See All

@@ -45,26 +45,6 @@ const RiderAreaWise = () => {
     enabled: !!managerData?.hubName,
   });
 
-  const toggleWorkStatus = async (riderId, currentStatus) => {
-    console.log(riderId, currentStatus);
-    // const nextStatus = currentStatus === "available" ? "busy" : "available";
-    // try {
-    //   const res = await axiosSecure.patch(`/riders/status/${riderId}`, {
-    //     workStatus: nextStatus,
-    //   });
-    //   if (res.data.success) {
-    //     Swal.fire(
-    //       "Updated!",
-    //       `Rider is now marked as ${nextStatus}.`,
-    //       "success",
-    //     );
-    //     refetch();
-    //   }
-    // } catch (error) {
-    //   Swal.fire("Error", "Could not update rider availability", "error");
-    // }
-  };
-
   if (managerLoading || ridersLoading) {
     return <LoadingModal isLoading={true} />;
   }
@@ -94,125 +74,142 @@ const RiderAreaWise = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {riders.map((rider) => (
             <div
-              key={rider._id}
-              className="bg-[#FFFFFF] border border-gray-100 rounded-tradecen p-5 shadow-flat hover:border-primary transition-all duration-300 relative group flex flex-col justify-between"
-            >
-              {/* Card Header Profile Row */}
-              <div>
-                <div className="flex items-center gap-4 border-b border-gray-50 pb-4 mb-4">
-                  <div className="avatar">
-                    <div className="w-14 h-14 rounded-2xl border-2 border-gray-50 overflow-hidden shadow-sm bg-gray-100">
-                      <img
-                        src={
-                          rider.photoURL || "https://i.ibb.co/placeholder.jpg"
-                        }
-                        alt={rider.name}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-base font-black text-[#002B36] truncate uppercase tracking-tight">
-                      {rider.name}
-                    </h4>
-                    <p className="text-xs text-gray-400 font-medium truncate">
-                      {rider.email}
-                    </p>
-                  </div>
-                  {/* Status Floating Pin */}
-                  <span
-                    onClick={() =>
-                      toggleWorkStatus(rider._id, rider.workStatus)
-                    }
-                    className={`absolute top-5 right-5 text-[9px] font-black uppercase px-2.5 py-1 rounded-full border cursor-pointer tracking-wider transition-all select-none ${
-                      rider.workStatus === "available"
-                        ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                        : "bg-amber-50 text-amber-600 border-amber-100"
-                    }`}
-                  >
-                    {rider.workStatus}
-                  </span>
-                </div>
+  key={rider._id}
+  className="group bg-white border border-gray-100 hover:border-[#CAEB66]/40 rounded-2xl p-4 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
+>
+  {/* Soft Glow */}
+  <div className="absolute top-0 right-0 w-24 h-24 bg-[#CAEB66]/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
-                {/* Logistics Key Specs Block */}
-                <div className="space-y-3 mb-6">
-                  {/* Info Row: Tasks Load */}
-                  <div className="flex items-center justify-between text-xs bg-gray-50/70 p-2.5 rounded-xl border border-gray-100/50">
-                    <span className="text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                      <MdTask size={14} className="text-gray-400" /> Current
-                      Load
-                    </span>
-                    <span
-                      className={`font-black uppercase text-[11px] ${rider.currentTasks >= 8 ? "text-red-500" : "text-[#002B36]"}`}
-                    >
-                      {rider.currentTasks || 0} / 10 Active
-                    </span>
-                  </div>
+  <div className="relative z-10">
+    {/* Header */}
+    <div className="flex items-start gap-3 pb-4 border-b border-gray-100">
+      {/* Avatar */}
+      <div className="relative shrink-0">
+        <div className="w-14 h-14 rounded-xl overflow-hidden border border-gray-200 bg-gray-100">
+          <img
+            src={rider.photoURL || "https://i.ibb.co/placeholder.jpg"}
+            alt={rider.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-                  {/* Info Row: Location & Area */}
-                  <div className="flex items-start justify-between text-xs px-1">
-                    <span className="text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
-                      <MdLocationOn size={14} className="text-gray-400" /> Fleet
-                      Area
-                    </span>
-                    <span className="font-black text-[#002B36] text-right uppercase tracking-tight">
-                      {rider.area}, {rider.district}
-                    </span>
-                  </div>
+        <span
+          className={`absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full border-2 border-white ${
+            rider.workStatus === "available"
+              ? "bg-emerald-500"
+              : "bg-amber-400"
+          }`}
+        ></span>
+      </div>
 
-                  {/* Info Row: Vehicle Details */}
-                  <div className="flex items-center justify-between text-xs px-1">
-                    <span className="text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                      {rider.vehicle?.toLowerCase() === "bike" ? (
-                        <MdDirectionsBike size={14} />
-                      ) : (
-                        <MdPedalBike size={14} />
-                      )}
-                      Transport Type
-                    </span>
-                    <span className="font-black text-[#002B36] uppercase bg-[#CAEB66]/10 px-2 py-0.5 rounded border border-[#CAEB66]/30 text-[10px]">
-                      {rider.vehicle || "Cycle"}
-                    </span>
-                  </div>
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <h3 className="text-sm font-black text-[#002B36] uppercase truncate tracking-tight">
+              {rider.name}
+            </h3>
 
-                  {/* Info Row: Identity Audit */}
-                  <div className="flex items-center justify-between text-xs px-1">
-                    <span className="text-gray-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
-                      <HiOutlineIdentification
-                        size={14}
-                        className="text-gray-400"
-                      />{" "}
-                      NID Registry
-                    </span>
-                    <span className="font-mono font-bold text-gray-500 text-[10px]">
-                      {rider.nid || "Verified"}
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <p className="text-[11px] text-gray-400 truncate mt-0.5">
+              {rider.email}
+            </p>
+          </div>
 
-              {/* Functional Card Footer Buttons */}
-              <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-50">
-                <a
-                  href={`tel:${rider.phone}`}
-                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:text-[#002B36] hover:bg-gray-50 transition-all text-xs font-black uppercase tracking-wider cursor-pointer text-center"
-                >
-                  <MdCall size={14} />
-                  Call Rider
-                </a>
+          <span
+            className={`text-[9px] font-black uppercase px-2 py-1 rounded-full tracking-wide whitespace-nowrap ${
+              rider.workStatus === "available"
+                ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                : "bg-amber-50 text-amber-600 border border-amber-100"
+            }`}
+          >
+            {rider.workStatus}
+          </span>
+        </div>
 
-                {/* TRACK LIVE */}
-                <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${rider.currentLocation?.latitude || rider.latitude},${rider.currentLocation?.longitude || rider.longitude}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-[#002B36] text-white hover:bg-black transition-all text-xs font-black uppercase tracking-wider text-center cursor-pointer shadow-sm"
-                >
-                  <MdLocationOn size={14} className="text-[#CAEB66]" />
-                  Track Live
-                </a>
-              </div>
-            </div>
+        {/* Area */}
+        <div className="flex items-center gap-1 mt-2 text-[11px] text-gray-500 font-semibold uppercase tracking-wide">
+          <MdLocationOn size={13} />
+          {rider.area}, {rider.district}
+        </div>
+      </div>
+    </div>
+
+    {/* Stats */}
+    <div className="grid grid-cols-2 gap-2 mt-4">
+      {/* Load */}
+      <div className="bg-gray-50 rounded-xl p-2.5 border border-gray-100">
+        <div className="flex items-center gap-1 text-[9px] text-gray-400 font-bold uppercase tracking-wider mb-1">
+          <MdTask size={12} />
+          Load
+        </div>
+
+        <h4
+          className={`text-base font-black ${
+            rider.currentTasks >= 8
+              ? "text-red-500"
+              : "text-[#002B36]"
+          }`}
+        >
+          {rider.currentTasks || 0}
+          <span className="text-[10px] text-gray-400 font-bold"> / 10</span>
+        </h4>
+      </div>
+
+      {/* Vehicle */}
+      <div className="bg-[#CAEB66]/10 rounded-xl p-2.5 border border-[#CAEB66]/20">
+        <div className="flex items-center gap-1 text-[9px] text-gray-500 font-bold uppercase tracking-wider mb-1">
+          {rider.vehicle?.toLowerCase() === "bike" ? (
+            <MdDirectionsBike size={12} />
+          ) : (
+            <MdPedalBike size={12} />
+          )}
+          Vehicle
+        </div>
+
+        <h4 className="text-xs font-black text-[#002B36] uppercase truncate">
+          {rider.vehicle || "Cycle"}
+        </h4>
+      </div>
+    </div>
+
+    {/* NID */}
+    <div className="mt-3 flex items-center justify-between bg-gray-50 rounded-xl px-3 py-2.5 border border-gray-100">
+      <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-gray-400">
+        <HiOutlineIdentification size={13} />
+        NID
+      </div>
+
+      <span className="font-mono text-[10px] font-bold text-gray-600 truncate max-w-[120px]">
+        {rider.nid || "Verified"}
+      </span>
+    </div>
+  </div>
+
+  {/* Footer */}
+  <div className="grid grid-cols-2 gap-2 mt-4 relative z-10">
+    {/* Call */}
+    <a
+      href={`tel:${rider.phone}`}
+      className="h-10 rounded-xl border border-gray-200 flex items-center justify-center gap-1.5 text-[11px] font-black uppercase tracking-wide text-gray-600 hover:bg-gray-50 hover:text-[#002B36] transition-all"
+    >
+      <MdCall size={14} />
+      Call
+    </a>
+
+    {/* Track */}
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${
+        rider.currentLocation?.latitude || rider.latitude
+      },${rider.currentLocation?.longitude || rider.longitude}`}
+      target="_blank"
+      rel="noreferrer"
+      className="h-10 rounded-xl bg-[#002B36] hover:bg-black text-white flex items-center justify-center gap-1.5 text-[11px] font-black uppercase tracking-wide transition-all"
+    >
+      <MdLocationOn size={14} className="text-[#CAEB66]" />
+      Track
+    </a>
+  </div>
+</div>
           ))}
         </div>
       ) : (
