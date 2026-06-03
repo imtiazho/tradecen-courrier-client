@@ -265,7 +265,7 @@ const CODCollection = () => {
           )}
 
           {deliveredParcels.length === 0 && (
-            <div className="py-16 text-center bg-[#FFFFFF] rounded-2xl border border-dashed border-gray-200 p-6">
+            <div className="py-16 m-6 text-center bg-[#FFFFFF] rounded-2xl border border-dashed border-gray-200 p-6">
               <div className="bg-[#FFF9F2] w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#FFE7CC] text-[#02312A]/40 shadow-inner">
                 <Package className="w-6 h-6 text-[#02312A]" />
               </div>
