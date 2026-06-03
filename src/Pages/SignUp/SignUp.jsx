@@ -144,7 +144,7 @@ const SignUp = () => {
             Create an Account
           </h1>
           <p className="text-gray-600 text-sm font-medium">
-            Register with ZapShift
+            Register with TradeCen
           </p>
         </div>
 

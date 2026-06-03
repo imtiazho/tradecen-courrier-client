@@ -667,7 +667,7 @@ const HubmanagerDashboard = () => {
             </p>
           </div>
           <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 border border-gray-100 px-2 py-0.5 rounded-md">
-            TradeCen Engine
+            TradeCen Engine v1.0
           </p>
         </div>
 

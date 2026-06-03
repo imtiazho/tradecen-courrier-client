@@ -166,87 +166,118 @@ const CODCollection = () => {
         </div>
 
         <div>
-          {deliveredParcels.map((parcel) => (
-            <div
-              key={parcel._id}
-              className="p-4 hover:bg-gray-50/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-tradecen"
-            >
-              <div className="flex items-start gap-3">
+          {deliveredParcels.length > 0 && (
+            <div className="divide-y divide-gray-100">
+              {deliveredParcels.map((parcel) => (
                 <div
-                  className={`p-2.5 rounded-xl shrink-0 ${parcel.revMethod === "COD" ? "bg-amber-50 text-amber-700" : "bg-blue-50 text-blue-700"}`}
+                  key={parcel._id}
+                  className="p-4 hover:bg-gray-50/50 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-tradecen"
                 >
-                  <Package className="w-5 h-5" />
-                </div>
-                <div className="space-y-0.5">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-black text-gray-800 tracking-wide">
-                      {parcel.trackingID}
-                    </span>
-                    <span
-                      className={`text-[9px] px-2 py-0.5 rounded-full font-extrabold uppercase ${
+                  <div className="flex items-start gap-3">
+                    <div
+                      className={`p-2.5 rounded-xl shrink-0 ${
                         parcel.revMethod === "COD"
-                          ? "bg-amber-100 text-amber-800"
-                          : "bg-blue-100 text-blue-800"
+                          ? "bg-amber-50 text-amber-700 border border-amber-100"
+                          : "bg-blue-50 text-blue-700 border border-blue-100"
                       }`}
                     >
-                      {parcel.revMethod}
-                    </span>
+                      <Package className="w-5 h-5" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black text-gray-800 tracking-wide">
+                          {parcel.trackingID}
+                        </span>
+                        <span
+                          className={`text-[9px] px-2 py-0.5 rounded-full font-extrabold uppercase ${
+                            parcel.revMethod === "COD"
+                              ? "bg-amber-100 text-amber-800"
+                              : "bg-blue-100 text-blue-800"
+                          }`}
+                        >
+                          {parcel.revMethod}
+                        </span>
+                      </div>
+                      <p className="text-xs font-bold text-gray-500 capitalize">
+                        {parcel.parcelName} ({parcel.parcelWeight} kg)
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[11px] text-gray-400 font-medium">
+                        <span className="flex items-center gap-1">
+                          <User className="w-3 h-3" />{" "}
+                          {parcel.receiverInfo?.name}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />{" "}
+                          {parcel.receiverInfo?.address}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-xs font-bold text-gray-500 capitalize">
-                    {parcel.parcelName} ({parcel.parcelWeight} kg)
-                  </p>
 
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-1 text-[11px] text-gray-400 font-medium">
-                    <span className="flex items-center gap-1">
-                      <User className="w-3 h-3" /> {parcel.receiverInfo.name}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />{" "}
-                      {parcel.receiverInfo.address}
-                    </span>
+                  <div className="flex sm:flex-col items-start sm:items-end justify-between shrink-0 gap-2">
+                    <div className="text-left sm:text-right">
+                      <span className="text-[10px] text-gray-400 font-bold block">
+                        {parcel.deliveredAt
+                          ? new Date(parcel.deliveredAt).toLocaleTimeString(
+                              [],
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            )
+                          : "N/A"}
+                      </span>
+                      <span
+                        className={`text-sm font-black ${
+                          parcel.revMethod === "COD"
+                            ? "text-[#02312A]"
+                            : "text-gray-400 line-through"
+                        }`}
+                      >
+                        ৳{parcel.codAmount}
+                      </span>
+                    </div>
+
+                    <div className="mt-1">
+                      {parcel.revMethod === "COD" ? (
+                        <span
+                          className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md flex items-center gap-1 ${
+                            parcel.isDepositedToHQ
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                              : "bg-orange-50 text-orange-700 border border-orange-100 animate-pulse"
+                          }`}
+                        >
+                          {parcel.isDepositedToHQ
+                            ? "● Settled"
+                            : "● In Rider Wallet"}
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-extrabold px-2 py-0.5 bg-gray-50 text-gray-500 border border-gray-200 rounded-md flex items-center gap-1">
+                          ● No Cash Collection
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="flex sm:flex-col items-between sm:items-end justify-between shrink-0">
-                <div className="text-right">
-                  <span className="text-[10px] text-gray-400 font-bold block">
-                    {parcel.deliveredAt
-                      ? new Date(parcel.deliveredAt).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })
-                      : "N/A"}
-                  </span>
-                  <span
-                    className={`text-sm font-black ${parcel.revMethod === "COD" ? "text-[#02312A]" : "text-gray-400 line-through"}`}
-                  >
-                    ৳{parcel.codAmount}
-                  </span>
-                </div>
-
-                <div className="mt-1">
-                  {parcel.revMethod === "COD" ? (
-                    <span
-                      className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md flex items-center gap-1 ${
-                        parcel.isDepositedToHQ
-                          ? "bg-emerald-50 text-emerald-700"
-                          : "bg-orange-50 text-orange-700 animate-pulse"
-                      }`}
-                    >
-                      {parcel.isDepositedToHQ
-                        ? "● Settled"
-                        : "● In Rider Wallet"}
-                    </span>
-                  ) : (
-                    <span className="text-[10px] font-extrabold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md flex items-center gap-1">
-                      ● No Cash Collection
-                    </span>
-                  )}
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          {deliveredParcels.length === 0 && (
+            <div className="py-16 text-center bg-[#FFFFFF] rounded-2xl border border-dashed border-gray-200 p-6">
+              <div className="bg-[#FFF9F2] w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4 border border-[#FFE7CC] text-[#02312A]/40 shadow-inner">
+                <Package className="w-6 h-6 text-[#02312A]" />
+              </div>
+              <h3 className="text-[#02312A] font-black text-sm uppercase tracking-tight">
+                No Delivered Parcels Yet
+              </h3>
+              <p className="text-gray-400 text-[11px] font-bold max-w-[280px] mx-auto mt-1 leading-relaxed">
+                Your completed shipments will appear here. Safe travels on the
+                road, agent!
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
