@@ -50,7 +50,7 @@ const ReturnParcels = () => {
       {/* Footer Meta */}
       <div className="text-center py-4 border-t border-gray-50 mt-8">
         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-          ZapShift Logistics Engine v2.0
+          TradeCen Logistics Engine v2.0
         </p>
       </div>
     </div>

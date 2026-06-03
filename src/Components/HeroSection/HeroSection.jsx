@@ -95,7 +95,7 @@ const HeroSection = () => {
 
         /* সক্রিয় (Active) ডট-এর স্টাইল */
         .custom-pagination-container .swiper-pagination-bullet-active {
-          background: #3EB0AC !important; /* সক্রিয় ডট-এর রং (ZapShift Teal) */
+          background: #3EB0AC !important; /* সক্রিয় ডট-এর রং (TradeCen Teal) */
           width: 40px; /* সক্রিয় ডট একটু বড় হবে */
         }
       `}</style>

@@ -67,7 +67,7 @@ const Sidebar = () => {
       {/* Logo Section */}
       <div className="p-8">
         <h1 className="text-2xl font-black text-[#002B36] flex items-center gap-2">
-          ZapShift<span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
+          TradeCen<span className="w-2 h-2 bg-[#CAEB66] rounded-full"></span>
         </h1>
       </div>
 

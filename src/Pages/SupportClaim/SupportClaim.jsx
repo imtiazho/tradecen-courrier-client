@@ -64,7 +64,7 @@ const SupportClaim = () => {
             </div>
             <h4 className="font-black text-[#02312A] mb-1">Email Support</h4>
             <a
-              href="mailto:support@zapshift.com"
+              href="mailto:support@TradeCen.com"
               className="text-sm font-bold text-[#02312A] underline"
             >
               support@tradecen.com

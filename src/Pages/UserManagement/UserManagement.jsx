@@ -14,7 +14,7 @@ const UserManagement = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-black text-slate-800">User Management</h1>
         <p className="text-sm text-gray-400 mt-1 font-medium">
-          Manage all ZapShift platform users and onboarding requests.
+          Manage all TradeCen platform users and onboarding requests.
         </p>
       </div>
 

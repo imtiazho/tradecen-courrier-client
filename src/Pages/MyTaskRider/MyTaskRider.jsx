@@ -377,7 +377,7 @@ const MyTaskRider = () => {
           {/* 🌐 WIDE LIVE MAP IFRAME CONTAINER */}
           <div className="w-full h-[260px] bg-gray-100 relative border-b border-gray-100">
             <iframe
-              title="ZapShift Cockpit Navigation"
+              title="TradeCen Cockpit Navigation"
               width="100%"
               height="100%"
               style={{ border: 0 }}
