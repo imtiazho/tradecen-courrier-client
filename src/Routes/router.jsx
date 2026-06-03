@@ -336,6 +336,11 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: 'hubs',
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
+        Component: HubManager
+      }
     ],
   },
   {
