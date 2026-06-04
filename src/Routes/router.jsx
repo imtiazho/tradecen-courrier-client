@@ -61,6 +61,8 @@ import DeliveredParcelsTodayForRider from "../Pages/DeliveredParcelsTodayForRide
 import CODCollection from "../Pages/CODCollection/CODCollection";
 import RiderMyEarning from "../Pages/RiderMyEarning/RiderMyEarning";
 import ProfileWallet from "../Pages/ProfileWallet/ProfileWallet";
+import AllMerchants from "../Pages/AllMerchants/AllMerchants";
+import AllRiders from "../Pages/AllRiders/AllRiders";
 
 export const router = createBrowserRouter([
   {
@@ -121,7 +123,7 @@ export const router = createBrowserRouter([
       {
         path: "profile",
         element: (
-            <ProfilePage></ProfilePage>
+          <ProfilePage></ProfilePage>
           // <VerifiedUserRoute>
           // </VerifiedUserRoute>
         ),
@@ -233,8 +235,11 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            loader: () => fetch("/warehouses.json").then((res) => res.json()),
-            element: <HubManager></HubManager>,
+            element: <AllMerchants></AllMerchants>,
+          },
+          {
+            path: "riders",
+            element: <AllRiders></AllRiders>,
           },
           {
             path: "rider-request",
@@ -337,10 +342,10 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: 'hubs',
+        path: "hubs",
         loader: () => fetch("/warehouses.json").then((res) => res.json()),
-        Component: HubManager
-      }
+        Component: HubManager,
+      },
     ],
   },
   {
