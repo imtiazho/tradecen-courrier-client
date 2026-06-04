@@ -10,7 +10,7 @@ const UserManagement = () => {
   ];
 
   return (
-    <div className="p-8 bg-[#F9FAFB] min-h-screen">
+    <div className="p-8 bg-[#ffffff] min-h-screen">
       <div className="mb-8">
         <h1 className="text-3xl font-black text-slate-800">User Management</h1>
         <p className="text-sm text-gray-400 mt-1 font-medium">

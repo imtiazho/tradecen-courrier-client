@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useLoaderData } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { MdDomainAdd } from "react-icons/md";
 
 const HubManager = () => {
   const axiosSecure = useAxiosSecure();
@@ -22,7 +23,7 @@ const HubManager = () => {
 
   const areaAndLocation = useLoaderData() || [];
   const clearRegions = [...new Set(areaAndLocation.map((rg) => rg.region))];
-
+  console.log(isModalOpen);
   const {
     register,
     handleSubmit,
@@ -110,6 +111,19 @@ const HubManager = () => {
       confirmButtonText: "Yes, Remove",
     }).then(async (result) => {
       if (result.isConfirmed) {
+        Swal.fire({
+          title: "SYSTEM DEACTIVATED",
+          text: "This operation is currently suspended by Developer.",
+          icon: "info",
+          timer: 2500,
+          showConfirmButton: false,
+          customClass: {
+            popup: "rounded-[24px] border border-gray-100",
+            title:
+              "font-black text-[#002B36] uppercase tracking-tight text-base",
+            htmlContainer: "font-bold text-gray-400 text-xs",
+          },
+        });
         // try {
         //   const res = await axiosSecure.delete(`/users/${id}`);
         //   if (res.data.deletedCount > 0) {
@@ -130,54 +144,43 @@ const HubManager = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4f7f9] rounded-[34px] p-4 md:p-6">
+    <div className="min-h-screen bg-[#ffffff] rounded-tradecen p-4 md:p-8">
       {/* ========================= */}
       {/* PAGE HEADER */}
       {/* ========================= */}
-      <div className="relative overflow-hidden bg-[#002B36] rounded-[32px] p-6 md:p-8 mb-6">
-        {/* Glow */}
-        <div className="absolute top-0 right-0 w-72 h-72 bg-[#CAEB66]/10 blur-3xl rounded-full"></div>
-
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div className="relative overflow-hidden mb-6">
+        <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           {/* LEFT */}
-          <div>
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-3xl bg-white/10 backdrop-blur border border-white/10 flex items-center justify-center">
-                <RiBuildingLine size={30} className="text-[#CAEB66]" />
-              </div>
-
-              <div>
-                <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight">
-                  Hub Operations
-                </h1>
-
-                <p className="text-xs md:text-sm text-slate-300 uppercase tracking-[4px] font-bold mt-2">
-                  Manage Regional Distribution Hubs
-                </p>
-              </div>
+          {/* Header Section */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+            <div>
+              <h2 className="text-3xl font-extrabold text-[#002B36] tracking-wide">
+                Hub Operations
+              </h2>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 flex items-center gap-1.5 mt-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#CAEB66]"></span>
+                Gateway monitoring, terminal routing, and regional ledger
+                auditing.
+              </p>
             </div>
           </div>
 
           {/* RIGHT STATS */}
           <div className="flex flex-wrap items-center gap-3">
-            {/* TOTAL HUBS */}
-            <div className="bg-white/5 border border-white/10 backdrop-blur rounded-3xl px-6 py-4 min-w-[140px]">
-              <p className="text-[10px] uppercase tracking-[3px] text-slate-400 font-black">
-                Active Hubs
-              </p>
-
-              <h3 className="text-3xl font-black text-white mt-1">
-                {managers.length}
-              </h3>
+            <div className="flex items-center gap-3 bg-[#CAEB66]/20 px-4 py-2 rounded-full border border-[#CAEB66]">
+              <div className="w-2 h-2 bg-[#002B36] rounded-full animate-pulse"></div>
+              <span className="text-[#002B36] font-bold text-sm uppercase tracking-wider">
+                {managers?.length} Active Hubs
+              </span>
             </div>
 
             {/* BTN */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="h-[64px] px-6 rounded-3xl bg-[#CAEB66] hover:scale-[1.02] active:scale-95 transition-all text-[#002B36] text-xs font-black uppercase tracking-[3px] flex items-center gap-2"
+              className="h-fit px-6 py-3 rounded-3xl bg-[#CAEB66] active:scale-95 transition-all text-[#002B36] text-xs font-black uppercase tracking-[3px] flex items-center gap-2 cursor-pointer"
             >
-              <RiUserAddLine size={18} />
-              Assign Hub
+              <MdDomainAdd size={18} />
+              Create Hub
             </button>
           </div>
         </div>
@@ -190,56 +193,40 @@ const HubManager = () => {
         {managers.map((manager) => (
           <div
             key={manager._id}
-            className="group bg-white border border-gray-100 hover:border-[#CAEB66]/40 rounded-[30px] p-5 relative overflow-hidden transition-all duration-300"
+            className="group bg-white border border-gray-100 hover:border-[#CAEB66]/40 rounded-tradecen p-5 relative overflow-hidden transition-all duration-300 shadow-flat"
           >
-            {/* Hover Glow */}
-            <div className="absolute top-0 right-0 w-40 h-40 bg-[#CAEB66]/10 blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-
-            <div className="relative z-10">
-              {/* ========================= */}
-              {/* TOP SECTION */}
-              {/* ========================= */}
+            <div className="relative">
               <div className="flex items-start justify-between gap-4">
                 {/* LEFT */}
-                <div className="flex gap-4 min-w-0">
+                <div className="flex gap-3 items-center min-w-0">
                   {/* HUB ICON */}
-                  <div className="w-16 h-16 rounded-3xl bg-[#CAEB66]/15 border border-[#CAEB66]/20 flex items-center justify-center shrink-0">
-                    <RiBuildingLine size={28} className="text-[#002B36]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#CAEB66]/15 border border-[#CAEB66]/20 flex items-center justify-center shrink-0">
+                    <RiBuildingLine size={22} className="text-[#002B36]" />
                   </div>
 
                   {/* HUB INFO */}
                   <div className="min-w-0">
                     {/* HUB NAME */}
-                    <h2 className="text-2xl font-black text-[#002B36] leading-none truncate tracking-tight">
+                    <h2 className="text-xl font-black text-[#002B36] leading-none truncate">
                       {manager.hubName || "N/A"}
                     </h2>
 
-                    <p className="text-[10px] uppercase font-black tracking-[3px] text-gray-400 mt-2">
+                    <p className="text-[10px] uppercase font-black tracking-[2px] text-gray-400 mt-[7px]">
                       Distribution Hub
                     </p>
-
-                    {/* STATUS */}
-                    <div className="mt-3">
-                      <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">
-                        {manager.status || "active"}
-                      </span>
-                    </div>
                   </div>
                 </div>
 
                 {/* DELETE */}
                 <button
                   onClick={() => handleDelete(manager._id)}
-                  className="w-10 h-10 rounded-2xl border border-gray-100 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center shrink-0"
+                  className="w-10 h-10 rounded-xl border border-gray-100 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center shrink-0 cursor-pointer"
                 >
                   <RiDeleteBin6Line size={18} />
                 </button>
               </div>
 
-              {/* ========================= */}
-              {/* MANAGER SECTION */}
-              {/* ========================= */}
-              <div className="mt-5 bg-gray-50 border border-gray-100 rounded-3xl p-4">
+              <div className="mt-5 bg-gray-50 border border-gray-100 rounded-xl p-4">
                 <div className="flex items-center gap-4">
                   {/* AVATAR */}
                   <div className="w-14 h-14 rounded-2xl overflow-hidden border border-gray-200 bg-white shrink-0">
@@ -282,7 +269,7 @@ const HubManager = () => {
               {/* ========================= */}
               <div className="grid grid-cols-2 gap-3 mt-4">
                 {/* REGION */}
-                <div className="rounded-2xl border border-gray-100 bg-white p-4">
+                <div className="rounded-xl border border-gray-100 bg-white p-4">
                   <div className="flex items-center gap-1 text-[10px] uppercase font-black text-gray-400 tracking-wide mb-2">
                     <RiMapPin2Line size={13} />
                     Region
@@ -294,7 +281,7 @@ const HubManager = () => {
                 </div>
 
                 {/* DISTRICT */}
-                <div className="rounded-2xl border border-gray-100 bg-white p-4">
+                <div className="rounded-xl border border-gray-100 bg-white p-4">
                   <div className="flex items-center gap-1 text-[10px] uppercase font-black text-gray-400 tracking-wide mb-2">
                     <RiShieldCheckLine size={13} />
                     District
@@ -346,16 +333,16 @@ const HubManager = () => {
             {/* CLOSE */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-5 right-5 w-11 h-11 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all flex items-center justify-center"
+              className="absolute top-5 right-5 w-11 h-11 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all flex items-center justify-center cursor-pointer z-10"
             >
               <RiCloseLine size={22} className="text-gray-500" />
             </button>
 
-            <div className="relative z-10">
+            <div className="relative">
               {/* HEADER */}
               <div className="mb-7">
                 <div className="w-16 h-16 rounded-3xl bg-[#CAEB66]/15 border border-[#CAEB66]/20 flex items-center justify-center mb-5">
-                  <RiUserAddLine size={28} className="text-[#002B36]" />
+                  <MdDomainAdd size={28} className="text-[#002B36]" />
                 </div>
 
                 <h2 className="text-3xl font-black text-[#002B36] tracking-tight">
@@ -379,7 +366,7 @@ const HubManager = () => {
                     {...register("email", {
                       required: "User selection is required",
                     })}
-                    className="w-full mt-1 h-14 px-5 rounded-2xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66]"
+                    className="w-full mt-1 h-13 px-5 rounded-xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66]"
                   >
                     <option value="">Choose user</option>
 
@@ -409,7 +396,7 @@ const HubManager = () => {
                       {...register("region", {
                         required: "Region is required",
                       })}
-                      className="w-full mt-1 h-14 px-5 rounded-2xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66]"
+                      className="w-full mt-1 h-13 px-5 rounded-xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66]"
                     >
                       <option value="">Select Region</option>
 
@@ -432,7 +419,7 @@ const HubManager = () => {
                         required: "District is required",
                       })}
                       disabled={!selectedRegion}
-                      className="w-full mt-1 h-14 px-5 rounded-2xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] disabled:opacity-50"
+                      className="w-full mt-1 h-13 px-5 rounded-xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] disabled:opacity-50"
                     >
                       <option value="">Select District</option>
 
@@ -456,7 +443,7 @@ const HubManager = () => {
                       required: "Hub Name is required",
                     })}
                     disabled={!selectedDistrict}
-                    className="w-full mt-1 h-14 px-5 rounded-2xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] disabled:opacity-50"
+                    className="w-full mt-1 h-13 px-5 rounded-xl bg-gray-50 border border-gray-100 text-sm font-bold text-[#002B36] focus:outline-none focus:ring-2 focus:ring-[#CAEB66] disabled:opacity-50"
                   >
                     <option value="">Select Hub</option>
 
@@ -473,7 +460,7 @@ const HubManager = () => {
                   type="submit"
                   className="w-full h-14 rounded-2xl bg-[#002B36] hover:bg-black text-white text-xs font-black uppercase tracking-[3px] mt-5 transition-all"
                 >
-                  Assign Manager Role
+                  Create Hub
                 </button>
               </form>
             </div>
