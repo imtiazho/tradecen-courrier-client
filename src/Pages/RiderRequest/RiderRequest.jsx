@@ -77,25 +77,22 @@ const RiderRequest = () => {
             TradeCen Fleet Management
           </p>
         </div>
-        <span className="bg-[#CAEB66] text-[#002B36] px-5 py-2 rounded-2xl text-xs font-black shadow-sm">
-          {riders.length} PENDING REQUESTS
-        </span>
       </div>
 
-      <div className="overflow-x-auto bg-white rounded-[35px] border border-gray-100 shadow-sm">
+      <div className="overflow-x-auto bg-white rounded-tradecen">
         <table className="w-full text-left">
-          <thead className="bg-gray-50/50 border-b border-gray-100">
+          <thead>
             <tr>
-              <th className="px-8 py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider">
+              <th className="py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider">
                 Rider
               </th>
-              <th className="px-8 py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider">
+              <th className="py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider">
                 Location
               </th>
-              <th className="px-8 py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider">
+              <th className="py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider">
                 Vehicle
               </th>
-              <th className="px-8 py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider text-right">
+              <th className="py-5 text-[10px] font-black uppercase text-gray-400 tracking-wider text-right">
                 Actions
               </th>
             </tr>
@@ -104,9 +101,9 @@ const RiderRequest = () => {
             {riders.map((rider) => (
               <tr
                 key={rider._id}
-                className="hover:bg-gray-50/40 transition-all group"
+                className="hover:bg-[#F8F9FA]/60 transition-all group"
               >
-                <td className="px-8 py-5">
+                <td className="py-5">
                   <div className="flex items-center gap-4">
                     <div className="relative">
                       <img
@@ -126,7 +123,7 @@ const RiderRequest = () => {
                     </div>
                   </div>
                 </td>
-                <td className="px-8 py-5">
+                <td className="py-5">
                   <p className="text-xs font-black text-slate-600 uppercase tracking-tight">
                     {rider.area}
                   </p>
@@ -134,28 +131,28 @@ const RiderRequest = () => {
                     {rider.district}, {rider.region}
                   </p>
                 </td>
-                <td className="px-8 py-5">
+                <td className="py-5">
                   <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[9px] font-black uppercase">
                     {rider.vehicle}
                   </span>
                 </td>
-                <td className="px-8 py-5">
+                <td className="py-5">
                   <div className="flex justify-end gap-3">
                     <button
                       disabled
-                      className="p-2.5 text-blue-500 hover:bg-blue-100 rounded-xl transition-colors border border-transparent hover:border-blue-100 cursor-not-allowed"
+                      className="p-2.5 text-blue-500 bg-blue-100 rounded-xl transition-colors border border-transparent border-blue-100 cursor-not-allowed"
                     >
                       <RiEyeLine size={18} />
                     </button>
                     <button
                       onClick={() => handleApprove(rider)}
-                      className="p-2.5 text-green-600 hover:bg-green-50 rounded-xl transition-colors border border-transparent hover:border-green-100 cursor-pointer"
+                      className="p-2.5 text-green-600 bg-green-50 rounded-xl transition-colors border border-transparent border-green-100 cursor-pointer"
                     >
                       <RiCheckLine size={18} />
                     </button>
                     <button
                       onClick={() => handleReject(rider._id)}
-                      className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl transition-colors border border-transparent hover:border-red-100 cursor-pointer"
+                      className="p-2.5 text-red-500 bg-red-50 rounded-xl transition-colors border border-transparent border-red-100 cursor-pointer"
                     >
                       <RiCloseLine size={18} />
                     </button>
