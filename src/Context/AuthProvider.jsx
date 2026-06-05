@@ -1,17 +1,15 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase.init";
-import {
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  sendEmailVerification,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  updateProfile,
+import { 
+  createUserWithEmailAndPassword, 
+  GoogleAuthProvider, 
+  onAuthStateChanged, 
+  sendEmailVerification, 
+  signInWithEmailAndPassword, 
+  signInWithPopup, 
+  signOut, 
+  updateProfile 
 } from "firebase/auth";
-import { useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
 
@@ -64,10 +62,11 @@ const AuthProvider = ({ children }) => {
 
       try {
         const res = await axios.get(
-          `http://localhost:5000/user/${currentUser.email}`,
+          `http://localhost:5000/user/${currentUser.email}`
         );
         setDbUser(res.data);
       } catch (error) {
+        console.error("Error fetching user data:", error);
         setDbUser(null);
       } finally {
         setLoading(false);
