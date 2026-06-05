@@ -87,19 +87,3 @@ graph TD
     style C fill:#FFF4E5,stroke:#EA580C,stroke-width:2px
     style D fill:#02312A,stroke:#CAEB66,stroke-width:2px,color:#FFF
 ```
-```markdown
-## 🏃‍♂️ Operational Architecture Summary
-
-```text
-[Merchant Books Parcel] 
-           ↓ 
-  (Filtered by DB Active Coverage & Calculates Price via Schema Rules)
-           ↓ 
-[Hub Manager Receives Outgoing / Incoming Parcel] 
-           ↓ 
-  (Sorts automatically via Operations Guide: Delivery vs Dispatch)
-           ↓ 
-[Cash Collected by Hub & Deposited to HQ]
-           ↓ 
-  (HQ Ledger Audit ➔ Approves and updates Global Central Capital)
-  ```
