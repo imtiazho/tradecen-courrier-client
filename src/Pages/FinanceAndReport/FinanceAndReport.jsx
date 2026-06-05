@@ -92,27 +92,22 @@ const FinanceAndReport = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen">
       {/* HQ Admin Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h4 className="text-sm font-black text-[#02312A] uppercase tracking-wider flex items-center gap-2">
-            <FaShieldAlt className="text-orange-500 animate-pulse" size={14} />
+          <h2 className="text-3xl font-extrabold text-[#002B36] tracking-wide">
             HQ Central Finance Ledger
-          </h4>
-          <p className="text-gray-500 text-xs mt-1 font-bold">
+          </h2>
+          <p className="text-sm text-gray-500 mt-1 font-medium">
+             <span className="w-2.5 h-2.5 bg-primary rounded-full animate-pulse"></span>
             Review, audit, and approve liquid cash deposit requests coming from
             various branches.
           </p>
         </div>
-
-        {/* Master Admin Statistics */}
-        <div className="bg-[#02312A] text-white px-5 py-3 rounded-xl flex flex-col justify-center min-w-[150px]">
-          <span className="text-[9px] font-black uppercase tracking-widest text-[#CAEB66]">
-            Pending Audits
-          </span>
-          <span className="text-xl font-black mt-0.5">
-            {historyList.filter((item) => item.status === "pending").length} Req
+        <div className="flex items-center gap-3 bg-[#CAEB66]/20 px-4 py-2 rounded-full border border-[#CAEB66]">
+          <span className="text-[#002B36] font-bold text-sm uppercase tracking-wider">
+            Team: {historyList?.length || 0} Active
           </span>
         </div>
       </div>
@@ -156,7 +151,7 @@ const FinanceAndReport = () => {
                         <FaUserAlt size={11} />
                       </div>
                       <div>
-                        <span className="text-[13px] font-black text-[#02312A] block">
+                        <span className="text-[13px] font-bold text-[#02312A] block">
                           {invoice.hubName} Hub
                         </span>
                         <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wide mt-0.5">
@@ -166,39 +161,26 @@ const FinanceAndReport = () => {
                     </div>
                   </td>
 
-                  {/* 2. Date */}
+                  {/* 2. Date - স্যাম্পলের মতো ক্লিন ১ লাইনে সাজানো */}
                   <td className="py-4 px-4">
-                    <div className="flex flex-col text-[12px] font-semibold text-gray-500 gap-0.5">
-                      <span className="flex items-center gap-1.5 text-slate-700 font-bold">
-                        <FaCalendarAlt size={11} className="text-gray-400" />
-                        {new Date(invoice.createdAt).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          },
-                        )}
-                      </span>
-                      <span className="text-[10px] text-gray-400 pl-4">
-                        {new Date(invoice.createdAt).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          },
-                        )}
-                      </span>
+                    <div className="flex items-center gap-2 text-[12px] font-semibold text-gray-500">
+                      <FaCalendarAlt size={12} className="text-gray-400" />
+                      {new Date(invoice.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </div>
                   </td>
 
                   {/* 3. Method / TrxID */}
                   <td className="py-4 px-4">
-                    <div className="text-[11px] font-black text-[#02312A] uppercase tracking-wider flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 bg-[#CAEB66] rounded-full"></span>
+                    <div className="text-[12px] font-bold text-[#02312A] uppercase tracking-wider">
                       {invoice.paymentMethod}
                     </div>
-                    <div className="text-[11px] font-mono font-bold text-slate-500 mt-1 flex items-center gap-1">
+                    <div className="text-[12px] font-mono font-medium text-gray-400 mt-0.5 flex items-center gap-1">
                       <FaHashtag size={9} className="text-gray-400" />
                       {invoice.transactionDetails?.slipNo || "N/A"}
                     </div>
@@ -215,13 +197,10 @@ const FinanceAndReport = () => {
                     </div>
                   </td>
 
-                  {/* 5. Amount */}
+                  {/* 5. Amount - স্যাম্পলের লাক্সারি গ্রিন ফন্ট ভাইব */}
                   <td className="py-4 px-4">
-                    <div className="flex items-center gap-1 text-[13px] font-black text-[#02312A] bg-[#CAEB66]/20 px-2.5 py-1 rounded-xl border border-[#CAEB66]/40 w-fit">
-                      <FaMoneyBillWave
-                        className="text-[#02312A]/70"
-                        size={12}
-                      />
+                    <div className="flex items-center gap-1 text-[14px] font-black text-[#002B36]">
+                      <FaMoneyBillWave className="text-emerald-600" size={13} />
                       ৳{invoice.depositedAmount?.toLocaleString()}
                     </div>
                   </td>
@@ -241,9 +220,10 @@ const FinanceAndReport = () => {
                                 invoice.hubName,
                               )
                             }
-                            className="p-2 px-3 bg-emerald-50 text-emerald-600 hover:bg-[#CAEB66] hover:text-[#02312A] border border-emerald-200/40 rounded-xl transition-all duration-200 active:scale-95 flex items-center gap-1 text-[11px] font-black uppercase tracking-wider cursor-pointer shadow-sm hover:shadow"
+                            className="p-2 px-3 bg-green-50 text-green-600 hover:bg-[#CAEB66] hover:text-[#02312A] border border-green-200/40 rounded-xl transition-all active:scale-95 flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider cursor-pointer"
+                            title="Verify & Accept"
                           >
-                            <FaCheck size={10} /> Verify & Accept
+                            <FaCheck size={10} /> Approve
                           </button>
                         )
                       ) : (

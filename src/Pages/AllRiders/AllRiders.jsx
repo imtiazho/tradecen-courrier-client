@@ -40,10 +40,8 @@ const AllRiders = () => {
               key={rider._id}
               className="group bg-white border border-gray-100 hover:border-[#CAEB66]/40 rounded-2xl p-4 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
             >
-              {/* Soft Glow */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#CAEB66]/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
-              <div className="relative z-10">
+              <div className="relative">
                 {/* Header */}
                 <div className="flex items-start gap-3 pb-4 border-b border-gray-100">
                   {/* Avatar */}
@@ -154,7 +152,7 @@ const AllRiders = () => {
               </div>
 
               {/* Footer */}
-              <div className="grid grid-cols-2 gap-2 mt-4 relative z-10">
+              <div className="grid grid-cols-2 gap-2 mt-4 relative">
                 {/* Call */}
                 <a
                   href={`tel:${rider.phone}`}

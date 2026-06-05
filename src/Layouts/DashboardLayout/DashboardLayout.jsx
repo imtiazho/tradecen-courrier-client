@@ -55,21 +55,21 @@ const roleMenuItems = {
       icon: <RiUserSettingsLine size={22} />,
       path: "users",
     },
-    {
-      name: "Pricing & Coverage",
-      icon: <RiBankCardLine size={22} />,
-      path: "/admin/pricing-coverage",
-    },
+    // {
+    //   name: "Pricing & Coverage",
+    //   icon: <RiBankCardLine size={22} />,
+    //   path: "/admin/pricing-coverage",
+    // },
     {
       name: "Financial Reports",
       icon: <RiFileChartLine size={22} />,
       path: "/dashboard/finance-reports",
     },
-    {
-      name: "System Settings",
-      icon: <RiSettings4Line size={22} />,
-      path: "/admin/settings",
-    },
+    // {
+    //   name: "System Settings",
+    //   icon: <RiSettings4Line size={22} />,
+    //   path: "/admin/settings",
+    // },
   ],
   "hub-manager": [
     {
