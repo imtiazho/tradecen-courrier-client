@@ -19,7 +19,7 @@ const DispatchAndDelivery = () => {
     },
     enabled: !!user?.email,
   });
-  
+
   const tabs = [
     {
       name: "Dispatch",
@@ -71,20 +71,22 @@ const DispatchAndDelivery = () => {
       </div>
 
       {/* Contextual Info Note */}
-      <div className="mb-6 px-4 py-3 bg-[#F4F9F4] border-l-4 text-green-700 rounded-r-xl">
-        <p className="text-xs text-green-700 font-bold uppercase">
+      <div className="mb-6 px-4 py-3 bg-[#F4F9F4] border-l-4 border-green-600 text-green-700 rounded-r-xl">
+        <p className="text-xs font-black uppercase tracking-wider text-green-800">
           Operations Guide:
         </p>
-        <p className="text-[11px] text-green-700 mt-0.5">
-          Local Delivery targets parcels with receiver city as{" "}
-          <span className="font-bold underline">{managerData?.hubName}</span>.
-          Dispatch targets all other cities.
+        <p className="text-[11px] text-green-700 mt-1 leading-relaxed">
+          Final distribution of incoming parcels arriving from outside
+          districts, destined within the{" "}
+          <span className="font-bold underline">{managerData?.hubName}</span>{" "}
+          coverage perimeter. Forwarding all outgoing parcels picked up locally
+          that are bound for destinations outside our home territory.
         </p>
       </div>
 
       {/* Content Area */}
       <div className="transition-all duration-500 bg-white p-6 rounded-tradecen border border-gray-50">
-        <Outlet context={ managerData?.hubName } />
+        <Outlet context={managerData?.hubName} />
       </div>
     </div>
   );

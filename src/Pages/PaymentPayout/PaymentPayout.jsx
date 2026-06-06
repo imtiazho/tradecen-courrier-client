@@ -273,7 +273,7 @@ const PaymentPayout = () => {
                     <td className="px-6 py-5 text-center">
                       <span
                         className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider ${
-                          row.payoutStatus === "Completed"
+                          row.payoutStatus === "completed"
                             ? "bg-green-100 text-green-600"
                             : "bg-orange-100 text-orange-600"
                         }`}

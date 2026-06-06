@@ -9,6 +9,7 @@ import ClientReviews from "../../Components/ClientReviews/ClientReviews";
 import FAQSection from "../../Components/FAQSection/FAQSection";
 
 const HomePage = () => {
+  
   return (
     <div>
       <HeroSection></HeroSection>
