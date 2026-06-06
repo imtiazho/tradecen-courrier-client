@@ -41,7 +41,7 @@ const Dashboard = () => {
     },
     enabled: !!user?.email,
   });
-  
+
   // merchant
   const { isLoading: shippingLoading, data: shippingData = {} } = useQuery({
     queryKey: ["shippingData", user?.email, weekFrame, currentPage],
@@ -57,19 +57,15 @@ const Dashboard = () => {
   });
 
   // merchant
-  const { isLoading: lateInvoicesLoading, data: lateInvoicesData = [] } = useQuery({
-    queryKey: ["lateInvoicesData", user?.email,],
-    queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/late-invoices/${user.email}`,
-      );
-      return res.data;
-    },
-    enabled: !!user?.email,
-  });
-
-  
-
+  const { isLoading: lateInvoicesLoading, data: lateInvoicesData = [] } =
+    useQuery({
+      queryKey: ["lateInvoicesData", user?.email],
+      queryFn: async () => {
+        const res = await axiosSecure.get(`/late-invoices/${user.email}`);
+        return res.data;
+      },
+      enabled: !!user?.email,
+    });
 
   if (roleLoading)
     return (
@@ -77,7 +73,7 @@ const Dashboard = () => {
         loading={roleLoading || statusLoading || chartLoading}
       ></LoadingModal>
     );
-  if (role === "master admin") return <AdminState></AdminState>;
+  if (role === "admin") return <AdminState></AdminState>;
   if (role === "hub-manager")
     return <HubmanagerDashboard></HubmanagerDashboard>;
   if (role === "merchant")

@@ -51,6 +51,16 @@ const AuthProvider = ({ children }) => {
     return sendEmailVerification(auth.currentUser);
   };
 
+  const fetchDbUser = async (email) => {
+    try {
+      const res = await axios.get(`http://localhost:5000/user/${email}`);
+
+      setDbUser(res.data);
+    } catch (error) {
+      setDbUser(null);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
@@ -62,16 +72,8 @@ const AuthProvider = ({ children }) => {
 
       setUser(currentUser);
 
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/user/${currentUser.email}`,
-        );
-        setDbUser(res.data);
-      } catch (error) {
-        setDbUser(null);
-      } finally {
-        setLoading(false);
-      }
+      await fetchDbUser(currentUser.email);
+      setLoading(false);
     });
 
     return () => {
@@ -91,6 +93,7 @@ const AuthProvider = ({ children }) => {
     handleLogOut,
     updateUser,
     verifyEmail,
+    fetchDbUser
   };
 
   return (

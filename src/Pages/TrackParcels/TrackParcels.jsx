@@ -155,7 +155,7 @@ const TrackParcels = () => {
                   </div>
 
                   {/* Status Icon */}
-                  <div className="relative z-10">
+                  <div className="relative ">
                     <IoCheckmarkCircle
                       className={`${index === 0 ? "text-[#CAEB66]" : "text-gray-300"} text-3xl bg-white rounded-full transition-transform group-hover:scale-110`}
                     />

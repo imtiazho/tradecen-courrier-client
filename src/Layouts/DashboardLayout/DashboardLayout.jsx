@@ -43,7 +43,7 @@ import Swal from "sweetalert2";
 import { FaBox, FaUserTie } from "react-icons/fa6";
 
 const roleMenuItems = {
-  "master admin": [
+  "admin": [
     {
       name: "Overview Dashboard",
       icon: <RiDashboardFill size={22} />,
