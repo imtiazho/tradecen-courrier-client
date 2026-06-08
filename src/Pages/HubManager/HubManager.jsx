@@ -16,14 +16,17 @@ import { useLoaderData } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { MdDomainAdd } from "react-icons/md";
+import useAuth from "../../Hooks/useAuth";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const HubManager = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const areaAndLocation = useLoaderData() || [];
   const clearRegions = [...new Set(areaAndLocation.map((rg) => rg.region))];
-  console.log(isModalOpen);
+
   const {
     register,
     handleSubmit,
@@ -60,7 +63,11 @@ const HubManager = () => {
     return findDistrict?.covered_area || [];
   };
 
-  const { data: managers = [], refetch: refetchManagers } = useQuery({
+  const {
+    data: managers = [],
+    refetch: refetchManagers,
+    isLoading: loadingManagers,
+  } = useQuery({
     queryKey: ["users", "hub-managers"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users/hub-managers");
@@ -68,7 +75,11 @@ const HubManager = () => {
     },
   });
 
-  const { data: normalUsers = [], refetch: refetchNormalUsers } = useQuery({
+  const {
+    data: normalUsers = [],
+    refetch: refetchNormalUsers,
+    isLoading: normalUserLoading,
+  } = useQuery({
     queryKey: ["users", "normal-users"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users?role=user");
@@ -142,6 +153,9 @@ const HubManager = () => {
       }
     });
   };
+
+  if (normalUserLoading || loadingManagers)
+    return <LoadingModal isLoading={true}></LoadingModal>;
 
   return (
     <div className="min-h-screen bg-[#ffffff] rounded-tradecen p-4 md:p-8">

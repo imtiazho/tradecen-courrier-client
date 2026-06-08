@@ -18,7 +18,7 @@ import axios from "axios";
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [dbUser, setDbUser] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -51,12 +51,21 @@ const AuthProvider = ({ children }) => {
     return sendEmailVerification(auth.currentUser);
   };
 
-  const fetchDbUser = async (email) => {
+  const fetchDbUser = async (currentUser) => {
+    if (!currentUser || !currentUser.email) return;
+
     try {
-      const res = await axios.get(`http://localhost:5000/user/${email}`);
+      const token = currentUser.accessToken; 
+
+      const res = await axios.get(`http://localhost:5000/user/${currentUser.email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setDbUser(res.data);
     } catch (error) {
+      console.error("DB User fetch error:", error);
       setDbUser(null);
     }
   };
@@ -72,7 +81,7 @@ const AuthProvider = ({ children }) => {
 
       setUser(currentUser);
 
-      await fetchDbUser(currentUser.email);
+      await fetchDbUser(currentUser);
       setLoading(false);
     });
 
@@ -93,7 +102,7 @@ const AuthProvider = ({ children }) => {
     handleLogOut,
     updateUser,
     verifyEmail,
-    fetchDbUser
+    fetchDbUser,
   };
 
   return (

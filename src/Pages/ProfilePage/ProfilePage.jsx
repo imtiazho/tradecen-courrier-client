@@ -3,19 +3,20 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const ProfilePage = () => {
-  const { dbUser, setDbUser } = useAuth();
+  const {user, dbUser, setDbUser, loading } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isEditing, setIsEditing] = useState(false);
 
   // React Hook Form setup with default values from your sample data
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      displayName: dbUser?.displayName || "",
+      displayName: dbUser?.displayName || user?.displayName,
     },
   });
-  
+
   const onSubmit = async (data) => {
     try {
       const res = await axiosSecure.patch(
@@ -33,6 +34,7 @@ const ProfilePage = () => {
     }
   };
 
+  if (loading) <LoadingModal isLoading={true}></LoadingModal>;
   return (
     <div className="p-6">
       <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -75,6 +77,7 @@ const ProfilePage = () => {
               <input
                 {...register("displayName")}
                 disabled={!isEditing}
+                value={dbUser?.displayName || user?.displayName}
                 className={`w-full mt-1 p-3 rounded-xl border-2 transition-all ${
                   isEditing
                     ? "border-[#CAEB66] bg-white"

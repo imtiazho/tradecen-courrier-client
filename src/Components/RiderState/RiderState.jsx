@@ -382,7 +382,7 @@ const RiderState = () => {
           </div>
 
           <div className="">
-            {riderAllData?.assignedParcels.length > 0 ? (
+            {riderAllData?.assignedParcels?.length > 0 ? (
               riderAllData?.assignedParcels?.slice(0, 5).map((parcel) => (
                 <div
                   key={parcel.parcelId}
@@ -406,7 +406,7 @@ const RiderState = () => {
                         </span>
                       </div>
                       <h4 className="text-[12px] font-medium text-[#02312A] capitalize">
-                        {parcel.parcelName.length >= 18
+                        {parcel?.parcelName?.length >= 18
                           ? parcel.parcelName.slice(0, 18) + "..."
                           : parcel.parcelName}
                       </h4>
