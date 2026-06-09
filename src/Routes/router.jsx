@@ -243,10 +243,6 @@ export const router = createBrowserRouter([
           },
           {
             path: "rider-request",
-            loader: () =>
-              fetch("http://localhost:5000/riders?status=pending").then((res) =>
-                res.json(),
-              ),
             element: <RiderRequest></RiderRequest>,
           },
         ],

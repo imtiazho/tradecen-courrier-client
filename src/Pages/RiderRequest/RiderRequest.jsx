@@ -8,15 +8,24 @@ import {
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
+import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const RiderRequest = () => {
+  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-  const { data: riders = [], refetch } = useQuery({
+  const {
+    data: riders = [],
+    refetch,
+    isLoading: ridersLoading,
+  } = useQuery({
     queryKey: ["riders", "pending"],
     queryFn: async () => {
       const res = await axiosSecure.get("/riders?status=pending");
       return res.data;
     },
+
+    enabled: !!user && !!user?.accessToken,
   });
 
   const handleApprove = async (rider) => {
@@ -66,6 +75,10 @@ const RiderRequest = () => {
     });
   };
 
+  if (ridersLoading) {
+    return <LoadingModal isLoading={true}></LoadingModal>;
+  }
+  
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">

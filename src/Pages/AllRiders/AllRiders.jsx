@@ -25,6 +25,8 @@ const AllRiders = () => {
       const res = await axiosSecure.get(`/riders`);
       return res.data;
     },
+
+    enabled: !!user && !!user?.accessToken,
   });
 
   if (ridersLoading) {

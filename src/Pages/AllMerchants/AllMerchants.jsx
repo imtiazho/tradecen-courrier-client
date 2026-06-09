@@ -19,10 +19,11 @@ const AllMerchants = () => {
   const { isLoading: merchantsLoading, data: merchants = [] } = useQuery({
     queryKey: ["areaMerchants", user?.email],
     queryFn: async () => {
-      // Dynamic endpoint integration passing hubName safely
       const res = await axiosSecure.get(`all-merchants`);
       return Array.isArray(res.data) ? res.data : [];
     },
+
+    enabled: !!user && !!user?.accessToken,
   });
   
   // Action Helper: Copy Pickup Address to Clipboard for riders dispatching

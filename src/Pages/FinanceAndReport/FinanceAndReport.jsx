@@ -30,7 +30,8 @@ const FinanceAndReport = () => {
       const res = await axiosSecure.get(`/hub-deposit-history?status=pending`);
       return res.data;
     },
-    enabled: !!user?.email,
+    
+    enabled: !!user && !!user?.accessToken,
   });
 
   const historyList = depositData?.history || [];

@@ -27,12 +27,13 @@ const useAxiosSecure = () => {
       },
       (err) => {
         const statusCode = err.status;
-        if (statusCode === 401 || statusCode === 403) {
-          handleLogOut().then(() => {
-            navigate("/");
-          });
-        }
-        return Promise.reject(err);
+        console.log(statusCode);
+        // if (statusCode === 401 || statusCode === 403) {
+        //   handleLogOut().then(() => {
+        //     navigate("/");
+        //   });
+        // }
+        // return Promise.reject(err);
       },
     );
 
