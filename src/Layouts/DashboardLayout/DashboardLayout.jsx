@@ -41,6 +41,7 @@ import {
 } from "react-icons/ri";
 import Swal from "sweetalert2";
 import { FaBox, FaUserTie } from "react-icons/fa6";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const roleMenuItems = {
   "admin": [
@@ -237,6 +238,7 @@ const DashboardLayout = () => {
   };
   return (
     <div className="flex min-h-screen bg-[#F8F9FA]">
+      <ScrollToTop></ScrollToTop>
       <aside
         className={`bg-white border-gray-100 flex flex-col h-screen sticky top-0 transition-all duration-500 overflow-hidden z-20 ${
           isSidebarOpen ? "w-72" : "w-0 lg:w-0 border-none"

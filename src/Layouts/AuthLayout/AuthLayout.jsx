@@ -2,10 +2,12 @@ import React from "react";
 import { FaTruckFast } from "react-icons/fa6";
 import AuthImg from "../../assets/authImage.png";
 import { Outlet } from "react-router";
+import ScrollToTop from "../../Components/ScrollToTop/ScrollToTop";
 
 const AuthLayout = () => {
   return (
     <section className="min-h-screen grid grid-cols-1 md:grid-cols-2 font-sans bg-white">
+      <ScrollToTop></ScrollToTop>
       {/* 1. Left Side: Form Content */}
       <div className="flex flex-col justify-center px-10 md:px-20 lg:px-32 py-12">
         {/* Logo Section */}
