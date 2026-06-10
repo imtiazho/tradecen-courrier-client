@@ -20,13 +20,14 @@ const Delivered = () => {
 
   const { data: deliveredParcels = [], isLoading } = useQuery({
     queryKey: ["deliveredParcels", user?.email],
-    enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(
         `/parcels/status/${user.email}?status=delivered`,
       );
       return res.data;
     },
+    
+    enabled: !!user?.email,
   });
 
   if (isLoading) return <LoadingModal isLoading={isLoading} />;

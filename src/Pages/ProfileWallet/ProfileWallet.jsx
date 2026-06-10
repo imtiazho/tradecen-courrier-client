@@ -30,7 +30,8 @@ const ProfileWallet = () => {
         ? res.data[0]
         : res.data;
     },
-    enabled: !!user?.email,
+
+    enabled: !!user && !!user?.accessToken,
   });
 
   const riderData = riderAllData.riderData || {};
@@ -265,7 +266,7 @@ const ProfileWallet = () => {
                   ? new Date(riderData.createdAt).toLocaleDateString([], {
                       month: "short",
                       day: "numeric",
-                      year: "numeric"
+                      year: "numeric",
                     })
                   : "Recent"}
               </span>
@@ -289,7 +290,9 @@ const ProfileWallet = () => {
                 <span>Driving License Status:</span>
               </div>
               <span className="text-emerald-800 bg-emerald-50 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-md border border-emerald-100">
-                {riderData?.vehicle === "Cycle" ? "Cycle / No Need" : "Verified"}
+                {riderData?.vehicle === "Cycle"
+                  ? "Cycle / No Need"
+                  : "Verified"}
               </span>
             </div>
           </div>

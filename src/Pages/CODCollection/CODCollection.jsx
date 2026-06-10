@@ -34,7 +34,8 @@ const CODCollection = () => {
         ? res.data[0]
         : res.data;
     },
-    enabled: !!user?.email,
+    
+    enabled: !!user && !!user?.accessToken,
   });
 
   const deliveredParcels = riderAllData?.deliveredParcels || [];
