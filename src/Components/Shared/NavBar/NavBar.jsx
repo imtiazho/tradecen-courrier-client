@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaTruckFast } from "react-icons/fa6";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
@@ -7,7 +7,8 @@ import { BsBuildingFillAdd } from "react-icons/bs";
 
 const NavBar = () => {
   const { user, dbUser, handleLogOut } = useAuth();
-
+  const currentRole = dbUser?.role || "user";
+  console.log(dbUser?.role);
   const list = (
     <>
       <li>
@@ -201,7 +202,7 @@ const NavBar = () => {
                   </Link>
                 </li>
 
-                {dbUser?.role === "user" ? (
+                {currentRole === "user" ? (
                   <li>
                     <Link
                       to="/role-onboarding"

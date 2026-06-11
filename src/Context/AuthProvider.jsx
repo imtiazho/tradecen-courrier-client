@@ -55,13 +55,16 @@ const AuthProvider = ({ children }) => {
     if (!currentUser || !currentUser.email) return;
 
     try {
-      const token = currentUser.accessToken; 
+      const token = currentUser.accessToken;
 
-      const res = await axios.get(`http://localhost:5000/user/${currentUser.email}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const res = await axios.get(
+        `http://localhost:5000/user/${currentUser.email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       setDbUser(res.data);
     } catch (error) {
@@ -69,6 +72,23 @@ const AuthProvider = ({ children }) => {
       setDbUser(null);
     }
   };
+
+  // To solve state management problem in navbar
+  //   const { data: dbUser = null, refetch: refetchDbUser } = useQuery({
+  //   queryKey: ["dbUser", user?.email],
+  //   queryFn: async () => {
+  //     if (!user || !user.email) return null;
+
+  //     const token = user.accessToken;
+  //     const res = await axios.get(`http://localhost:5000/user/${user.email}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+  //     return res.data;
+  //   },
+  //   enabled: !!user && !!user?.email,
+  // });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {

@@ -20,7 +20,7 @@ import useAuth from "../../Hooks/useAuth";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 
 const HubManager = () => {
-  const { user } = useAuth();
+  const { user, fetchDbUser } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -105,6 +105,7 @@ const HubManager = () => {
 
         refetchManagers();
         refetchNormalUsers();
+        fetchDbUser(user);
       }
     } catch (error) {
       Swal.fire("Error!", "Failed to assign role", "error");
@@ -472,7 +473,7 @@ const HubManager = () => {
                 {/* BTN */}
                 <button
                   type="submit"
-                  className="w-full h-14 rounded-2xl bg-[#CAEB66] text-secondary text-xs font-black uppercase tracking-[3px] mt-5 transition-all"
+                  className="w-full h-14 rounded-2xl bg-[#CAEB66] text-secondary text-xs font-black uppercase tracking-[3px] mt-5 transition-all cursor-pointer"
                 >
                   Create Hub
                 </button>
