@@ -27,7 +27,7 @@ const Dashboard = () => {
       const res = await axiosSecure.get(`/parcels/stats/${user.email}`);
       return res.data;
     },
-    enabled: !!user?.email,
+    enabled: !!user && !!user?.accessToken,
   });
 
   // merchant
@@ -39,7 +39,7 @@ const Dashboard = () => {
       );
       return res.data;
     },
-    enabled: !!user?.email,
+    enabled: !!user && !!user?.accessToken,
   });
 
   // merchant
@@ -53,7 +53,7 @@ const Dashboard = () => {
       setTotalPages(Math.ceil(res.data.count / limit));
       return res.data.data;
     },
-    enabled: !!user?.email,
+    enabled: !!user && !!user?.accessToken,
   });
 
   // merchant
@@ -64,7 +64,7 @@ const Dashboard = () => {
         const res = await axiosSecure.get(`/late-invoices/${user.email}`);
         return res.data;
       },
-      enabled: !!user?.email,
+      enabled: !!user && !!user?.accessToken,
     });
 
   if (roleLoading)
