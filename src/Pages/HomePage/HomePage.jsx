@@ -7,11 +7,13 @@ import ServicesFeatureList from "../../Components/ServicesFeatureList/ServicesFe
 import SatisfactionBanner from "../../Components/SatisfactionBanner/SatisfactionBanner";
 import ClientReviews from "../../Components/ClientReviews/ClientReviews";
 import FAQSection from "../../Components/FAQSection/FAQSection";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const HomePage = () => {
   
   return (
     <div>
+      <DynamicTitle title="Home" />
       <HeroSection></HeroSection>
       <HowItWorks></HowItWorks>
       <OurServices></OurServices>
