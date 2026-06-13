@@ -13,7 +13,7 @@ const HomePage = () => {
   
   return (
     <div>
-      <DynamicTitle title="Home" />
+      <DynamicTitle title="Logistics & Courier Service" />
       <HeroSection></HeroSection>
       <HowItWorks></HowItWorks>
       <OurServices></OurServices>
