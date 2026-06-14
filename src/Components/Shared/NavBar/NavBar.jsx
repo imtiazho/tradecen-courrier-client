@@ -4,11 +4,12 @@ import { Link, NavLink } from "react-router";
 import useAuth from "../../../Hooks/useAuth";
 import Swal from "sweetalert2";
 import { BsBuildingFillAdd } from "react-icons/bs";
+import logo from "../../../assets/logo.png";
 
 const NavBar = () => {
   const { user, dbUser, handleLogOut } = useAuth();
   const currentRole = dbUser?.role || "user";
-  console.log(dbUser?.role);
+
   const list = (
     <>
       <li>
