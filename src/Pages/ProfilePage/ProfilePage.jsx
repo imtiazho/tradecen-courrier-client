@@ -4,6 +4,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ProfilePage = () => {
   const {user, dbUser, setDbUser, loading } = useAuth();
@@ -37,6 +38,7 @@ const ProfilePage = () => {
   if (loading) <LoadingModal isLoading={true}></LoadingModal>;
   return (
     <div className="p-6">
+      <DynamicTitle title={user?.displayName} />
       <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         {/* Header/Banner Area */}
         <div className="h-32 bg-[#CAEB66]"></div>

@@ -3,6 +3,7 @@ import { useLocation, Link, Outlet } from "react-router";
 import { FaMoneyCheckAlt, FaUsers, FaBiking, FaWallet } from "react-icons/fa";
 import { RiLuggageDepositFill } from "react-icons/ri";
 import FinanceAlert from "../FinanceAlert/FinanceAlert";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const AccountAndFinance = () => {
   const location = useLocation();
@@ -18,12 +19,13 @@ const AccountAndFinance = () => {
       id: "deposits-hq",
       label: "My Deposits",
       path: "/dashboard/account-finance/deposits-hq",
-      icon: <RiLuggageDepositFill  size={16} />,
-    }
+      icon: <RiLuggageDepositFill size={16} />,
+    },
   ];
 
   return (
     <div className="p-6 md:p-10 bg-[#ffffff] min-h-screen rounded-tradecen shadow-flat relative">
+      <DynamicTitle title="Dashboard | Account & Finance" />
       {/* 1. Header Section */}
       <div className="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

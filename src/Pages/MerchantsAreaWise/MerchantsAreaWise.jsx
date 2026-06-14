@@ -13,6 +13,7 @@ import {
 import { FiCopy } from "react-icons/fi";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const MerchantsAreaWise = () => {
   const { user } = useAuth();
@@ -74,6 +75,7 @@ const MerchantsAreaWise = () => {
 
   return (
     <div className="p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen font-sans">
+      <DynamicTitle title="Dashboard | Merchants" />
       {/* Header Operational Analytics Card */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>

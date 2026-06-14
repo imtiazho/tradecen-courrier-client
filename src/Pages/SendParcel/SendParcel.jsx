@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ErrorMsg = ({ errors, name }) => {
   if (!errors[name]) return null;
@@ -198,6 +199,7 @@ const SendParcel = () => {
 
   return (
     <div className="bg-white rounded-tradecen shadow-flat overflow-hidden">
+      <DynamicTitle title="Dashboard | Book Consignment" />
       {/* Header Section */}
       <div className="p-10 border-b border-gray-50 flex justify-between items-end">
         <div>

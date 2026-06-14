@@ -20,6 +20,7 @@ import { LucideWarehouse } from "lucide-react";
 import { Link } from "react-router";
 import { BiLineChart } from "react-icons/bi";
 import Swal from "sweetalert2";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const HubmanagerDashboard = () => {
   const { user } = useAuth();
@@ -284,6 +285,7 @@ const HubmanagerDashboard = () => {
   }
   return (
     <div className="px-8 bg-[#ffffff] rounded-tradecen shadow-flat py-5 space-y-8 min-h-screen font-sans">
+      <DynamicTitle title="Hub Dashboard" />
       {/* HEADER SECTION */}
       <div className="flex justify-between items-end">
         <div>

@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 // Error Message Component
 const ErrorMsg = ({ errors, name }) => {
@@ -128,6 +129,7 @@ const MerchantRegistration = () => {
 
   return (
     <div className="relative">
+      <DynamicTitle title="Join as Merchant" />
       <LoadingModal isLoading={mainLoading} />
 
       <div className="min-h-screen flex items-center justify-center pt-8 pb-12 bg-gray-50">

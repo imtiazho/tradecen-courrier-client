@@ -15,6 +15,7 @@ import { RiEBikeLine } from "react-icons/ri";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../LoadingModal/LoadingModal";
+import DynamicTitle from "../DynamicTitle/DynamicTitle";
 
 const AdminState = () => {
   const axiosSecure = useAxiosSecure();
@@ -37,6 +38,7 @@ const AdminState = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#ffffff] rounded-tradecen shadow-flat p-4 md:p-8 font-sans">
+      <DynamicTitle title="Admin Dashboard" />
       <div className="mb-7 border-b border-gray-100 pb-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-[#02312A] tracking-tight uppercase">
@@ -102,7 +104,7 @@ const AdminState = () => {
         </div>
 
         <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-flat relative overflow-hidden group flex flex-col justify-between min-h-[140px]">
-          <RiEBikeLine  className="absolute -right-4 -bottom-4 text-gray-50 size-24 pointer-events-none" />
+          <RiEBikeLine className="absolute -right-4 -bottom-4 text-gray-50 size-24 pointer-events-none" />
           <div>
             <p className="text-[10px] uppercase tracking-widest font-black text-gray-400 mb-1">
               On-Field Riders

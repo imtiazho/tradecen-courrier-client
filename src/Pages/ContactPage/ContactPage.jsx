@@ -6,10 +6,12 @@ import {
   LuClock,
   LuMoveUpRight,
 } from "react-icons/lu";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ContactPage = () => {
   return (
     <section className="bg-[#F2F4F7] pt-8 pb-16 font-sans">
+      <DynamicTitle title="Contact Us" />
       <div className="bg-white rounded-[30px] p-8 md:p-16 lg:p-20">
         {/* 1. Header Section */}
         <div className="mb-10">

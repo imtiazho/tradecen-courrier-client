@@ -7,6 +7,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import useAuth from "../../Hooks/useAuth";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 // Error Message Component
 const ErrorMsg = ({ errors, name }) => {
@@ -160,6 +161,7 @@ const RiderRegistration = () => {
 
   return (
     <div className="relative">
+      <DynamicTitle title="Join as a Rider" />
       <LoadingModal isLoading={mainLoading}></LoadingModal>
 
       <div className="min-h-screen flex items-center justify-center pt-8 pb-12 bg-gray-50">

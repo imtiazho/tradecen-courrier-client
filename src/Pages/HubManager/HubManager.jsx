@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 import { MdDomainAdd } from "react-icons/md";
 import useAuth from "../../Hooks/useAuth";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const HubManager = () => {
   const { user, fetchDbUser } = useAuth();
@@ -160,6 +161,7 @@ const HubManager = () => {
 
   return (
     <div className="min-h-screen bg-[#ffffff] rounded-tradecen p-4 md:p-8">
+      <DynamicTitle title="Dashboard | Hubs Management" />
       {/* ========================= */}
       {/* PAGE HEADER */}
       {/* ========================= */}

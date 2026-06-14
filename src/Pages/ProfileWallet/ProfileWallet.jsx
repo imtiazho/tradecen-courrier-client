@@ -16,6 +16,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ProfileWallet = () => {
   const { user } = useAuth();
@@ -58,6 +59,7 @@ const ProfileWallet = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#ffffff] rounded-tradecen shadow-flat p-4 md:p-8 font-sans space-y-6">
+      <DynamicTitle title="Dashboard | Profit & Wallet" />
       {/* ----------------- PAGE HEADER ----------------- */}
       <div className="border-b border-gray-100 pb-4">
         <h1 className="text-2xl font-black text-[#02312A] tracking-tight uppercase">

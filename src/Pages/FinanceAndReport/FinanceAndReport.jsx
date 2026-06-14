@@ -13,6 +13,7 @@ import {
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const FinanceAndReport = () => {
   const { user } = useAuth();
@@ -94,6 +95,7 @@ const FinanceAndReport = () => {
 
   return (
     <div className="space-y-6 p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen">
+      <DynamicTitle title="Dashboard | Financial Reports" />
       {/* HQ Admin Header Banner */}
        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>

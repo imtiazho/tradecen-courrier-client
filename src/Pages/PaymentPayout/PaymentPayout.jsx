@@ -19,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import Swal from "sweetalert2";
 import FinanceAlert from "../FinanceAlert/FinanceAlert";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const PaymentPayout = () => {
   const { user } = useAuth();
@@ -28,7 +29,7 @@ const PaymentPayout = () => {
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
     title: "",
-    type: "", 
+    type: "",
   });
 
   const {
@@ -102,6 +103,7 @@ const PaymentPayout = () => {
 
   return (
     <div className="p-6 md:p-10 bg-[#ffffff] min-h-screen rounded-tradecen relative">
+      <DynamicTitle title="Dashboard | Payment & Payouts" />
       {/* Header */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#02312A] mb-2">

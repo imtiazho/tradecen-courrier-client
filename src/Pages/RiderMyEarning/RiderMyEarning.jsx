@@ -13,6 +13,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import FinanceAlert from "../FinanceAlert/FinanceAlert";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const RiderMyEarning = () => {
   const { user } = useAuth();
@@ -52,6 +53,7 @@ const RiderMyEarning = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#ffffff] rounded-tradecen shadow-flat p-4 md:p-8 font-sans">
+      <DynamicTitle title="Dashboard | My Earnings" />
       <div className="mb-6">
         <h1 className="text-2xl font-black text-[#02312A] tracking-tight uppercase">
           My Earnings & Commission

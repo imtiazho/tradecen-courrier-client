@@ -1,9 +1,11 @@
 import React from "react";
 import { MdSettingsBackupRestore } from "react-icons/md";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ReturnParcels = () => {
   return (
     <div className="p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen font-sans flex flex-col justify-between">
+     <DynamicTitle title="Dashboard | Returns" />
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 w-full">
         <div>

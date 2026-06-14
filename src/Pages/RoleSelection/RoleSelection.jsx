@@ -9,6 +9,7 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import useAuth from "../../Hooks/useAuth";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const StatusCard = ({ icon, title, message, colorClass, btnText, linkTo }) => (
   <div className="bg-white p-10 rounded-2xl border-2 border-gray-100 shadow-xl text-center animate-fade-in">
@@ -55,9 +56,10 @@ const RoleSelection = () => {
       color: "#CAEB66",
     },
   ];
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
+      <DynamicTitle title="Role Onboarding" />
       <div className="max-w-4xl w-full">
         {role === "rider" || role === "merchant" ? (
           <StatusCard

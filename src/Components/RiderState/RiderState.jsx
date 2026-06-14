@@ -37,6 +37,7 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import LoadingModal from "../LoadingModal/LoadingModal";
 import Swal from "sweetalert2";
+import DynamicTitle from "../DynamicTitle/DynamicTitle";
 
 const RiderState = () => {
   const [localWorkStatus, setLocalWorkStatus] = useState(null);
@@ -205,6 +206,7 @@ const RiderState = () => {
 
   return (
     <div className="min-h-screen text-[#02312A] font-sans antialiased">
+      <DynamicTitle title="Rider Dashboard" />
       <div className="space-y-4">
         {/* Name Card  */}
         <div className="relative overflow-hidden p-6 rounded-tradecen bg-gradient-to-br from-[#CAEB66] via-[#d4f273] to-[#b9da55] shadow-flat transition-all duration-300 group">

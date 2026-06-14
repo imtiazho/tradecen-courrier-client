@@ -19,6 +19,7 @@ import {
   RiMap2Line,
   RiNavigationFill,
 } from "react-icons/ri";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const MyTaskRider = () => {
   const { user } = useAuth();
@@ -150,6 +151,7 @@ const MyTaskRider = () => {
 
   return (
     <div className="py-8 px-6 md:px-12 bg-[#ffffff] rounded-tradecen shadow-flat min-h-screen font-sans">
+      <DynamicTitle title="Dashboard | My Task" />
       <div>
         <div className="mb-10 ">
           <h2 className="text-3xl font-black text-secondary mb-2 flex items-center gap-3">

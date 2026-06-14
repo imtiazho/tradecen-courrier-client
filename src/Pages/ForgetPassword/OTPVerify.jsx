@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router";
 import Swal from "sweetalert2";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const OTPVerify = () => {
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ const OTPVerify = () => {
 
   return (
     <div className="w-full max-w-md mx-auto">
+      <DynamicTitle title="Verify OTP" />
       <div className="mb-8">
         <h1 className="text-4xl font-black text-black mb-2">Enter Code</h1>
         <p className="text-gray-500 text-sm">

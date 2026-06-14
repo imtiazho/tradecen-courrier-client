@@ -6,6 +6,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const LoginPage = () => {
   const { signInUser, googleSignIn, setLoading, loading } = useAuth();
@@ -63,6 +64,7 @@ const LoginPage = () => {
 
   return (
     <div className="relative">
+      <DynamicTitle title="Login" />
       <LoadingModal isLoading={loading}></LoadingModal>
       <div className="w-full max-w-md mx-auto md:mx-0">
         <div className="mb-10">

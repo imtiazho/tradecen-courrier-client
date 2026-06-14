@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { Link } from "react-router";
 import { CgDetailsMore } from "react-icons/cg";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const AllParcelsMerchant = () => {
   const { user } = useAuth();
@@ -66,6 +67,7 @@ const AllParcelsMerchant = () => {
 
   return (
     <div className="p-6 bg-white rounded-[20px] shadow-flat">
+      <DynamicTitle title="Dashboard | All Parcels" />
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-black text-secondary">All Parcels</h2>
         <div className="bg-primary text-secondary px-4 py-1 rounded-[10px] text-[10px] font-bold uppercase">

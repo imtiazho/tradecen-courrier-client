@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import { MdOutlineDoubleArrow } from "react-icons/md";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const PickUp = () => {
   const { user } = useAuth();
@@ -64,6 +65,7 @@ const PickUp = () => {
   
   return (
     <div className="p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen font-sans">
+      <DynamicTitle title="Dashboard | Pickups" />
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>

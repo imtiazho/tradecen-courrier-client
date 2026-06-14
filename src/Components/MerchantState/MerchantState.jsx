@@ -21,6 +21,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import DynamicTitle from "../DynamicTitle/DynamicTitle";
 
 const data = [
   { name: "Mon", value: 110 },
@@ -121,6 +122,7 @@ const MerchantState = ({
 
   return (
     <div className="space-y-6 font-sans">
+      <DynamicTitle title="Merchant Dashboard" />
       {/* --- Header Section --- */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

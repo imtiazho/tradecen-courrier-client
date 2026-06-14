@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ResetPassword = () => {
   const location = useLocation();
@@ -103,6 +104,7 @@ const ResetPassword = () => {
 
   return (
     <div className="w-full max-w-md mx-auto md:mx-0">
+      <DynamicTitle title="Reset Password" />
       {/* HEADER */}
       <div className="mb-10">
         <h1 className="text-4xl md:text-5xl font-black text-black mb-3 tracking-[-0.08rem]">

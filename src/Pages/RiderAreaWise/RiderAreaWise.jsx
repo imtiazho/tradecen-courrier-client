@@ -12,6 +12,7 @@ import {
   MdTask,
 } from "react-icons/md";
 import { HiOutlineIdentification } from "react-icons/hi";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const RiderAreaWise = () => {
   const { user } = useAuth();
@@ -51,6 +52,7 @@ const RiderAreaWise = () => {
 
   return (
     <div className="p-4 md:p-8 bg-[#ffffff] rounded-tradecen min-h-screen font-sans">
+      <DynamicTitle title="Dashboard | Riders" />
       {/* Header Grid Context */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>

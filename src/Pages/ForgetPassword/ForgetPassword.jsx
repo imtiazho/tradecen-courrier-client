@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2"; // SweetAlert2 ইমপোর্ট করুন
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ const ForgetPassword = () => {
 
   return (
     <div className="w-full max-w-md mx-auto md:mx-0">
+      <DynamicTitle title="Forget Password" />
       <div className="mb-10 mt-16 md:mt-0">
         <h1 className="text-4xl md:text-5xl font-black text-black mb-3 tracking-[-0.08rem]">
           Forgot Password

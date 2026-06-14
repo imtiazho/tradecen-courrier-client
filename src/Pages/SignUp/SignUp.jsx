@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -137,6 +138,7 @@ const SignUp = () => {
 
   return (
     <div className="relative">
+      <DynamicTitle title="Register" />
       <LoadingModal isLoading={loading}></LoadingModal>
       <div className="w-full max-w-md mx-auto md:mx-0">
         <div className="mb-10">

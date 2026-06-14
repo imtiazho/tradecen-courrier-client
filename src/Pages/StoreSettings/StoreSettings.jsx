@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import LoadingModal from "../../Components/LoadingModal/LoadingModal";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const StoreSettings = () => {
   const { user } = useAuth();
@@ -65,6 +66,7 @@ const StoreSettings = () => {
 
   return (
     <div className="p-6 md:p-10 bg-white rounded-tradecen shadow-flat min-h-screen">
+      <DynamicTitle title="Dashboard | Store Settings" />
       {/* Header Section */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-secondary mb-2">

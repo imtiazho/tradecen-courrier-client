@@ -14,6 +14,7 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import FinanceAlert from "../FinanceAlert/FinanceAlert";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const CODCollection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +35,7 @@ const CODCollection = () => {
         ? res.data[0]
         : res.data;
     },
-    
+
     enabled: !!user && !!user?.accessToken,
   });
 
@@ -68,6 +69,7 @@ const CODCollection = () => {
 
   return (
     <div className="w-full min-h-screen bg-[#ffffff] rounded-tradecen shadow-flat p-4 md:p-8 font-sans">
+      <DynamicTitle title="Dashboard | COD Collection" />
       <div className="mb-6">
         <h1 className="text-2xl font-black text-[#02312A] tracking-tight uppercase">
           COD Collection Center

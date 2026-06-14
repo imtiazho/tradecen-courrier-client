@@ -9,6 +9,7 @@ import {
   FaTimes,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import DynamicTitle from "../../Components/DynamicTitle/DynamicTitle";
 
 const SupportClaim = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -32,6 +33,7 @@ const SupportClaim = () => {
 
   return (
     <div className="p-6 md:p-10 bg-white rounded-tradecen shadow-flat min-h-[80vh] relative">
+      <DynamicTitle title="Dashboard | Support & Claim" />
       {/* Header */}
       <div className="mb-10">
         <h2 className="text-3xl font-black text-[#02312A] mb-2">
